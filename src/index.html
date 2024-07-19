@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <title>NEURONAV</title>
+  </head>
+  <body>
+    <canvas id="bg"></canvas>
+    <nav class="navbar">
+      <div onclick="toggleSidebar()" class="item nav-arrow">
+        <svg id="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+          <polygon
+            points="36.59 47.77 7.81 25 36.59 2.23 31.59 0 0 25 31.59 50 36.59 47.77"
+          />
+        </svg>
+      </div>
+      <div class="item nav-header">
+        <p id="title">NEURONAV</p>
+      </div>
+      <div class="item nav-search">
+        <div class="search-box">
+          <svg
+            id="search-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+            />
+          </svg>
+          <input type="text" id="search-bar" />
+        </div>
+      </div>
+      <div class="item nav-showall-btn">
+        <button onclick="showSelected()" id="showall-btn">Show Selected</button>
+      </div>
+      <div class="item nav-clear-btn">
+        <button onclick="clearAll()" id="clear-btn">Clear All</button>
+      </div>
+      <div class="item nav-outliner">
+        <div class="outliner-banner">
+          <p id="region-text" class="banner-text">Region</p>
+          <p id="hemisphere-text" class="banner-text">Hemisphere</p>
+          <p id="color-text" class="banner-text">Color</p>
+          <p id="toggle-text" class="banner-text">Toggle View</p>
+          <div class="selection-container">
+            <ul class="selection-list"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="item nav-settings">
+        <div class="settings-banner">
+          <p class="banner-text">Viewport Settings</p>
+          <div class="settings-container">
+            <p id="show-root-text" class="settings-text">Hide Root</p>
+            <div class="root-checkbox-container">
+              <input id="root-checkbox" type="checkbox" />
+              <label
+                onclick="hideRootMesh()"
+                for="root-checkbox"
+                class="checkbox-button"
+              ></label>
+            </div>
+            <p id="show-region-outlines-text" class="settings-text">
+              Hide Region Outlines
+            </p>
+            <div class="outlines-checkbox-container">
+              <input id="outlines-checkbox" type="checkbox" />
+              <label
+                onclick="toggleOutlines()"
+                for="outlines-checkbox"
+                id="outlines-label"
+                class="checkbox-button"
+              ></label>
+            </div>
+            <p id="light-dark-mode-text" class="settings-text">
+              Dark Background
+            </p>
+            <div class="darkmode-checkbox-container">
+              <input id="darkmode-checkbox" type="checkbox" />
+              <label
+                onclick="toggleDarkMode()"
+                for="darkmode-checkbox"
+                id="darkmode-label"
+                class="checkbox-button"
+              ></label>
+            </div>
+            <p id="overlays-text" class="settings-text">
+              Disable Name Overlays
+            </p>
+            <div class="overlays-checkbox-container">
+              <input id="overlays-checkbox" type="checkbox" />
+              <label
+                onclick="disableOverlays()"
+                for="overlays-checkbox"
+                id="overlays-label"
+                class="checkbox-button"
+              ></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div id="info-icon-container">
+      <svg
+        id="info-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 30 30"
+        width="480px"
+        height="480px"
+      >
+        <path
+          d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,21h-2v-7h2V21z M15,11.5 c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S15.828,11.5,15,11.5z"
+        />
+      </svg>
+    </div>
+    <script type="module" src="/scripts/main.js"></script>
+    <script>
+      /// CITATION ///
+
+      infoIcon = document.getElementById("info-icon-container");
+      infoIcon.setAttribute(
+        "data-tooltip",
+        `
+        Models adapted from the Allen Human Reference Atlas 3D (2020) 
+        
+        Dataset Citation:
+        Song‐Lin Ding, Joshua J. Royall, Susan M. Sunkin, Benjamin A.C. Facer, Phil Lesnar, Amy Bernard, Lydia Ng, Ed S. Lein (2020). “Allen Human Reference Atlas – 3D, 2020," RRID:SCR_017764, version 1.0.0.
+
+        Available from:
+        https://community.brain-map.org/t/allen-human-reference-atlas-3d-2020-new/405
+    `,
+      );
+
+      infoIcon.addEventListener("click", () => {
+        window.open(
+          "https://community.brain-map.org/t/allen-human-reference-atlas-3d-2020-new/405",
+          "_blank",
+        );
+      });
+
+      /// NAVIGATION BAR ///
+
+      const rootCheckbox = document.getElementById("root-checkbox");
+      const rootLabel = document.getElementById("root-label");
+      const darkmodeCheckbox = document.getElementById("darkmode-checkbox");
+      const darkmodeLabel = document.getElementById("darkmode-label");
+      const outlinesCheckbox = document.getElementById("outlines-checkbox");
+      const outlinesLabel = document.getElementById("outlines-label");
+      const overlaysCheckbox = document.getElementById("overlays-checkbox");
+      const overlaysLabel = document.getElementById("overlays-label");
+      const navbar = document.querySelector(".navbar");
+      const navArrow = document.querySelector(".nav-arrow");
+      const arrowSvg = document.querySelector("#arrow");
+      const header = document.querySelector(".nav-header");
+      const search = document.querySelector(".nav-search");
+      const clearBtn = document.querySelector(".nav-clear-btn");
+      const outliner = document.querySelector(".nav-outliner");
+      const settings = document.querySelector(".nav-settings");
+      const showAllButton = document.querySelector(".nav-showall-btn");
+
+      let darkMode = false;
+      let navOpen = false;
+
+      function setInitialState() {
+        rootCheckbox.checked = rootCheckbox.classList.contains("off");
+        darkmodeCheckbox.checked = darkmodeLabel.classList.contains("off");
+        outlinesCheckbox.checked = outlinesLabel.classList.contains("off");
+        overlaysCheckbox.checked = outlinesLabel.classList.contains("off");
+      }
+
+      function toggleSidebar() {
+        const isOpen = !navOpen;
+        navOpen = isOpen;
+        const sidebarWidth = isOpen ? "35.5rem" : "6rem";
+        const sidebarOpacity = isOpen ? 1 : 0;
+        const backgroundColor = isOpen
+          ? "rgb(30, 30, 37, 1)"
+          : "rgb(30, 30, 37, 0)";
+        const arrowRotation = isOpen ? "rotate(-180deg)" : "rotate(0deg)";
+
+        navbar.style.width = sidebarWidth;
+        navbar.style.backgroundColor = backgroundColor;
+        navArrow.style.transform = arrowRotation;
+        updateArrowFill();
+        header.style.opacity = sidebarOpacity;
+        search.style.opacity = sidebarOpacity;
+        clearBtn.style.opacity = sidebarOpacity;
+        showAllButton.style.opacity = sidebarOpacity;
+        outliner.style.opacity = sidebarOpacity;
+        settings.style.opacity = sidebarOpacity;
+      }
+
+      function updateArrowFill() {
+        if (navOpen) {
+          arrowSvg.style.fill = "#FFF";
+        } else {
+          arrowSvg.style.fill = darkMode ? "#FFF" : "#000";
+        }
+      }
+
+      setInitialState();
+    </script>
+    <script type="module">
+      import { updateHemisphere, updateColor } from "/scripts/main.js";
+
+      // POPULATE OUTLINER ELEMENTS //
+
+      fetch("/reference.json")
+        .then((response) => response.json())
+        .then((regions) => {
+          handleRegions(regions);
+        })
+        .catch((error) => {});
+
+      function handleRegions(regions) {
+        const colorOptions = [
+          "Yellow",
+          "Deep Blue",
+          "Magenta",
+          "Pink",
+          "Peach",
+          "Ivory",
+          "Coral",
+          "Light Blue",
+        ];
+
+        const selectionList = document.querySelector(".selection-list");
+        let defaultColorIndex = 0;
+
+        for (const key in regions) {
+          const selectionElement = document.createElement("li");
+          selectionElement.classList.add("selection-element");
+          selectionElement.value = String(key);
+          const selectionText = document.createElement("p");
+          selectionText.classList.add("selection-text");
+          selectionText.textContent = regions[key];
+
+          selectionElement.appendChild(selectionText);
+          selectionList.appendChild(selectionElement);
+
+          const hemispherePicker = document.createElement("select");
+          const hemisphereOptions = ["Both", "Left", "Right"];
+
+          hemisphereOptions.forEach((hemisphere) => {
+            const hemisphereOption = document.createElement("option");
+            hemisphereOption.text = hemisphere;
+            hemisphereOption.value = hemisphere;
+            hemisphereOption.classList.add("hemisphere-option");
+            hemispherePicker.appendChild(hemisphereOption);
+          });
+          hemispherePicker.setAttribute("id", `$hpicker${key}`);
+          hemispherePicker.classList.add("hemisphere-picker");
+          selectionElement.append(hemispherePicker);
+
+          hemispherePicker.addEventListener("change", () => {
+            const selectionElement =
+              hemispherePicker.closest(".selection-element");
+            const eyeIcon = selectionElement
+              .querySelector(".eye-container")
+              .querySelector(".eye-icon");
+            if (eyeIcon.id === "eye-open-icon") {
+              const regionID = selectionElement.value;
+              const selectedHemisphere = hemispherePicker.value;
+              const selectedColor =
+                selectionElement.querySelector(".color-picker").value;
+              updateHemisphere(regionID, selectedHemisphere, selectedColor);
+            }
+          });
+
+          const colorPicker = document.createElement("select");
+
+          colorOptions.forEach((color, index) => {
+            const pickerOption = document.createElement("option");
+            pickerOption.text = color;
+            pickerOption.value = color;
+            pickerOption.classList.add("color-option");
+            colorPicker.appendChild(pickerOption);
+
+            if (index === defaultColorIndex) {
+              pickerOption.selected = true;
+            }
+          });
+          colorPicker.classList.add("color-picker");
+          selectionElement.appendChild(colorPicker);
+
+          colorPicker.addEventListener("change", () => {
+            const selectionElement = colorPicker.closest(".selection-element");
+            const regionID = selectionElement.value;
+            const selectedColor = colorPicker.value;
+            const hemisphere =
+              selectionElement.querySelector(".hemisphere-picker").value;
+            updateColor(selectedColor, regionID, hemisphere);
+          });
+
+          const svgContainer = document.createElement("div");
+          svgContainer.innerHTML = `
+                <svg id="eye-closed-icon" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71.55 37.16">
+                    <path class="cls-1" d="M68.29,43.28l-7.2-4.81-2.58-1.72-9.91-6.62-5.79-3.87-11.73-7.83-5.79-3.87-7.9-5.28-4.8-3.2L4.01.36c-.37-.24-.78-.36-1.19-.36-.69,0-1.37.34-1.79.96-.66.99-.39,2.32.59,2.97l11.32,7.56c-3.65,2.06-7,4.61-10.01,7.62l-1.5,1.5c-1.92,1.92-1.92,5.05,0,6.97l1.5,1.5c4.43,4.43,9.6,7.86,15.36,10.2,5.56,2.26,11.44,3.4,17.47,3.4s11.91-1.14,17.47-3.4c.27-.11.54-.22.81-.34l11.86,7.91c.37.24.78.36,1.19.36.69,0,1.37-.34,1.79-.96.66-.99.39-2.32-.59-2.97ZM35.78,38.26c-3.79,0-7.34-1.47-10.02-4.15-2.68-2.68-4.15-6.24-4.15-10.02,0-2.12.47-4.14,1.31-5.95l5.81,3.88c-.19.66-.3,1.35-.3,2.07,0,.13,0,.25,0,.38.02.47.09.93.2,1.37.52,2.12,1.95,3.87,3.85,4.83.03.02.07.04.11.05.03.01.06.03.09.04.94.44,1.99.68,3.1.68,1.75,0,3.36-.61,4.62-1.63l5.8,3.87c-2.59,2.81-6.3,4.58-10.42,4.58Z"/>
+                    <path class="cls-1" d="M39.33,17.65s-.05-.03-.07-.04c-.09-.05-.18-.09-.27-.14-.03-.01-.05-.02-.08-.04-.08-.04-.15-.07-.23-.1-.02,0-.04-.02-.06-.03-.09-.04-.19-.08-.28-.11-.03,0-.05-.02-.08-.03-.08-.03-.17-.06-.26-.09-.02,0-.03-.01-.05-.02-.1-.03-.2-.06-.3-.09-.03,0-.05-.01-.08-.02-.09-.02-.19-.05-.28-.07-.01,0-.02,0-.04,0-.11-.02-.21-.04-.32-.06-.03,0-.05,0-.08-.01-.1-.02-.21-.03-.31-.04,0,0-.01,0-.02,0-.11-.01-.22-.02-.33-.03-.03,0-.05,0-.08,0-.11,0-.22,0-.34,0-.42,0-.84.04-1.25.11l8.42,5.62c-.01-.07-.03-.13-.05-.2,0-.01,0-.02,0-.03-.02-.1-.05-.19-.08-.28,0-.02-.01-.05-.02-.07-.03-.1-.06-.19-.1-.29,0-.02-.02-.05-.03-.07-.03-.08-.06-.16-.1-.25,0-.02-.02-.04-.02-.06-.04-.09-.08-.18-.12-.27-.01-.03-.03-.06-.04-.09-.04-.08-.08-.16-.12-.25-.33-.61-.73-1.16-1.21-1.65-.48-.49-1.02-.91-1.61-1.25h0s-.07-.04-.11-.06Z"/>
+                    <path class="cls-1" d="M70.11,20.6l-1.5-1.5c-4.43-4.43-9.6-7.86-15.36-10.2-5.56-2.26-11.44-3.4-17.47-3.4-5.03,0-9.95.8-14.67,2.37l6.72,4.49c2.27-1.54,5.01-2.45,7.95-2.45,7.81,0,14.17,6.36,14.17,14.17,0,.97-.1,1.93-.29,2.85l11.89,7.94c2.52-1.69,4.88-3.62,7.06-5.8l1.5-1.5c1.92-1.92,1.92-5.05,0-6.97Z"/>    
+                </svg>`;
+          svgContainer.setAttribute("onclick", "toggleView()");
+          svgContainer.classList.add("eye-container");
+          selectionElement.appendChild(svgContainer);
+
+          defaultColorIndex = (defaultColorIndex + 1) % colorOptions.length;
+        }
+      }
+    </script>
+    <script type="module">
+      import {
+        updateBackground,
+        updateOutlines,
+        loadRegion,
+        hideRegion,
+        hideAll,
+        hideRoot,
+        disableTooltips,
+      } from "/scripts/main.js";
+
+      // SEARCH FUNCTION //
+
+      function filterItemsBySearch() {
+        const query = searchBar.value.toLowerCase();
+        const items = document.querySelectorAll(".selection-element");
+
+        items.forEach(function (item) {
+          const text = item
+            .querySelector(".selection-text")
+            .textContent.toLowerCase();
+          item.style.display = text.includes(query) ? "grid" : "none";
+        });
+      }
+
+      const searchBar = document.querySelector("#search-bar");
+      searchBar.addEventListener("keyup", filterItemsBySearch);
+
+      // SHOW CURRENT REGIONS //
+
+      function showSelected() {
+        const items = document.querySelectorAll(".selection-element");
+
+        items.forEach(function (item) {
+          const eyeIcon = item.querySelector(".eye-container .eye-icon");
+          item.style.display =
+            eyeIcon && eyeIcon.id === "eye-open-icon" ? "grid" : "none";
+        });
+      }
+
+      // CLEAR ALL REGIONS //
+
+      function clearAll() {
+        document.querySelectorAll(".eye-icon").forEach((svg) => {
+          if (svg.getAttribute("id") === "eye-open-icon") {
+            svg.innerHTML = eyeClosedIconSVG;
+            svg.setAttribute("id", "eye-closed-icon");
+          }
+        });
+        hideAll();
+      }
+
+      // TOGGLE REGION VIEW //
+
+      const svgContainers = document.querySelectorAll(".eye-container");
+
+      function toggleView() {
+        const svg = event.currentTarget.querySelector("svg");
+
+        if (svg.getAttribute("id") === "eye-open-icon") {
+          svg.innerHTML = eyeClosedIconSVG;
+          svg.setAttribute("id", "eye-closed-icon");
+          const selectionElement =
+            event.currentTarget.closest(".selection-element");
+          const hemispherePicker =
+            selectionElement.querySelector(".hemisphere-picker");
+          hideRegion(selectionElement.value, hemispherePicker.value);
+        } else if (svg.getAttribute("id") === "eye-closed-icon") {
+          svg.innerHTML = eyeOpenIconSVG;
+          svg.setAttribute("id", "eye-open-icon");
+          const selectionElement =
+            event.currentTarget.closest(".selection-element");
+          const colorPicker = selectionElement.querySelector(".color-picker");
+          const hemispherePicker =
+            selectionElement.querySelector(".hemisphere-picker");
+          loadRegion(
+            selectionElement.value,
+            colorPicker.value,
+            hemispherePicker.value,
+          );
+        }
+      }
+
+      /// SETTINGS ///
+
+      // HIDE ROOT //
+
+      function hideRootMesh() {
+        hideRoot();
+      }
+
+      // TOGGLE OUTLINES //
+
+      function toggleOutlines() {
+        const outlinesEnabled = outlinesCheckbox.checked;
+        updateOutlines(outlinesEnabled);
+      }
+
+      // TOGGLE BACKGROUND //
+
+      function toggleDarkMode() {
+        darkMode = updateBackground();
+        updateArrowFill();
+      }
+
+      // DISABLE NAME OVERLAYS //
+
+      function disableOverlays() {
+        var checkbox = document.getElementById("overlays-checkbox");
+        disableTooltips(checkbox.checked);
+      }
+
+      const eyeOpenIconSVG = `
+        <path class="cls-1" d="M43.13,18.58c0-.11,0-.23,0-.34,0-.02,0-.04,0-.07,0-.11-.01-.22-.02-.33,0-.02,0-.04,0-.05-.01-.1-.02-.2-.04-.3,0-.01,0-.03,0-.04-.02-.11-.04-.21-.06-.32,0-.02,0-.05-.01-.07-.02-.11-.05-.21-.07-.31,0,0,0-.02,0-.03-.02-.1-.05-.19-.08-.28,0-.02-.01-.05-.02-.07-.03-.1-.06-.19-.1-.29,0-.02-.02-.05-.03-.07-.03-.08-.06-.16-.1-.25,0-.02-.02-.04-.02-.06-.04-.09-.08-.18-.12-.27-.01-.03-.03-.06-.04-.09-.04-.08-.08-.16-.13-.25h0c-.65-1.21-1.63-2.22-2.82-2.9,0,0,0,0,0,0-.04-.02-.07-.04-.11-.06-.02-.01-.05-.03-.07-.04-.09-.05-.18-.09-.27-.14-.03-.01-.05-.02-.08-.04-.08-.04-.15-.07-.23-.1-.02,0-.04-.02-.06-.03-.09-.04-.19-.08-.28-.11-.03,0-.05-.02-.08-.03-.09-.03-.17-.06-.26-.09-.02,0-.03-.01-.05-.02-.1-.03-.2-.06-.3-.09-.03,0-.05-.01-.08-.02-.09-.02-.19-.05-.28-.07-.01,0-.02,0-.04,0-.11-.02-.21-.04-.32-.06-.03,0-.05,0-.08-.01-.1-.02-.21-.03-.31-.04,0,0-.01,0-.02,0-.11-.01-.22-.02-.33-.03-.03,0-.05,0-.08,0-.11,0-.22,0-.34,0h0c-2.5,0-4.72,1.25-6.04,3.16-.02.03-.04.05-.06.08-.01.02-.03.04-.04.06-.77,1.16-1.22,2.55-1.22,4.05,0,.13,0,.25,0,.38.02.47.09.93.2,1.37.52,2.12,1.95,3.87,3.85,4.83.04.02.07.04.11.05.03.01.06.03.09.04.94.44,1.99.68,3.1.68h0c3.55,0,6.52-2.52,7.21-5.87.07-.36.12-.73.14-1.1,0-.13,0-.25,0-.38Z"/>
+        <path class="cls-1" d="M70.11,15.1l-1.5-1.5c-4.43-4.43-9.6-7.87-15.36-10.2-5.56-2.26-11.44-3.4-17.47-3.4s-11.91,1.14-17.47,3.4c-5.76,2.34-10.93,5.77-15.36,10.2l-1.5,1.5c-1.92,1.92-1.92,5.05,0,6.97l1.5,1.5c4.43,4.43,9.6,7.87,15.36,10.2,5.56,2.26,11.44,3.4,17.47,3.4s11.91-1.14,17.47-3.4c5.76-2.34,10.93-5.77,15.36-10.2l1.5-1.5c1.92-1.92,1.92-5.05,0-6.97ZM35.78,32.75c-3.79,0-7.34-1.47-10.02-4.15-2.68-2.68-4.15-6.24-4.15-10.02,0-7.81,6.36-14.17,14.17-14.17s14.17,6.36,14.17,14.17-6.36,14.17-14.17,14.17Z"/>
+    `;
+
+      const eyeClosedIconSVG = `
+        <path class="cls-1" d="M68.29,43.28l-7.2-4.81-2.58-1.72-9.91-6.62-5.79-3.87-11.73-7.83-5.79-3.87-7.9-5.28-4.8-3.2L4.01.36c-.37-.24-.78-.36-1.19-.36-.69,0-1.37.34-1.79.96-.66.99-.39,2.32.59,2.97l11.32,7.56c-3.65,2.06-7,4.61-10.01,7.62l-1.5,1.5c-1.92,1.92-1.92,5.05,0,6.97l1.5,1.5c4.43,4.43,9.6,7.86,15.36,10.2,5.56,2.26,11.44,3.4,17.47,3.4s11.91-1.14,17.47-3.4c.27-.11.54-.22.81-.34l11.86,7.91c.37.24.78.36,1.19.36.69,0,1.37-.34,1.79-.96.66-.99.39-2.32-.59-2.97ZM35.78,38.26c-3.79,0-7.34-1.47-10.02-4.15-2.68-2.68-4.15-6.24-4.15-10.02,0-2.12.47-4.14,1.31-5.95l5.81,3.88c-.19.66-.3,1.35-.3,2.07,0,.13,0,.25,0,.38.02.47.09.93.2,1.37.52,2.12,1.95,3.87,3.85,4.83.03.02.07.04.11.05.03.01.06.03.09.04.94.44,1.99.68,3.1.68,1.75,0,3.36-.61,4.62-1.63l5.8,3.87c-2.59,2.81-6.3,4.58-10.42,4.58Z"/>
+        <path class="cls-1" d="M39.33,17.65s-.05-.03-.07-.04c-.09-.05-.18-.09-.27-.14-.03-.01-.05-.02-.08-.04-.08-.04-.15-.07-.23-.1-.02,0-.04-.02-.06-.03-.09-.04-.19-.08-.28-.11-.03,0-.05-.02-.08-.03-.08-.03-.17-.06-.26-.09-.02,0-.03-.01-.05-.02-.1-.03-.2-.06-.3-.09-.03,0-.05-.01-.08-.02-.09-.02-.19-.05-.28-.07-.01,0-.02,0-.04,0-.11-.02-.21-.04-.32-.06-.03,0-.05,0-.08-.01-.1-.02-.21-.03-.31-.04,0,0-.01,0-.02,0-.11-.01-.22-.02-.33-.03-.03,0-.05,0-.08,0-.11,0-.22,0-.34,0-.42,0-.84.04-1.25.11l8.42,5.62c-.01-.07-.03-.13-.05-.2,0-.01,0-.02,0-.03-.02-.1-.05-.19-.08-.28,0-.02-.01-.05-.02-.07-.03-.1-.06-.19-.1-.29,0-.02-.02-.05-.03-.07-.03-.08-.06-.16-.1-.25,0-.02-.02-.04-.02-.06-.04-.09-.08-.18-.12-.27-.01-.03-.03-.06-.04-.09-.04-.08-.08-.16-.12-.25-.33-.61-.73-1.16-1.21-1.65-.48-.49-1.02-.91-1.61-1.25h0s-.07-.04-.11-.06Z"/>
+        <path class="cls-1" d="M70.11,20.6l-1.5-1.5c-4.43-4.43-9.6-7.86-15.36-10.2-5.56-2.26-11.44-3.4-17.47-3.4-5.03,0-9.95.8-14.67,2.37l6.72,4.49c2.27-1.54,5.01-2.45,7.95-2.45,7.81,0,14.17,6.36,14.17,14.17,0,.97-.1,1.93-.29,2.85l11.89,7.94c2.52-1.69,4.88-3.62,7.06-5.8l1.5-1.5c1.92-1.92,1.92-5.05,0-6.97Z"/>
+    `;
+
+      window.toggleSidebar = toggleSidebar;
+      window.toggleView = toggleView;
+      window.showSelected = showSelected;
+      window.clearAll = clearAll;
+      window.hideRootMesh = hideRootMesh;
+      window.toggleOutlines = toggleOutlines;
+      window.toggleDarkMode = toggleDarkMode;
+      window.disableOverlays = disableOverlays;
+    </script>
+  </body>
+</html>

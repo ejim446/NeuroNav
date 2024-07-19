@@ -1,0 +1,30 @@
+{
+  "name": "neuronav",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "author": "Esteban",
+  "description": "An interactive 3D brain atlas.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ejim446/neuronav.git"
+  },
+  "keywords": [
+    "3D",
+    "brain",
+    "atlas",
+    "interactive"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.164.1"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0"
+  }
+}
