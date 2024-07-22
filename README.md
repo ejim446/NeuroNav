@@ -4,7 +4,7 @@
 
 ## Models and Data
 
-All models were adapted from the fMRI imaging format of the Allen Human Reference Atlas 3D (2020).
+All models were adapted from the MRI imaging format of the Allen Human Reference Atlas 3D (2020).
 
 ### Dataset Citation
 
