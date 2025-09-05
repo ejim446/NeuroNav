@@ -35,7 +35,7 @@ Song‐Lin Ding, Joshua J. Royall, Susan M. Sunkin, Benjamin A.C. Facer, Phil Le
    ```
 4. Run on local server
    ```sh
-   npm run serve
+   npm run server
    ``````
 
 ## Usage

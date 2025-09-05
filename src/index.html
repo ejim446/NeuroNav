@@ -118,20 +118,34 @@
     </div>
     <script type="module" src="/scripts/main.js"></script>
     <script>
+      
       /// CITATION ///
 
-      infoIcon = document.getElementById("info-icon-container");
+    infoIcon = document.getElementById("info-icon-container");
       infoIcon.setAttribute(
         "data-tooltip",
         `
-        Models adapted from the Allen Human Reference Atlas 3D (2020) 
-        
-        Dataset Citation:
-        Song‐Lin Ding, Joshua J. Royall, Susan M. Sunkin, Benjamin A.C. Facer, Phil Lesnar, Amy Bernard, Lydia Ng, Ed S. Lein (2020). “Allen Human Reference Atlas – 3D, 2020," RRID:SCR_017764, version 1.0.0.
+        Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.
+
+        Dataset citation:
+        Song-Lin Ding, Joshua J. Royall, Susan M. Sunkin, Benjamin A.C. Facer, 
+        Phil Lesnar, Amy Bernard, Lydia Ng, Ed S. Lein (2020). 
+        "Allen Human Reference Atlas – 3D, 2020," RRID:SCR_017764, Version 1.0.0. 
+        © 2019 Allen Institute for Brain Science.
 
         Available from:
         https://community.brain-map.org/t/allen-human-reference-atlas-3d-2020-new/405
-    `,
+
+        Reference brain template:
+        ICBM 2009b Nonlinear Symmetric, Montreal Neurological Institute (MNI), McGill University.
+        Copyright (C) 1993–2004 Louis Collins, McConnell Brain Imaging Centre, McGill University.
+
+        Available from:
+        https://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009
+
+        Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0):
+        https://creativecommons.org/licenses/by/4.0/
+        `
       );
 
       infoIcon.addEventListener("click", () => {
