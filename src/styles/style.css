@@ -560,9 +560,9 @@ input:checked + .checkbox-button:before {
         top: -0.25rem;
         left: 150%;
         z-index: 99;
-        transform: translateX(-8%) translateY(-100%) scale(0);
+        transform: translateX(-8%) translateY(-100%) scale(0.95);
         transform-origin: bottom left;
-        transition: 150ms transform;
+        transition: 150ms transform, 150ms opacity, 150ms visibility;
         background: var(--grey-tertiary);
         color: var(--white);
         border-radius: var(--border-radius);
@@ -573,13 +573,17 @@ input:checked + .checkbox-button:before {
         pointer-events: none;
         white-space: normal;
         line-height: 1.4;
+        opacity: 0;
+        visibility: hidden;
 }
 
-#info-icon-container:hover .info-tooltip,
+#info-icon-container.info-tooltip-visible .info-tooltip,
 #info-icon-container:focus .info-tooltip,
 #info-icon-container:focus-within .info-tooltip {
         transform: translateX(-8%) translateY(-100%) scale(1);
         pointer-events: auto;
+        opacity: 1;
+        visibility: visible;
 }
 
 .info-tooltip::after {
