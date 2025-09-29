@@ -582,6 +582,11 @@ input:checked + .checkbox-button:before {
         pointer-events: auto;
 }
 
+.info-tooltip.visible {
+        transform: translateX(-8%) translateY(-100%) scale(1);
+        pointer-events: auto;
+}
+
 .info-tooltip::after {
         content: "";
         position: absolute;
