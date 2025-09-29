@@ -134,41 +134,73 @@ function createOutline(mesh, regionName) {
 // FADE IN EFFECT //
 
 function fadeObject(object, fadeType) {
+
   // Define startTime upon function call
+
   const startTime = performance.now();
 
+
+
   // Fade in duration in ms
+
   const duration = 100;
 
+
+
   // Get material to fade and corresponding outline
+
   const material = object.material;
+
   const outline = scene.getObjectByName(`${object.name}Outline`);
 
+
+
   function getProgress() {
+
     const currentTime = performance.now();
+
     const elapsed = currentTime - startTime;
+
     const progress = Math.min(1, elapsed / duration); // Normalize progress to between 0 and 1
 
+
+
     return progress;
+
   }
+
+
 
   function fadeInMaterial() {
     const progress = getProgress();
 
     // Show outline and set opacity to normalized [0, 1] progress
+    object.visible = true;
     material.visible = true;
     material.opacity = progress;
 
+
     if (progress == 1 && outlinesEnabled) {
+
       outline.material.visible = true;
+
     }
+
     if (progress < 1) {
+
       requestAnimationFrame(fadeInMaterial); // Fade in until progress == 1
+
     }
+
   }
 
+
+
   function fadeOutMaterial() {
+
     const progress = getProgress();
+
+
 
     // Hide outline and set opacity to inverse of progress
     outline.material.visible = false;
@@ -177,19 +209,32 @@ function fadeObject(object, fadeType) {
     // Update visibility upon zero opacity to avoid artifacts
     if (material.opacity == 0) {
       material.visible = false;
+      object.visible = false;
     }
+
 
     if (progress < 1) {
+
       requestAnimationFrame(fadeOutMaterial); // Fade in until progress == 1
+
     }
+
   }
 
+
+
   if (fadeType === "in") {
+
     fadeInMaterial();
+
   } else if (fadeType === "out") {
+
     fadeOutMaterial();
+
   }
+
 }
+
 
 /// HANDLE GLB FILES ///
 
@@ -564,12 +609,17 @@ function onClick(event) {
     try {
       // Loop through the intersected objects
       for (let i = 0; i < intersects.length; i++) {
-        // Check if the object is not the root and not an outline
-        if (
-          intersects[i].object.name !== "root" &&
-          !intersects[i].object.name.includes("Outline")
-        ) {
-          object = intersects[i].object; // Assign the first valid object
+        const candidate = intersects[i].object;
+        const candidateName = candidate.name;
+
+        const isRegionMesh =
+          candidate instanceof THREE.Mesh &&
+          candidateName !== "root" &&
+          !candidateName.includes("Outline");
+
+        // Check if the object is a valid, currently visible region
+        if (isRegionMesh && visibleRegions.has(candidateName)) {
+          object = candidate; // Assign the first valid object
           break; // Exit the loop once a valid object is found
         }
       }
