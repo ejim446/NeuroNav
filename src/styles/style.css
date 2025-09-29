@@ -77,6 +77,7 @@ canvas {
 	font-size: var(--font-size-title);
 	font-weight: bold;
 	letter-spacing: var(--letter-spacing-secondary);
+	filter: drop-shadow(0 0 0.20rem lightblue);
 }
 
 .nav-atlas {
