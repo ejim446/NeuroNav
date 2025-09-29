@@ -283,12 +283,30 @@
         let defaultColorIndex = 0;
 
         for (const key in regions) {
+          const region = regions[key];
           const selectionElement = document.createElement("li");
           selectionElement.classList.add("selection-element");
           selectionElement.value = String(key);
+          const searchTerms = [
+            region.name,
+            ...(region.keywords ?? []),
+            ...(region.groups ?? []),
+            region.description ?? "",
+          ]
+            .join(" ")
+            .toLowerCase();
+          selectionElement.dataset.search = searchTerms;
+          if ((region.groups?.length || region.keywords?.length) && !selectionElement.title) {
+            const summary = [...new Set([...(region.groups ?? []), ...(region.keywords ?? [])])]
+              .slice(0, 4)
+              .join(" • ");
+            if (summary) {
+              selectionElement.title = `${region.name} — ${summary}`;
+            }
+          }
           const selectionText = document.createElement("p");
           selectionText.classList.add("selection-text");
-          selectionText.textContent = regions[key];
+          selectionText.textContent = region.name;
 
           selectionElement.appendChild(selectionText);
           selectionList.appendChild(selectionElement);
@@ -380,10 +398,8 @@
         const items = document.querySelectorAll(".selection-element");
 
         items.forEach(function (item) {
-          const text = item
-            .querySelector(".selection-text")
-            .textContent.toLowerCase();
-          item.style.display = text.includes(query) ? "grid" : "none";
+          const searchField = item.dataset.search ?? "";
+          item.style.display = searchField.includes(query) ? "grid" : "none";
         });
       }
 

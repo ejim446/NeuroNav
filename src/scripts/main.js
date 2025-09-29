@@ -572,6 +572,23 @@ fetch("/reference.json")
 const raycaster = new THREE.Raycaster();
 const tooltip = document.createElement("div");
 
+function createTooltipContent(regionInfo) {
+  const name = regionInfo.name ?? "";
+  const related = Array.from(
+    new Set([...(regionInfo.groups ?? []), ...(regionInfo.keywords ?? [])]),
+  ).filter((value) => value && value.toLowerCase() !== name.toLowerCase());
+  const description = regionInfo.description?.trim();
+
+  let content = `<strong>${name}</strong>`;
+  if (related.length) {
+    content += `<br/><small>${related.slice(0, 3).join(" • ")}</small>`;
+  }
+  if (description) {
+    content += `<br/>${description}`;
+  }
+  return content;
+}
+
 // Tooltip styling
 Object.assign(tooltip.style, {
   position: "absolute",
@@ -630,7 +647,13 @@ function onClick(event) {
     // If a valid object is found and it is visible
     if (object && visibleRegions.has(object.name)) {
       // Set the tooltip content to the region name
-      tooltip.innerHTML = regions[object.name.slice(0, -1)];
+      const regionId = object.name.slice(0, -1);
+      const regionInfo = regions && regions[regionId];
+      if (regionInfo) {
+        tooltip.innerHTML = createTooltipContent(regionInfo);
+      } else {
+        tooltip.innerHTML = regionId;
+      }
       // Display the tooltip and position it near the mouse cursor
       tooltip.style.display = "block";
       tooltip.style.left = `${event.clientX + 10}px`;

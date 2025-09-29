@@ -1,144 +1,1741 @@
 {
-    "1": "Olfactory Bulb",
-    "2": "Anterior Olfactory Nucleus",
-    "3": "Piriform Cortex",
-    "4": "Frontal Agranular Insular Cortex",
-    "5": "Temporal Agranular Insular Cortex",
-    "6": "Head of Caudate",
-    "7": "Body of Caudate",
-    "8": "Tail of Caudate",
-    "9": "Putamen",
-    "10": "Nucleus Accumbens",
-    "11": "External Segment of Globus Pallidus",
-    "12": "Internal Segment of Globus Pallidus",
-    "13": "Claustrum",
-    "14": "Basal Forebrain",
-    "15": "Septal Nuclei",
-    "16": "Amygdaloid Complex",
-    "17": "Anterior Amygdaloid Area",
-    "18": "Central Nuclear Group",
-    "19": "Lateral Nucleus",
-    "20": "Basolateral Nucleus",
-    "21": "Basomedial Nucleus",
-    "22": "Anterior Cortical Nucleus",
-    "23": "Posterior Cortical Nucleus",
-    "24": "Medial Nucleus",
-    "25": "Amygdalohippocampal Area",
-    "26": "Bed Nucleus of Stria Terminalis",
-    "27": "Thalamus",
-    "28": "Anterior Nuclear Group of Thalamus",
-    "29": "Lateral Dorsal Nucleus of Thalamus",
-    "30": "Mediodorsal Nucleus of Thalamus",
-    "31": "Reuniens Nucleus of Thalamus",
-    "32": "Posterolateral Nucleus of Thalamus",
-    "33": "Pulvinar of Thalamus",
-    "34": "Ventral Anterior Nucleus of Thalamus",
-    "35": "Ventral Lateral Nucleus of Thalamus",
-    "36": "Ventral Posterior Lateral Nucleus",
-    "37": "Ventral Posterior Medial Nucleus",
-    "38": "Dorsal Lateral Geniculate Nucleus",
-    "39": "Medial Geniculate Nuclei",
-    "40": "Centromedian Nucleus of Thalamus",
-    "41": "Parafascicular Nucleus of Thalamus",
-    "42": "Habenular Nuclei",
-    "43": "Pineal Body",
-    "44": "Zona Incerta",
-    "45": "Subthalamic Nucleus",
-    "46": "Hypothalamus",
-    "47": "Preoptic Region of Hypothalamus",
-    "48": "Supraoptic Region of Hypothalamus",
-    "49": "Tuberal Region of Hypothalamus",
-    "50": "Mammillary Region of Hypothalamus",
-    "51": "White Matter of Forebrain",
-    "52": "Anterior Commissure",
-    "53": "Corpus Callosum",
-    "54": "Fornix",
-    "55": "Mammillothalamic Tract",
-    "56": "Optic Tract",
-    "57": "Anterior Horn of Lateral Ventricle",
-    "58": "Body of Lateral Ventricle",
-    "59": "Posterior Horn of Lateral Ventricle",
-    "60": "Inferior Horn of Lateral Ventricle",
-    "61": "Third Ventricle",
-    "62": "Cerebellar Vermis",
-    "63": "Cerebellar Deep Nuclei",
-    "64": "White Matter of Hindbrain",
-    "65": "Olfactory Tract",
-    "66": "Precentral Gyrus",
-    "67": "Superior Frontal Gyrus",
-    "68": "Middle Frontal Gyrus",
-    "69": "Triangular Inferior Frontal Gyrus",
-    "70": "Opercular Inferior Frontal Gyrus",
-    "71": "Gyrus Rectus (Straight Gyrus)",
-    "72": "Medial Orbital Gyrus",
-    "73": "Anterior Intermediate Orbital Gyrus",
-    "74": "Posterior Intermediate Orbital Gyrus",
-    "75": "Lateral Orbital Gyrus",
-    "76": "Rostral Paracentral Lobule",
-    "77": "Frontal Operculum",
-    "78": "Postcentral Gyrus",
-    "79": "Supraparietal Lobule",
-    "80": "Supramarginal Gyrus",
-    "81": "Angular Gyrus",
-    "82": "Precuneus",
-    "83": "Caudal Paracentral Lobule",
-    "84": "Superior Temporal Gyrus",
-    "85": "Middle Temporal Gyrus",
-    "86": "Inferior Temporal Gyrus",
-    "87": "Temporal Fusiform Gyrus",
-    "88": "Transverse Temporal Gyrus",
-    "89": "Planum Temporale",
-    "90": "Temporal Pole",
-    "91": "Planum Polare",
-    "92": "Occipital Pole",
-    "93": "Cuneus",
-    "94": "Lingual Gyrus",
-    "95": "Occipital Fusiform Gyrus",
-    "96": "Inferior Occipital Gyrus",
-    "97": "Superior Occipital Gyrus",
-    "98": "Anterior Cingulate Gyrus",
-    "99": "Posterior Cingulate Gyrus",
-    "100": "Cingulo-Parahippocampal Isthmus",
-    "101": "Subcallosal (Parolfactory) Gyrus",
-    "102": "Anterior Parahippocampal Gyrus",
-    "103": "Posterior Parahippocampal Gyrus",
-    "104": "Ambiens Gyrus",
-    "105": "Head of Hippocampus",
-    "106": "Body of Hippocampus",
-    "107": "Tail of Hippocampus",
-    "108": "Long Insular Gyri",
-    "109": "Short Insular Gyri",
-    "110": "Limen Insula",
-    "111": "Pretectal Region",
-    "112": "Midbrain Tegmentum",
-    "113": "Red Nucleus",
-    "114": "Substantia Nigra",
-    "115": "Superior Colliculus",
-    "116": "Inferior Colliculus",
-    "117": "Cerebral Peduncle (Crus Cerebri)",
-    "118": "Superior Cerebellar Peduncle",
-    "119": "Cerebral Aqueduct",
-    "120": "Paravermis of Cerebellum",
-    "121": "Lateral Hemisphere of Cerebellum",
-    "122": "Basilar Part of Pons",
-    "123": "Pontine Tegmentum",
-    "124": "Pyramidal Part of Medulla Oblongata",
-    "125": "Tegmentum of Medulla Oblongata",
-    "126": "Inferior Olive",
-    "127": "Inferior Cerebellar Peduncle",
-    "128": "Middle Cerebellar Peduncle",
-    "129": "Fourth Ventricle",
-    "130": "Central Canal of Medulla Oblongata",
-    "131": "Midline Nuclear Complex",
-    "132": "Lateral Olfactory Gyrus",
-    "133": "Parietal Operculum",
-    "134": "Posteroventral Putamen",
-    "135": "Paracingulate Gyrus",
-    "136": "Rostral Gyrus",
-    "137": "Frontomarginal Gyrus",
-    "138": "Frontal Pole",
-    "139": "Perirhinal Gyrus",
-    "140": "Optic Radiation",
-    "141": "Atrium of Lateral Ventricle"
+  "1": {
+    "name": "Olfactory Bulb",
+    "keywords": [
+      "Olfactory System",
+      "Smell"
+    ],
+    "groups": [
+      "Olfactory System"
+    ],
+    "description": ""
+  },
+  "2": {
+    "name": "Anterior Olfactory Nucleus",
+    "keywords": [
+      "Olfactory System",
+      "Smell"
+    ],
+    "groups": [
+      "Olfactory System"
+    ],
+    "description": ""
+  },
+  "3": {
+    "name": "Piriform Cortex",
+    "keywords": [
+      "Olfactory System",
+      "Smell"
+    ],
+    "groups": [
+      "Olfactory System"
+    ],
+    "description": ""
+  },
+  "4": {
+    "name": "Frontal Agranular Insular Cortex",
+    "keywords": [
+      "Olfactory System",
+      "Smell"
+    ],
+    "groups": [
+      "Olfactory System"
+    ],
+    "description": ""
+  },
+  "5": {
+    "name": "Temporal Agranular Insular Cortex",
+    "keywords": [
+      "Olfactory System",
+      "Smell"
+    ],
+    "groups": [
+      "Olfactory System"
+    ],
+    "description": ""
+  },
+  "6": {
+    "name": "Head of Caudate",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "7": {
+    "name": "Body of Caudate",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "8": {
+    "name": "Tail of Caudate",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "9": {
+    "name": "Putamen",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "10": {
+    "name": "Nucleus Accumbens",
+    "keywords": [
+      "Basal Ganglia",
+      "Reward Circuit",
+      "Striatum",
+      "Ventral Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": "Key component of the ventral striatum involved in reward and motivation."
+  },
+  "11": {
+    "name": "External Segment of Globus Pallidus",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "12": {
+    "name": "Internal Segment of Globus Pallidus",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "13": {
+    "name": "Claustrum",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "14": {
+    "name": "Basal Forebrain",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "15": {
+    "name": "Septal Nuclei",
+    "keywords": [
+      "Basal Ganglia",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "16": {
+    "name": "Amygdaloid Complex",
+    "keywords": [
+      "Amygdala",
+      "Amygdaloid Complex",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": "Hub for processing emotional salience and associative memory."
+  },
+  "17": {
+    "name": "Anterior Amygdaloid Area",
+    "keywords": [
+      "Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": ""
+  },
+  "18": {
+    "name": "Central Nuclear Group",
+    "keywords": [
+      "Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": ""
+  },
+  "19": {
+    "name": "Lateral Nucleus",
+    "keywords": [
+      "Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": ""
+  },
+  "20": {
+    "name": "Basolateral Nucleus",
+    "keywords": [
+      "Amygdala",
+      "Basolateral Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": "Part of the basolateral complex supporting emotional learning."
+  },
+  "21": {
+    "name": "Basomedial Nucleus",
+    "keywords": [
+      "Amygdala",
+      "Basolateral Amygdala",
+      "Basomedial Amygdaloid Nucleus",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala",
+      "Basolateral Complex"
+    ],
+    "description": "Transitional amygdalar nucleus linking olfactory and visceral information streams."
+  },
+  "22": {
+    "name": "Anterior Cortical Nucleus",
+    "keywords": [
+      "Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": ""
+  },
+  "23": {
+    "name": "Posterior Cortical Nucleus",
+    "keywords": [
+      "Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": ""
+  },
+  "24": {
+    "name": "Medial Nucleus",
+    "keywords": [
+      "Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": ""
+  },
+  "25": {
+    "name": "Amygdalohippocampal Area",
+    "keywords": [
+      "Amygdala",
+      "Amygdalohippocampal Transition Area",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": "Interface between amygdala and hippocampal formation."
+  },
+  "26": {
+    "name": "Bed Nucleus of Stria Terminalis",
+    "keywords": [
+      "Amygdala",
+      "Limbic System"
+    ],
+    "groups": [
+      "Limbic System",
+      "Amygdala"
+    ],
+    "description": ""
+  },
+  "27": {
+    "name": "Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "28": {
+    "name": "Anterior Nuclear Group of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "29": {
+    "name": "Lateral Dorsal Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "30": {
+    "name": "Mediodorsal Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "31": {
+    "name": "Reuniens Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "32": {
+    "name": "Posterolateral Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "33": {
+    "name": "Pulvinar of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Pulvinar Nucleus",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": "Visual thalamic nucleus integrating attention and sensory signals."
+  },
+  "34": {
+    "name": "Ventral Anterior Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "35": {
+    "name": "Ventral Lateral Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "36": {
+    "name": "Ventral Posterior Lateral Nucleus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "37": {
+    "name": "Ventral Posterior Medial Nucleus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "38": {
+    "name": "Dorsal Lateral Geniculate Nucleus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "39": {
+    "name": "Medial Geniculate Nuclei",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "40": {
+    "name": "Centromedian Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "41": {
+    "name": "Parafascicular Nucleus of Thalamus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "42": {
+    "name": "Habenular Nuclei",
+    "keywords": [
+      "Diencephalon",
+      "Habenula",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": "Epithalamic relay shaping reward and aversion signaling."
+  },
+  "43": {
+    "name": "Pineal Body",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "44": {
+    "name": "Zona Incerta",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "45": {
+    "name": "Subthalamic Nucleus",
+    "keywords": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Thalamus"
+    ],
+    "description": ""
+  },
+  "46": {
+    "name": "Hypothalamus",
+    "keywords": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "description": "Controls autonomic, endocrine, and behavioral homeostasis."
+  },
+  "47": {
+    "name": "Preoptic Region of Hypothalamus",
+    "keywords": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "description": ""
+  },
+  "48": {
+    "name": "Supraoptic Region of Hypothalamus",
+    "keywords": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "description": ""
+  },
+  "49": {
+    "name": "Tuberal Region of Hypothalamus",
+    "keywords": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "description": ""
+  },
+  "50": {
+    "name": "Mammillary Region of Hypothalamus",
+    "keywords": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "groups": [
+      "Diencephalon",
+      "Hypothalamus"
+    ],
+    "description": ""
+  },
+  "51": {
+    "name": "White Matter of Forebrain",
+    "keywords": [
+      "Forebrain",
+      "White Matter"
+    ],
+    "groups": [
+      "White Matter",
+      "Forebrain"
+    ],
+    "description": ""
+  },
+  "52": {
+    "name": "Anterior Commissure",
+    "keywords": [
+      "Anterior Commissural Tract",
+      "Forebrain",
+      "White Matter"
+    ],
+    "groups": [
+      "White Matter",
+      "Forebrain"
+    ],
+    "description": ""
+  },
+  "53": {
+    "name": "Corpus Callosum",
+    "keywords": [
+      "Callosal Fibers",
+      "Forebrain",
+      "White Matter"
+    ],
+    "groups": [
+      "White Matter",
+      "Forebrain"
+    ],
+    "description": ""
+  },
+  "54": {
+    "name": "Fornix",
+    "keywords": [
+      "Forebrain",
+      "White Matter"
+    ],
+    "groups": [
+      "White Matter",
+      "Forebrain"
+    ],
+    "description": ""
+  },
+  "55": {
+    "name": "Mammillothalamic Tract",
+    "keywords": [
+      "Forebrain",
+      "Vicq d’Azyr Bundle",
+      "White Matter"
+    ],
+    "groups": [
+      "White Matter",
+      "Forebrain"
+    ],
+    "description": ""
+  },
+  "56": {
+    "name": "Optic Tract",
+    "keywords": [
+      "Forebrain",
+      "Optic Nerve Continuation",
+      "Visual Pathway",
+      "White Matter"
+    ],
+    "groups": [
+      "White Matter",
+      "Forebrain"
+    ],
+    "description": ""
+  },
+  "57": {
+    "name": "Anterior Horn of Lateral Ventricle",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Ventricle"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
+  },
+  "58": {
+    "name": "Body of Lateral Ventricle",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Ventricle"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
+  },
+  "59": {
+    "name": "Posterior Horn of Lateral Ventricle",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Ventricle"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
+  },
+  "60": {
+    "name": "Inferior Horn of Lateral Ventricle",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Ventricle"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
+  },
+  "61": {
+    "name": "Third Ventricle",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Ventricle"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
+  },
+  "62": {
+    "name": "Cerebellar Vermis",
+    "keywords": [
+      "Cerebellum",
+      "Hindbrain"
+    ],
+    "groups": [
+      "Hindbrain",
+      "Cerebellum"
+    ],
+    "description": "Midline cerebellar structure coordinating axial posture."
+  },
+  "63": {
+    "name": "Cerebellar Deep Nuclei",
+    "keywords": [
+      "Cerebellum",
+      "Dentate Nucleus",
+      "Fastigial Nucleus",
+      "Hindbrain",
+      "Interposed Nuclei"
+    ],
+    "groups": [
+      "Hindbrain",
+      "Cerebellum"
+    ],
+    "description": ""
+  },
+  "64": {
+    "name": "White Matter of Hindbrain",
+    "keywords": [],
+    "groups": [],
+    "description": ""
+  },
+  "65": {
+    "name": "Olfactory Tract",
+    "keywords": [
+      "Olfactory System",
+      "Smell"
+    ],
+    "groups": [
+      "Olfactory System"
+    ],
+    "description": ""
+  },
+  "66": {
+    "name": "Precentral Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "67": {
+    "name": "Superior Frontal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "68": {
+    "name": "Middle Frontal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Dorsolateral Prefrontal Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "69": {
+    "name": "Triangular Inferior Frontal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "70": {
+    "name": "Opercular Inferior Frontal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "71": {
+    "name": "Gyrus Rectus (Straight Gyrus)",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "72": {
+    "name": "Medial Orbital Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "73": {
+    "name": "Anterior Intermediate Orbital Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "74": {
+    "name": "Posterior Intermediate Orbital Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "75": {
+    "name": "Lateral Orbital Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "76": {
+    "name": "Rostral Paracentral Lobule",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "77": {
+    "name": "Frontal Operculum",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "78": {
+    "name": "Postcentral Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "description": ""
+  },
+  "79": {
+    "name": "Supraparietal Lobule",
+    "keywords": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "description": ""
+  },
+  "80": {
+    "name": "Supramarginal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "description": ""
+  },
+  "81": {
+    "name": "Angular Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "description": ""
+  },
+  "82": {
+    "name": "Precuneus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Medial Parietal Cortex",
+      "Parietal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "description": ""
+  },
+  "83": {
+    "name": "Caudal Paracentral Lobule",
+    "keywords": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "description": ""
+  },
+  "84": {
+    "name": "Superior Temporal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "85": {
+    "name": "Middle Temporal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Lateral Temporal Cortex",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "86": {
+    "name": "Inferior Temporal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "87": {
+    "name": "Temporal Fusiform Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Fusiform Gyrus",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "88": {
+    "name": "Transverse Temporal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Heschl’s Gyrus",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "89": {
+    "name": "Planum Temporale",
+    "keywords": [
+      "Cerebral Cortex",
+      "Planum Temporale of Heschl",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "90": {
+    "name": "Temporal Pole",
+    "keywords": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "91": {
+    "name": "Planum Polare",
+    "keywords": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "92": {
+    "name": "Occipital Pole",
+    "keywords": [
+      "Occipital Lobe",
+      "Visual Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Occipital Lobe"
+    ],
+    "description": ""
+  },
+  "93": {
+    "name": "Cuneus",
+    "keywords": [
+      "Medial Occipital Cortex",
+      "Occipital Lobe",
+      "Visual Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Occipital Lobe"
+    ],
+    "description": ""
+  },
+  "94": {
+    "name": "Lingual Gyrus",
+    "keywords": [
+      "Lingual Cortex",
+      "Occipital Lobe",
+      "Visual Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Occipital Lobe"
+    ],
+    "description": ""
+  },
+  "95": {
+    "name": "Occipital Fusiform Gyrus",
+    "keywords": [
+      "Occipital Lobe",
+      "Visual Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Occipital Lobe"
+    ],
+    "description": ""
+  },
+  "96": {
+    "name": "Inferior Occipital Gyrus",
+    "keywords": [
+      "Occipital Lobe",
+      "Visual Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Occipital Lobe"
+    ],
+    "description": ""
+  },
+  "97": {
+    "name": "Superior Occipital Gyrus",
+    "keywords": [
+      "Occipital Lobe",
+      "Visual Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Occipital Lobe"
+    ],
+    "description": ""
+  },
+  "98": {
+    "name": "Anterior Cingulate Gyrus",
+    "keywords": [
+      "Cingulate Cortex",
+      "Limbic System",
+      "Pregenual Cingulate"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Limbic System"
+    ],
+    "description": ""
+  },
+  "99": {
+    "name": "Posterior Cingulate Gyrus",
+    "keywords": [
+      "Cingulate Cortex",
+      "Limbic System",
+      "Retrosplenial Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Limbic System"
+    ],
+    "description": ""
+  },
+  "100": {
+    "name": "Cingulo-Parahippocampal Isthmus",
+    "keywords": [
+      "Cingulate Cortex",
+      "Isthmus Cingulate",
+      "Limbic System"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Limbic System"
+    ],
+    "description": ""
+  },
+  "101": {
+    "name": "Subcallosal (Parolfactory) Gyrus",
+    "keywords": [
+      "Cingulate Cortex",
+      "Limbic System",
+      "Parolfactory Area",
+      "Subcallosal Area"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Limbic System"
+    ],
+    "description": ""
+  },
+  "102": {
+    "name": "Anterior Parahippocampal Gyrus",
+    "keywords": [
+      "Hippocampus",
+      "Memory"
+    ],
+    "groups": [
+      "Limbic System",
+      "Hippocampal Formation"
+    ],
+    "description": ""
+  },
+  "103": {
+    "name": "Posterior Parahippocampal Gyrus",
+    "keywords": [
+      "Hippocampus",
+      "Memory"
+    ],
+    "groups": [
+      "Limbic System",
+      "Hippocampal Formation"
+    ],
+    "description": ""
+  },
+  "104": {
+    "name": "Ambiens Gyrus",
+    "keywords": [
+      "Hippocampus",
+      "Memory"
+    ],
+    "groups": [
+      "Limbic System",
+      "Hippocampal Formation"
+    ],
+    "description": ""
+  },
+  "105": {
+    "name": "Head of Hippocampus",
+    "keywords": [
+      "Hippocampal Head",
+      "Hippocampus",
+      "Memory"
+    ],
+    "groups": [
+      "Limbic System",
+      "Hippocampal Formation"
+    ],
+    "description": ""
+  },
+  "106": {
+    "name": "Body of Hippocampus",
+    "keywords": [
+      "Hippocampal Body",
+      "Hippocampus",
+      "Memory"
+    ],
+    "groups": [
+      "Limbic System",
+      "Hippocampal Formation"
+    ],
+    "description": ""
+  },
+  "107": {
+    "name": "Tail of Hippocampus",
+    "keywords": [
+      "Hippocampal Tail",
+      "Hippocampus",
+      "Memory"
+    ],
+    "groups": [
+      "Limbic System",
+      "Hippocampal Formation"
+    ],
+    "description": ""
+  },
+  "108": {
+    "name": "Long Insular Gyri",
+    "keywords": [
+      "Insula",
+      "Insular Cortex",
+      "Posterior Insula"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Insular Cortex"
+    ],
+    "description": ""
+  },
+  "109": {
+    "name": "Short Insular Gyri",
+    "keywords": [
+      "Anterior Insula",
+      "Insula",
+      "Insular Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Insular Cortex"
+    ],
+    "description": ""
+  },
+  "110": {
+    "name": "Limen Insula",
+    "keywords": [
+      "Insula",
+      "Insular Apex",
+      "Insular Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Insular Cortex"
+    ],
+    "description": ""
+  },
+  "111": {
+    "name": "Pretectal Region",
+    "keywords": [
+      "Mesencephalon",
+      "Midbrain",
+      "Pretectal Area"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "112": {
+    "name": "Midbrain Tegmentum",
+    "keywords": [
+      "Mesencephalon",
+      "Midbrain",
+      "Midbrain Tegmental Area"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "113": {
+    "name": "Red Nucleus",
+    "keywords": [
+      "Mesencephalon",
+      "Midbrain",
+      "Rubral Region"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "114": {
+    "name": "Substantia Nigra",
+    "keywords": [
+      "Mesencephalon",
+      "Midbrain",
+      "Pars Reticulata",
+      "Substantia Nigra Pars Compacta"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "115": {
+    "name": "Superior Colliculus",
+    "keywords": [
+      "Mesencephalon",
+      "Midbrain",
+      "Superior Tectum"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "116": {
+    "name": "Inferior Colliculus",
+    "keywords": [
+      "Inferior Tectum",
+      "Mesencephalon",
+      "Midbrain"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "117": {
+    "name": "Cerebral Peduncle (Crus Cerebri)",
+    "keywords": [
+      "Cerebral Crus",
+      "Mesencephalon",
+      "Midbrain"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "118": {
+    "name": "Superior Cerebellar Peduncle",
+    "keywords": [
+      "Brachium Conjunctivum",
+      "Cerebellar Connection",
+      "Cerebellum",
+      "Hindbrain",
+      "Midbrain"
+    ],
+    "groups": [
+      "Hindbrain",
+      "Cerebellum",
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "119": {
+    "name": "Cerebral Aqueduct",
+    "keywords": [
+      "Aqueduct of Sylvius",
+      "Mesencephalon",
+      "Midbrain",
+      "Sylvian Aqueduct"
+    ],
+    "groups": [
+      "Brainstem",
+      "Midbrain"
+    ],
+    "description": ""
+  },
+  "120": {
+    "name": "Paravermis of Cerebellum",
+    "keywords": [
+      "Cerebellum",
+      "Hindbrain",
+      "Intermediate Cerebellum"
+    ],
+    "groups": [
+      "Hindbrain",
+      "Cerebellum"
+    ],
+    "description": ""
+  },
+  "121": {
+    "name": "Lateral Hemisphere of Cerebellum",
+    "keywords": [
+      "Cerebellar Hemisphere",
+      "Cerebellum",
+      "Hindbrain"
+    ],
+    "groups": [
+      "Hindbrain",
+      "Cerebellum"
+    ],
+    "description": ""
+  },
+  "122": {
+    "name": "Basilar Part of Pons",
+    "keywords": [
+      "Brainstem",
+      "Pons"
+    ],
+    "groups": [
+      "Brainstem",
+      "Pons"
+    ],
+    "description": "Basilar pons containing pontine nuclei and transverse fibers."
+  },
+  "123": {
+    "name": "Pontine Tegmentum",
+    "keywords": [
+      "Brainstem",
+      "Pons"
+    ],
+    "groups": [
+      "Brainstem",
+      "Pons"
+    ],
+    "description": "Pontine tegmental core with cranial nerve nuclei."
+  },
+  "124": {
+    "name": "Pyramidal Part of Medulla Oblongata",
+    "keywords": [
+      "Brainstem",
+      "Medulla",
+      "Medullary Pyramid"
+    ],
+    "groups": [
+      "Brainstem",
+      "Medulla"
+    ],
+    "description": ""
+  },
+  "125": {
+    "name": "Tegmentum of Medulla Oblongata",
+    "keywords": [
+      "Brainstem",
+      "Medulla",
+      "Medullary Tegmentum"
+    ],
+    "groups": [
+      "Brainstem",
+      "Medulla"
+    ],
+    "description": ""
+  },
+  "126": {
+    "name": "Inferior Olive",
+    "keywords": [
+      "Brainstem",
+      "Inferior Olivary Complex",
+      "Medulla"
+    ],
+    "groups": [
+      "Brainstem",
+      "Medulla"
+    ],
+    "description": ""
+  },
+  "127": {
+    "name": "Inferior Cerebellar Peduncle",
+    "keywords": [
+      "Cerebellum",
+      "Hindbrain"
+    ],
+    "groups": [
+      "Hindbrain",
+      "Cerebellum"
+    ],
+    "description": ""
+  },
+  "128": {
+    "name": "Middle Cerebellar Peduncle",
+    "keywords": [
+      "Brachium Pontis",
+      "Cerebellum",
+      "Hindbrain"
+    ],
+    "groups": [
+      "Hindbrain",
+      "Cerebellum"
+    ],
+    "description": ""
+  },
+  "129": {
+    "name": "Fourth Ventricle",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Ventricle",
+      "Ventricular Cavity"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
+  },
+  "130": {
+    "name": "Central Canal of Medulla Oblongata",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Spinal Canal Continuation",
+      "Ventricle"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
+  },
+  "131": {
+    "name": "Midline Nuclear Complex",
+    "keywords": [
+      "Brainstem",
+      "Reticular Formation"
+    ],
+    "groups": [
+      "Brainstem"
+    ],
+    "description": "Midline brainstem nuclei supporting arousal and visceral control."
+  },
+  "132": {
+    "name": "Lateral Olfactory Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "133": {
+    "name": "Parietal Operculum",
+    "keywords": [
+      "Cerebral Cortex",
+      "Parietal Lobe",
+      "Secondary Somatosensory Cortex"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe"
+    ],
+    "description": ""
+  },
+  "134": {
+    "name": "Posteroventral Putamen",
+    "keywords": [
+      "Basal Ganglia",
+      "Posterior Putamen",
+      "Striatum"
+    ],
+    "groups": [
+      "Basal Ganglia"
+    ],
+    "description": ""
+  },
+  "135": {
+    "name": "Paracingulate Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Cingulate Cortex",
+      "Limbic System",
+      "Medial Prefrontal Cortex",
+      "Parietal Lobe"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Parietal Lobe",
+      "Limbic System"
+    ],
+    "description": ""
+  },
+  "136": {
+    "name": "Rostral Gyrus",
+    "keywords": [
+      "Frontal Lobe",
+      "Frontal Pole Region",
+      "Medial Frontal"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "137": {
+    "name": "Frontomarginal Gyrus",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe",
+      "Frontomarginal Sulcus Region"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "138": {
+    "name": "Frontal Pole",
+    "keywords": [
+      "Cerebral Cortex",
+      "Frontal Lobe",
+      "Rostral Frontal Pole"
+    ],
+    "groups": [
+      "Cerebral Cortex",
+      "Frontal Lobe"
+    ],
+    "description": ""
+  },
+  "139": {
+    "name": "Perirhinal Gyrus",
+    "keywords": [
+      "Hippocampus",
+      "Memory",
+      "Memory Circuit",
+      "Perirhinal Cortex",
+      "Temporal Lobe"
+    ],
+    "groups": [
+      "Limbic System",
+      "Hippocampal Formation",
+      "Cerebral Cortex",
+      "Temporal Lobe"
+    ],
+    "description": ""
+  },
+  "140": {
+    "name": "Optic Radiation",
+    "keywords": [
+      "Forebrain",
+      "Geniculocalcarine Tract",
+      "Optic Radiation",
+      "Visual Pathway",
+      "White Matter"
+    ],
+    "groups": [
+      "White Matter",
+      "Forebrain",
+      "Occipital Lobe"
+    ],
+    "description": ""
+  },
+  "141": {
+    "name": "Atrium of Lateral Ventricle",
+    "keywords": [
+      "Cerebrospinal Fluid",
+      "Trigone of Lateral Ventricle",
+      "Ventricle"
+    ],
+    "groups": [
+      "Ventricular System"
+    ],
+    "description": ""
   }
-  
+}
