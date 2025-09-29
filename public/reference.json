@@ -1,144 +1,1742 @@
 {
-    "1": "Olfactory Bulb",
-    "2": "Anterior Olfactory Nucleus",
-    "3": "Piriform Cortex",
-    "4": "Frontal Agranular Insular Cortex",
-    "5": "Temporal Agranular Insular Cortex",
-    "6": "Head of Caudate",
-    "7": "Body of Caudate",
-    "8": "Tail of Caudate",
-    "9": "Putamen",
-    "10": "Nucleus Accumbens",
-    "11": "External Segment of Globus Pallidus",
-    "12": "Internal Segment of Globus Pallidus",
-    "13": "Claustrum",
-    "14": "Basal Forebrain",
-    "15": "Septal Nuclei",
-    "16": "Amygdaloid Complex",
-    "17": "Anterior Amygdaloid Area",
-    "18": "Central Nuclear Group",
-    "19": "Lateral Nucleus",
-    "20": "Basolateral Nucleus",
-    "21": "Basomedial Nucleus",
-    "22": "Anterior Cortical Nucleus",
-    "23": "Posterior Cortical Nucleus",
-    "24": "Medial Nucleus",
-    "25": "Amygdalohippocampal Area",
-    "26": "Bed Nucleus of Stria Terminalis",
-    "27": "Thalamus",
-    "28": "Anterior Nuclear Group of Thalamus",
-    "29": "Lateral Dorsal Nucleus of Thalamus",
-    "30": "Mediodorsal Nucleus of Thalamus",
-    "31": "Reuniens Nucleus of Thalamus",
-    "32": "Posterolateral Nucleus of Thalamus",
-    "33": "Pulvinar of Thalamus",
-    "34": "Ventral Anterior Nucleus of Thalamus",
-    "35": "Ventral Lateral Nucleus of Thalamus",
-    "36": "Ventral Posterior Lateral Nucleus",
-    "37": "Ventral Posterior Medial Nucleus",
-    "38": "Dorsal Lateral Geniculate Nucleus",
-    "39": "Medial Geniculate Nuclei",
-    "40": "Centromedian Nucleus of Thalamus",
-    "41": "Parafascicular Nucleus of Thalamus",
-    "42": "Habenular Nuclei",
-    "43": "Pineal Body",
-    "44": "Zona Incerta",
-    "45": "Subthalamic Nucleus",
-    "46": "Hypothalamus",
-    "47": "Preoptic Region of Hypothalamus",
-    "48": "Supraoptic Region of Hypothalamus",
-    "49": "Tuberal Region of Hypothalamus",
-    "50": "Mammillary Region of Hypothalamus",
-    "51": "White Matter of Forebrain",
-    "52": "Anterior Commissure",
-    "53": "Corpus Callosum",
-    "54": "Fornix",
-    "55": "Mammillothalamic Tract",
-    "56": "Optic Tract",
-    "57": "Anterior Horn of Lateral Ventricle",
-    "58": "Body of Lateral Ventricle",
-    "59": "Posterior Horn of Lateral Ventricle",
-    "60": "Inferior Horn of Lateral Ventricle",
-    "61": "Third Ventricle",
-    "62": "Cerebellar Vermis",
-    "63": "Cerebellar Deep Nuclei",
-    "64": "White Matter of Hindbrain",
-    "65": "Olfactory Tract",
-    "66": "Precentral Gyrus",
-    "67": "Superior Frontal Gyrus",
-    "68": "Middle Frontal Gyrus",
-    "69": "Triangular Inferior Frontal Gyrus",
-    "70": "Opercular Inferior Frontal Gyrus",
-    "71": "Gyrus Rectus (Straight Gyrus)",
-    "72": "Medial Orbital Gyrus",
-    "73": "Anterior Intermediate Orbital Gyrus",
-    "74": "Posterior Intermediate Orbital Gyrus",
-    "75": "Lateral Orbital Gyrus",
-    "76": "Rostral Paracentral Lobule",
-    "77": "Frontal Operculum",
-    "78": "Postcentral Gyrus",
-    "79": "Supraparietal Lobule",
-    "80": "Supramarginal Gyrus",
-    "81": "Angular Gyrus",
-    "82": "Precuneus",
-    "83": "Caudal Paracentral Lobule",
-    "84": "Superior Temporal Gyrus",
-    "85": "Middle Temporal Gyrus",
-    "86": "Inferior Temporal Gyrus",
-    "87": "Temporal Fusiform Gyrus",
-    "88": "Transverse Temporal Gyrus",
-    "89": "Planum Temporale",
-    "90": "Temporal Pole",
-    "91": "Planum Polare",
-    "92": "Occipital Pole",
-    "93": "Cuneus",
-    "94": "Lingual Gyrus",
-    "95": "Occipital Fusiform Gyrus",
-    "96": "Inferior Occipital Gyrus",
-    "97": "Superior Occipital Gyrus",
-    "98": "Anterior Cingulate Gyrus",
-    "99": "Posterior Cingulate Gyrus",
-    "100": "Cingulo-Parahippocampal Isthmus",
-    "101": "Subcallosal (Parolfactory) Gyrus",
-    "102": "Anterior Parahippocampal Gyrus",
-    "103": "Posterior Parahippocampal Gyrus",
-    "104": "Ambiens Gyrus",
-    "105": "Head of Hippocampus",
-    "106": "Body of Hippocampus",
-    "107": "Tail of Hippocampus",
-    "108": "Long Insular Gyri",
-    "109": "Short Insular Gyri",
-    "110": "Limen Insula",
-    "111": "Pretectal Region",
-    "112": "Midbrain Tegmentum",
-    "113": "Red Nucleus",
-    "114": "Substantia Nigra",
-    "115": "Superior Colliculus",
-    "116": "Inferior Colliculus",
-    "117": "Cerebral Peduncle (Crus Cerebri)",
-    "118": "Superior Cerebellar Peduncle",
-    "119": "Cerebral Aqueduct",
-    "120": "Paravermis of Cerebellum",
-    "121": "Lateral Hemisphere of Cerebellum",
-    "122": "Basilar Part of Pons",
-    "123": "Pontine Tegmentum",
-    "124": "Pyramidal Part of Medulla Oblongata",
-    "125": "Tegmentum of Medulla Oblongata",
-    "126": "Inferior Olive",
-    "127": "Inferior Cerebellar Peduncle",
-    "128": "Middle Cerebellar Peduncle",
-    "129": "Fourth Ventricle",
-    "130": "Central Canal of Medulla Oblongata",
-    "131": "Midline Nuclear Complex",
-    "132": "Lateral Olfactory Gyrus",
-    "133": "Parietal Operculum",
-    "134": "Posteroventral Putamen",
-    "135": "Paracingulate Gyrus",
-    "136": "Rostral Gyrus",
-    "137": "Frontomarginal Gyrus",
-    "138": "Frontal Pole",
-    "139": "Perirhinal Gyrus",
-    "140": "Optic Radiation",
-    "141": "Atrium of Lateral Ventricle"
+  "regions": [
+    {
+      "id": "104",
+      "name": "Ambiens Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    {
+      "id": "25",
+      "name": "Amygdalohippocampal Area",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "16",
+      "name": "Amygdaloid Complex",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "81",
+      "name": "Angular Gyrus",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "17",
+      "name": "Anterior Amygdaloid Area",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "98",
+      "name": "Anterior Cingulate Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": [
+        "ACC"
+      ]
+    },
+    {
+      "id": "52",
+      "name": "Anterior Commissure",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "22",
+      "name": "Anterior Cortical Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "57",
+      "name": "Anterior Horn of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "73",
+      "name": "Anterior Intermediate Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "28",
+      "name": "Anterior Nuclear Group of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "2",
+      "name": "Anterior Olfactory Nucleus",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    {
+      "id": "102",
+      "name": "Anterior Parahippocampal Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    {
+      "id": "141",
+      "name": "Atrium of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "14",
+      "name": "Basal Forebrain",
+      "category": "Basal Forebrain",
+      "aliases": []
+    },
+    {
+      "id": "122",
+      "name": "Basilar Part of Pons",
+      "category": "Pons",
+      "aliases": []
+    },
+    {
+      "id": "20",
+      "name": "Basolateral Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "21",
+      "name": "Basomedial Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "26",
+      "name": "Bed Nucleus of Stria Terminalis",
+      "category": "Limbic System",
+      "aliases": []
+    },
+    {
+      "id": "7",
+      "name": "Body of Caudate",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "106",
+      "name": "Body of Hippocampus",
+      "category": "Hippocampus",
+      "aliases": [
+        "Cornu Ammonis Body"
+      ]
+    },
+    {
+      "id": "58",
+      "name": "Body of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "83",
+      "name": "Caudal Paracentral Lobule",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "130",
+      "name": "Central Canal of Medulla Oblongata",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "18",
+      "name": "Central Nuclear Group",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "40",
+      "name": "Centromedian Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "63",
+      "name": "Cerebellar Deep Nuclei",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    {
+      "id": "62",
+      "name": "Cerebellar Vermis",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    {
+      "id": "119",
+      "name": "Cerebral Aqueduct",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "117",
+      "name": "Cerebral Peduncle (Crus Cerebri)",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    {
+      "id": "100",
+      "name": "Cingulo-Parahippocampal Isthmus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    {
+      "id": "13",
+      "name": "Claustrum",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "53",
+      "name": "Corpus Callosum",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "93",
+      "name": "Cuneus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    {
+      "id": "38",
+      "name": "Dorsal Lateral Geniculate Nucleus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "11",
+      "name": "External Segment of Globus Pallidus",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "54",
+      "name": "Fornix",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "129",
+      "name": "Fourth Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "4",
+      "name": "Frontal Agranular Insular Cortex",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    {
+      "id": "77",
+      "name": "Frontal Operculum",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "138",
+      "name": "Frontal Pole",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "137",
+      "name": "Frontomarginal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "71",
+      "name": "Gyrus Rectus (Straight Gyrus)",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "42",
+      "name": "Habenular Nuclei",
+      "category": "Epithalamus",
+      "aliases": []
+    },
+    {
+      "id": "6",
+      "name": "Head of Caudate",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "105",
+      "name": "Head of Hippocampus",
+      "category": "Hippocampus",
+      "aliases": [
+        "Cornu Ammonis Head"
+      ]
+    },
+    {
+      "id": "46",
+      "name": "Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    {
+      "id": "127",
+      "name": "Inferior Cerebellar Peduncle",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    {
+      "id": "116",
+      "name": "Inferior Colliculus",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    {
+      "id": "60",
+      "name": "Inferior Horn of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "96",
+      "name": "Inferior Occipital Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    {
+      "id": "126",
+      "name": "Inferior Olive",
+      "category": "Medulla",
+      "aliases": []
+    },
+    {
+      "id": "86",
+      "name": "Inferior Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "12",
+      "name": "Internal Segment of Globus Pallidus",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "29",
+      "name": "Lateral Dorsal Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "121",
+      "name": "Lateral Hemisphere of Cerebellum",
+      "category": "Cerebellum",
+      "aliases": [
+        "Cerebellar Hemisphere"
+      ]
+    },
+    {
+      "id": "19",
+      "name": "Lateral Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "132",
+      "name": "Lateral Olfactory Gyrus",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    {
+      "id": "75",
+      "name": "Lateral Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "110",
+      "name": "Limen Insula",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    {
+      "id": "94",
+      "name": "Lingual Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    {
+      "id": "108",
+      "name": "Long Insular Gyri",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    {
+      "id": "50",
+      "name": "Mammillary Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    {
+      "id": "55",
+      "name": "Mammillothalamic Tract",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "39",
+      "name": "Medial Geniculate Nuclei",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "24",
+      "name": "Medial Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "72",
+      "name": "Medial Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "30",
+      "name": "Mediodorsal Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "112",
+      "name": "Midbrain Tegmentum",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    {
+      "id": "128",
+      "name": "Middle Cerebellar Peduncle",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    {
+      "id": "68",
+      "name": "Middle Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "85",
+      "name": "Middle Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "131",
+      "name": "Midline Nuclear Complex",
+      "category": "Brainstem",
+      "aliases": []
+    },
+    {
+      "id": "10",
+      "name": "Nucleus Accumbens",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "95",
+      "name": "Occipital Fusiform Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    {
+      "id": "92",
+      "name": "Occipital Pole",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    {
+      "id": "1",
+      "name": "Olfactory Bulb",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    {
+      "id": "65",
+      "name": "Olfactory Tract",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    {
+      "id": "70",
+      "name": "Opercular Inferior Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "140",
+      "name": "Optic Radiation",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "56",
+      "name": "Optic Tract",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "135",
+      "name": "Paracingulate Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    {
+      "id": "41",
+      "name": "Parafascicular Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "120",
+      "name": "Paravermis of Cerebellum",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    {
+      "id": "133",
+      "name": "Parietal Operculum",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "139",
+      "name": "Perirhinal Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": [
+        "Perirhinal Cortex"
+      ]
+    },
+    {
+      "id": "43",
+      "name": "Pineal Body",
+      "category": "Epithalamus",
+      "aliases": []
+    },
+    {
+      "id": "3",
+      "name": "Piriform Cortex",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    {
+      "id": "91",
+      "name": "Planum Polare",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "89",
+      "name": "Planum Temporale",
+      "category": "Temporal Lobe",
+      "aliases": [
+        "Wernicke's Area"
+      ]
+    },
+    {
+      "id": "123",
+      "name": "Pontine Tegmentum",
+      "category": "Pons",
+      "aliases": []
+    },
+    {
+      "id": "78",
+      "name": "Postcentral Gyrus",
+      "category": "Parietal Lobe",
+      "aliases": [
+        "Primary Somatosensory Cortex"
+      ]
+    },
+    {
+      "id": "99",
+      "name": "Posterior Cingulate Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": [
+        "PCC"
+      ]
+    },
+    {
+      "id": "23",
+      "name": "Posterior Cortical Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    {
+      "id": "59",
+      "name": "Posterior Horn of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "74",
+      "name": "Posterior Intermediate Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "103",
+      "name": "Posterior Parahippocampal Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    {
+      "id": "32",
+      "name": "Posterolateral Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "134",
+      "name": "Posteroventral Putamen",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "66",
+      "name": "Precentral Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": [
+        "Primary Motor Cortex"
+      ]
+    },
+    {
+      "id": "82",
+      "name": "Precuneus",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "47",
+      "name": "Preoptic Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    {
+      "id": "111",
+      "name": "Pretectal Region",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    {
+      "id": "33",
+      "name": "Pulvinar of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "9",
+      "name": "Putamen",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "124",
+      "name": "Pyramidal Part of Medulla Oblongata",
+      "category": "Medulla",
+      "aliases": []
+    },
+    {
+      "id": "113",
+      "name": "Red Nucleus",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    {
+      "id": "31",
+      "name": "Reuniens Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "136",
+      "name": "Rostral Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "76",
+      "name": "Rostral Paracentral Lobule",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "15",
+      "name": "Septal Nuclei",
+      "category": "Basal Forebrain",
+      "aliases": []
+    },
+    {
+      "id": "109",
+      "name": "Short Insular Gyri",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    {
+      "id": "101",
+      "name": "Subcallosal (Parolfactory) Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    {
+      "id": "114",
+      "name": "Substantia Nigra",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    {
+      "id": "45",
+      "name": "Subthalamic Nucleus",
+      "category": "Subthalamus",
+      "aliases": []
+    },
+    {
+      "id": "118",
+      "name": "Superior Cerebellar Peduncle",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    {
+      "id": "115",
+      "name": "Superior Colliculus",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    {
+      "id": "67",
+      "name": "Superior Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "97",
+      "name": "Superior Occipital Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    {
+      "id": "84",
+      "name": "Superior Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "80",
+      "name": "Supramarginal Gyrus",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "48",
+      "name": "Supraoptic Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    {
+      "id": "79",
+      "name": "Supraparietal Lobule",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "8",
+      "name": "Tail of Caudate",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    {
+      "id": "107",
+      "name": "Tail of Hippocampus",
+      "category": "Hippocampus",
+      "aliases": [
+        "Cornu Ammonis Tail"
+      ]
+    },
+    {
+      "id": "125",
+      "name": "Tegmentum of Medulla Oblongata",
+      "category": "Medulla",
+      "aliases": []
+    },
+    {
+      "id": "5",
+      "name": "Temporal Agranular Insular Cortex",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    {
+      "id": "87",
+      "name": "Temporal Fusiform Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "90",
+      "name": "Temporal Pole",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "27",
+      "name": "Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "61",
+      "name": "Third Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    {
+      "id": "88",
+      "name": "Transverse Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": [
+        "Heschl's Gyrus"
+      ]
+    },
+    {
+      "id": "69",
+      "name": "Triangular Inferior Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    {
+      "id": "49",
+      "name": "Tuberal Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    {
+      "id": "34",
+      "name": "Ventral Anterior Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "35",
+      "name": "Ventral Lateral Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "36",
+      "name": "Ventral Posterior Lateral Nucleus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "37",
+      "name": "Ventral Posterior Medial Nucleus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    {
+      "id": "51",
+      "name": "White Matter of Forebrain",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "64",
+      "name": "White Matter of Hindbrain",
+      "category": "White Matter",
+      "aliases": []
+    },
+    {
+      "id": "44",
+      "name": "Zona Incerta",
+      "category": "Subthalamus",
+      "aliases": []
+    }
+  ],
+  "byId": {
+    "104": {
+      "id": "104",
+      "name": "Ambiens Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    "25": {
+      "id": "25",
+      "name": "Amygdalohippocampal Area",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "16": {
+      "id": "16",
+      "name": "Amygdaloid Complex",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "81": {
+      "id": "81",
+      "name": "Angular Gyrus",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    "17": {
+      "id": "17",
+      "name": "Anterior Amygdaloid Area",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "98": {
+      "id": "98",
+      "name": "Anterior Cingulate Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": [
+        "ACC"
+      ]
+    },
+    "52": {
+      "id": "52",
+      "name": "Anterior Commissure",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "22": {
+      "id": "22",
+      "name": "Anterior Cortical Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "57": {
+      "id": "57",
+      "name": "Anterior Horn of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "73": {
+      "id": "73",
+      "name": "Anterior Intermediate Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "28": {
+      "id": "28",
+      "name": "Anterior Nuclear Group of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "2": {
+      "id": "2",
+      "name": "Anterior Olfactory Nucleus",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    "102": {
+      "id": "102",
+      "name": "Anterior Parahippocampal Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    "141": {
+      "id": "141",
+      "name": "Atrium of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "14": {
+      "id": "14",
+      "name": "Basal Forebrain",
+      "category": "Basal Forebrain",
+      "aliases": []
+    },
+    "122": {
+      "id": "122",
+      "name": "Basilar Part of Pons",
+      "category": "Pons",
+      "aliases": []
+    },
+    "20": {
+      "id": "20",
+      "name": "Basolateral Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "21": {
+      "id": "21",
+      "name": "Basomedial Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "26": {
+      "id": "26",
+      "name": "Bed Nucleus of Stria Terminalis",
+      "category": "Limbic System",
+      "aliases": []
+    },
+    "7": {
+      "id": "7",
+      "name": "Body of Caudate",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "106": {
+      "id": "106",
+      "name": "Body of Hippocampus",
+      "category": "Hippocampus",
+      "aliases": [
+        "Cornu Ammonis Body"
+      ]
+    },
+    "58": {
+      "id": "58",
+      "name": "Body of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "83": {
+      "id": "83",
+      "name": "Caudal Paracentral Lobule",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    "130": {
+      "id": "130",
+      "name": "Central Canal of Medulla Oblongata",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "18": {
+      "id": "18",
+      "name": "Central Nuclear Group",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "40": {
+      "id": "40",
+      "name": "Centromedian Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "63": {
+      "id": "63",
+      "name": "Cerebellar Deep Nuclei",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    "62": {
+      "id": "62",
+      "name": "Cerebellar Vermis",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    "119": {
+      "id": "119",
+      "name": "Cerebral Aqueduct",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "117": {
+      "id": "117",
+      "name": "Cerebral Peduncle (Crus Cerebri)",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    "100": {
+      "id": "100",
+      "name": "Cingulo-Parahippocampal Isthmus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    "13": {
+      "id": "13",
+      "name": "Claustrum",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "53": {
+      "id": "53",
+      "name": "Corpus Callosum",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "93": {
+      "id": "93",
+      "name": "Cuneus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    "38": {
+      "id": "38",
+      "name": "Dorsal Lateral Geniculate Nucleus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "11": {
+      "id": "11",
+      "name": "External Segment of Globus Pallidus",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "54": {
+      "id": "54",
+      "name": "Fornix",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "129": {
+      "id": "129",
+      "name": "Fourth Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "4": {
+      "id": "4",
+      "name": "Frontal Agranular Insular Cortex",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    "77": {
+      "id": "77",
+      "name": "Frontal Operculum",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "138": {
+      "id": "138",
+      "name": "Frontal Pole",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "137": {
+      "id": "137",
+      "name": "Frontomarginal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "71": {
+      "id": "71",
+      "name": "Gyrus Rectus (Straight Gyrus)",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "42": {
+      "id": "42",
+      "name": "Habenular Nuclei",
+      "category": "Epithalamus",
+      "aliases": []
+    },
+    "6": {
+      "id": "6",
+      "name": "Head of Caudate",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "105": {
+      "id": "105",
+      "name": "Head of Hippocampus",
+      "category": "Hippocampus",
+      "aliases": [
+        "Cornu Ammonis Head"
+      ]
+    },
+    "46": {
+      "id": "46",
+      "name": "Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    "127": {
+      "id": "127",
+      "name": "Inferior Cerebellar Peduncle",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    "116": {
+      "id": "116",
+      "name": "Inferior Colliculus",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    "60": {
+      "id": "60",
+      "name": "Inferior Horn of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "96": {
+      "id": "96",
+      "name": "Inferior Occipital Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    "126": {
+      "id": "126",
+      "name": "Inferior Olive",
+      "category": "Medulla",
+      "aliases": []
+    },
+    "86": {
+      "id": "86",
+      "name": "Inferior Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    "12": {
+      "id": "12",
+      "name": "Internal Segment of Globus Pallidus",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "29": {
+      "id": "29",
+      "name": "Lateral Dorsal Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "121": {
+      "id": "121",
+      "name": "Lateral Hemisphere of Cerebellum",
+      "category": "Cerebellum",
+      "aliases": [
+        "Cerebellar Hemisphere"
+      ]
+    },
+    "19": {
+      "id": "19",
+      "name": "Lateral Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "132": {
+      "id": "132",
+      "name": "Lateral Olfactory Gyrus",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    "75": {
+      "id": "75",
+      "name": "Lateral Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "110": {
+      "id": "110",
+      "name": "Limen Insula",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    "94": {
+      "id": "94",
+      "name": "Lingual Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    "108": {
+      "id": "108",
+      "name": "Long Insular Gyri",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    "50": {
+      "id": "50",
+      "name": "Mammillary Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    "55": {
+      "id": "55",
+      "name": "Mammillothalamic Tract",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "39": {
+      "id": "39",
+      "name": "Medial Geniculate Nuclei",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "24": {
+      "id": "24",
+      "name": "Medial Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "72": {
+      "id": "72",
+      "name": "Medial Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "30": {
+      "id": "30",
+      "name": "Mediodorsal Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "112": {
+      "id": "112",
+      "name": "Midbrain Tegmentum",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    "128": {
+      "id": "128",
+      "name": "Middle Cerebellar Peduncle",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    "68": {
+      "id": "68",
+      "name": "Middle Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "85": {
+      "id": "85",
+      "name": "Middle Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    "131": {
+      "id": "131",
+      "name": "Midline Nuclear Complex",
+      "category": "Brainstem",
+      "aliases": []
+    },
+    "10": {
+      "id": "10",
+      "name": "Nucleus Accumbens",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "95": {
+      "id": "95",
+      "name": "Occipital Fusiform Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    "92": {
+      "id": "92",
+      "name": "Occipital Pole",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    "1": {
+      "id": "1",
+      "name": "Olfactory Bulb",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    "65": {
+      "id": "65",
+      "name": "Olfactory Tract",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    "70": {
+      "id": "70",
+      "name": "Opercular Inferior Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "140": {
+      "id": "140",
+      "name": "Optic Radiation",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "56": {
+      "id": "56",
+      "name": "Optic Tract",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "135": {
+      "id": "135",
+      "name": "Paracingulate Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    "41": {
+      "id": "41",
+      "name": "Parafascicular Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "120": {
+      "id": "120",
+      "name": "Paravermis of Cerebellum",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    "133": {
+      "id": "133",
+      "name": "Parietal Operculum",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    "139": {
+      "id": "139",
+      "name": "Perirhinal Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": [
+        "Perirhinal Cortex"
+      ]
+    },
+    "43": {
+      "id": "43",
+      "name": "Pineal Body",
+      "category": "Epithalamus",
+      "aliases": []
+    },
+    "3": {
+      "id": "3",
+      "name": "Piriform Cortex",
+      "category": "Olfactory System",
+      "aliases": []
+    },
+    "91": {
+      "id": "91",
+      "name": "Planum Polare",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    "89": {
+      "id": "89",
+      "name": "Planum Temporale",
+      "category": "Temporal Lobe",
+      "aliases": [
+        "Wernicke's Area"
+      ]
+    },
+    "123": {
+      "id": "123",
+      "name": "Pontine Tegmentum",
+      "category": "Pons",
+      "aliases": []
+    },
+    "78": {
+      "id": "78",
+      "name": "Postcentral Gyrus",
+      "category": "Parietal Lobe",
+      "aliases": [
+        "Primary Somatosensory Cortex"
+      ]
+    },
+    "99": {
+      "id": "99",
+      "name": "Posterior Cingulate Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": [
+        "PCC"
+      ]
+    },
+    "23": {
+      "id": "23",
+      "name": "Posterior Cortical Nucleus",
+      "category": "Amygdala",
+      "aliases": []
+    },
+    "59": {
+      "id": "59",
+      "name": "Posterior Horn of Lateral Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "74": {
+      "id": "74",
+      "name": "Posterior Intermediate Orbital Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "103": {
+      "id": "103",
+      "name": "Posterior Parahippocampal Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    "32": {
+      "id": "32",
+      "name": "Posterolateral Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "134": {
+      "id": "134",
+      "name": "Posteroventral Putamen",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "66": {
+      "id": "66",
+      "name": "Precentral Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": [
+        "Primary Motor Cortex"
+      ]
+    },
+    "82": {
+      "id": "82",
+      "name": "Precuneus",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    "47": {
+      "id": "47",
+      "name": "Preoptic Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    "111": {
+      "id": "111",
+      "name": "Pretectal Region",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    "33": {
+      "id": "33",
+      "name": "Pulvinar of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "9": {
+      "id": "9",
+      "name": "Putamen",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "124": {
+      "id": "124",
+      "name": "Pyramidal Part of Medulla Oblongata",
+      "category": "Medulla",
+      "aliases": []
+    },
+    "113": {
+      "id": "113",
+      "name": "Red Nucleus",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    "31": {
+      "id": "31",
+      "name": "Reuniens Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "136": {
+      "id": "136",
+      "name": "Rostral Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "76": {
+      "id": "76",
+      "name": "Rostral Paracentral Lobule",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "15": {
+      "id": "15",
+      "name": "Septal Nuclei",
+      "category": "Basal Forebrain",
+      "aliases": []
+    },
+    "109": {
+      "id": "109",
+      "name": "Short Insular Gyri",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    "101": {
+      "id": "101",
+      "name": "Subcallosal (Parolfactory) Gyrus",
+      "category": "Limbic Lobe",
+      "aliases": []
+    },
+    "114": {
+      "id": "114",
+      "name": "Substantia Nigra",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    "45": {
+      "id": "45",
+      "name": "Subthalamic Nucleus",
+      "category": "Subthalamus",
+      "aliases": []
+    },
+    "118": {
+      "id": "118",
+      "name": "Superior Cerebellar Peduncle",
+      "category": "Cerebellum",
+      "aliases": []
+    },
+    "115": {
+      "id": "115",
+      "name": "Superior Colliculus",
+      "category": "Midbrain",
+      "aliases": []
+    },
+    "67": {
+      "id": "67",
+      "name": "Superior Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "97": {
+      "id": "97",
+      "name": "Superior Occipital Gyrus",
+      "category": "Occipital Lobe",
+      "aliases": []
+    },
+    "84": {
+      "id": "84",
+      "name": "Superior Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    "80": {
+      "id": "80",
+      "name": "Supramarginal Gyrus",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    "48": {
+      "id": "48",
+      "name": "Supraoptic Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    "79": {
+      "id": "79",
+      "name": "Supraparietal Lobule",
+      "category": "Parietal Lobe",
+      "aliases": []
+    },
+    "8": {
+      "id": "8",
+      "name": "Tail of Caudate",
+      "category": "Basal Ganglia",
+      "aliases": []
+    },
+    "107": {
+      "id": "107",
+      "name": "Tail of Hippocampus",
+      "category": "Hippocampus",
+      "aliases": [
+        "Cornu Ammonis Tail"
+      ]
+    },
+    "125": {
+      "id": "125",
+      "name": "Tegmentum of Medulla Oblongata",
+      "category": "Medulla",
+      "aliases": []
+    },
+    "5": {
+      "id": "5",
+      "name": "Temporal Agranular Insular Cortex",
+      "category": "Insular Cortex",
+      "aliases": []
+    },
+    "87": {
+      "id": "87",
+      "name": "Temporal Fusiform Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    "90": {
+      "id": "90",
+      "name": "Temporal Pole",
+      "category": "Temporal Lobe",
+      "aliases": []
+    },
+    "27": {
+      "id": "27",
+      "name": "Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "61": {
+      "id": "61",
+      "name": "Third Ventricle",
+      "category": "Ventricular System",
+      "aliases": []
+    },
+    "88": {
+      "id": "88",
+      "name": "Transverse Temporal Gyrus",
+      "category": "Temporal Lobe",
+      "aliases": [
+        "Heschl's Gyrus"
+      ]
+    },
+    "69": {
+      "id": "69",
+      "name": "Triangular Inferior Frontal Gyrus",
+      "category": "Frontal Lobe",
+      "aliases": []
+    },
+    "49": {
+      "id": "49",
+      "name": "Tuberal Region of Hypothalamus",
+      "category": "Hypothalamus",
+      "aliases": []
+    },
+    "34": {
+      "id": "34",
+      "name": "Ventral Anterior Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "35": {
+      "id": "35",
+      "name": "Ventral Lateral Nucleus of Thalamus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "36": {
+      "id": "36",
+      "name": "Ventral Posterior Lateral Nucleus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "37": {
+      "id": "37",
+      "name": "Ventral Posterior Medial Nucleus",
+      "category": "Thalamus",
+      "aliases": []
+    },
+    "51": {
+      "id": "51",
+      "name": "White Matter of Forebrain",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "64": {
+      "id": "64",
+      "name": "White Matter of Hindbrain",
+      "category": "White Matter",
+      "aliases": []
+    },
+    "44": {
+      "id": "44",
+      "name": "Zona Incerta",
+      "category": "Subthalamus",
+      "aliases": []
+    }
   }
-  
+}

@@ -295,28 +295,36 @@
 
       fetch("/reference.json")
         .then((response) => response.json())
-        .then((regions) => {
-          handleRegions(regions);
+        .then((data) => {
+          handleRegions(data);
         })
         .catch(() => {});
 
-      function handleRegions(regions) {
+      function handleRegions(data) {
+        const regionList = Array.isArray(data?.regions) ? data.regions : [];
+        selectionList.innerHTML = "";
         let defaultColorIndex = 0;
 
-        for (const key in regions) {
+        const createSelectionElement = (region) => {
+          const regionId = String(region.id);
           const selectionElement = document.createElement("li");
           selectionElement.classList.add("selection-element");
-          selectionElement.value = String(key);
-          selectionElement.dataset.regionId = String(key);
+          selectionElement.value = regionId;
+          selectionElement.dataset.regionId = regionId;
+          selectionElement.dataset.category = region.category || "";
+          const searchTokens = [region.name, ...(region.aliases || [])]
+            .map((token) => token.toLowerCase())
+            .join("|");
+          selectionElement.dataset.searchTokens = searchTokens;
 
           const checkboxContainer = document.createElement("div");
           checkboxContainer.classList.add("selection-checkbox-container");
           const selectionCheckbox = document.createElement("input");
           selectionCheckbox.type = "checkbox";
           selectionCheckbox.classList.add("selection-checkbox");
-          selectionCheckbox.id = `selection-checkbox-${key}`;
+          selectionCheckbox.id = `selection-checkbox-${regionId}`;
           selectionCheckbox.addEventListener("change", () => {
-            setRegionBulkSelected(key, selectionCheckbox.checked);
+            setRegionBulkSelected(regionId, selectionCheckbox.checked);
             updateBulkToolbarState();
           });
           checkboxContainer.appendChild(selectionCheckbox);
@@ -324,7 +332,7 @@
 
           const selectionText = document.createElement("p");
           selectionText.classList.add("selection-text");
-          selectionText.textContent = regions[key];
+          selectionText.textContent = region.name;
           selectionElement.appendChild(selectionText);
 
           const hemispherePicker = document.createElement("select");
@@ -335,7 +343,7 @@
             hemisphereOption.classList.add("hemisphere-option");
             hemispherePicker.appendChild(hemisphereOption);
           });
-          hemispherePicker.setAttribute("id", `hpicker${key}`);
+          hemispherePicker.setAttribute("id", `hpicker${regionId}`);
           hemispherePicker.classList.add("hemisphere-picker");
 
           const colorPicker = document.createElement("select");
@@ -352,7 +360,7 @@
           colorPicker.classList.add("color-picker");
 
           hemispherePicker.addEventListener("change", () => {
-            recordRegionState(key, {
+            recordRegionState(regionId, {
               hemisphere: hemispherePicker.value,
               color: colorPicker.value,
             });
@@ -361,18 +369,22 @@
               ".eye-container .eye-icon",
             );
             if (eyeIcon && eyeIcon.id === "eye-open-icon") {
-              updateHemisphere(key, hemispherePicker.value, colorPicker.value);
+              updateHemisphere(
+                regionId,
+                hemispherePicker.value,
+                colorPicker.value,
+              );
             }
 
             reflectBulkSelections();
           });
 
           colorPicker.addEventListener("change", () => {
-            recordRegionState(key, {
+            recordRegionState(regionId, {
               color: colorPicker.value,
               hemisphere: hemispherePicker.value,
             });
-            updateColor(colorPicker.value, key, hemispherePicker.value);
+            updateColor(colorPicker.value, regionId, hemispherePicker.value);
             reflectBulkSelections();
           });
 
@@ -391,15 +403,57 @@
           selectionElement.appendChild(svgContainer);
 
           const initialColor = colorOptions[defaultColorIndex];
-          recordRegionState(key, {
+          recordRegionState(regionId, {
             color: initialColor,
             hemisphere: hemispherePicker.value,
           });
 
-          selectionList.appendChild(selectionElement);
           defaultColorIndex = (defaultColorIndex + 1) % colorOptions.length;
-        }
 
+          return selectionElement;
+        };
+
+        const groupedRegions = regionList.reduce((map, region) => {
+          const category = region?.category || "Other";
+          if (!map.has(category)) {
+            map.set(category, []);
+          }
+          map.get(category).push(region);
+          return map;
+        }, new Map());
+
+        const sortedCategories = Array.from(groupedRegions.keys()).sort((a, b) =>
+          a.localeCompare(b, undefined, { sensitivity: "base" }),
+        );
+
+        sortedCategories.forEach((category) => {
+          const groupWrapper = document.createElement("li");
+          groupWrapper.classList.add("selection-group");
+          groupWrapper.dataset.category = category;
+
+          const groupTitle = document.createElement("h3");
+          groupTitle.classList.add("selection-group-title");
+          groupTitle.textContent = category;
+          groupWrapper.appendChild(groupTitle);
+
+          const groupList = document.createElement("ul");
+          groupList.classList.add("selection-group-list");
+          groupWrapper.appendChild(groupList);
+
+          const regionsInGroup = groupedRegions
+            .get(category)
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+          regionsInGroup.forEach((region) => {
+            const element = createSelectionElement(region);
+            groupList.appendChild(element);
+          });
+
+          selectionList.appendChild(groupWrapper);
+        });
+
+        updateGroupVisibility();
         updateBulkToolbarState();
       }
 
@@ -598,14 +652,25 @@
       // SEARCH FUNCTION //
 
       function filterItemsBySearch() {
-        const query = searchBar.value.toLowerCase();
+        const query = searchBar.value.trim().toLowerCase();
         const items = document.querySelectorAll(".selection-element");
 
-        items.forEach(function (item) {
-          const text = item
-            .querySelector(".selection-text")
-            .textContent.toLowerCase();
-          item.style.display = text.includes(query) ? "grid" : "none";
+        items.forEach((item) => {
+          const tokens = item.dataset.searchTokens || "";
+          const matches = !query || tokens.includes(query);
+          item.style.display = matches ? "grid" : "none";
+        });
+
+        updateGroupVisibility();
+      }
+
+      function updateGroupVisibility() {
+        const groups = document.querySelectorAll(".selection-group");
+        groups.forEach((group) => {
+          const hasVisibleChild = Array.from(
+            group.querySelectorAll(".selection-element"),
+          ).some((item) => item.style.display !== "none");
+          group.style.display = hasVisibleChild ? "" : "none";
         });
       }
 
@@ -622,6 +687,8 @@
           item.style.display =
             eyeIcon && eyeIcon.id === "eye-open-icon" ? "grid" : "none";
         });
+
+        updateGroupVisibility();
       }
 
       // CLEAR ALL REGIONS //

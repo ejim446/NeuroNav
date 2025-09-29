@@ -670,11 +670,23 @@ export function disableTooltips(check) {
 }
 
 // Fetch regions data
-let regions;
+let regionsMetadata = [];
+let regionsById = {};
 fetch("/reference.json")
   .then((response) => response.json())
   .then((data) => {
-    regions = data;
+    const regionList = Array.isArray(data?.regions) ? data.regions : [];
+    regionsMetadata = regionList;
+    if (data?.byId && typeof data.byId === "object") {
+      regionsById = data.byId;
+    } else {
+      regionsById = regionList.reduce((acc, region) => {
+        if (region?.id) {
+          acc[region.id] = region;
+        }
+        return acc;
+      }, {});
+    }
   });
 
 const raycaster = new THREE.Raycaster();
@@ -738,7 +750,9 @@ function onClick(event) {
     // If a valid object is found and it is visible
     if (object && visibleRegions.has(object.name)) {
       // Set the tooltip content to the region name
-      tooltip.innerHTML = regions[object.name.slice(0, -1)];
+      const regionId = object.name.slice(0, -1);
+      const regionInfo = regionsById[regionId];
+      tooltip.innerHTML = regionInfo ? regionInfo.name : regionId;
       // Display the tooltip and position it near the mouse cursor
       tooltip.style.display = "block";
       tooltip.style.left = `${event.clientX + 10}px`;
