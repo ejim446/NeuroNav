@@ -587,17 +587,6 @@ input:checked + .checkbox-button:before {
         pointer-events: auto;
 }
 
-.info-tooltip::after {
-        content: "";
-        position: absolute;
-        bottom: -0.4rem;
-        left: 1rem;
-        width: 0.8rem;
-        height: 0.8rem;
-        background: var(--grey-tertiary);
-        transform: rotate(45deg);
-}
-
 .info-tooltip p {
         margin: 0.5rem 0 0;
 }
