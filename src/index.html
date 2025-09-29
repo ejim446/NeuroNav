@@ -122,8 +122,8 @@
       
       /// CITATION ///
 
-      const infoIconContainer = document.getElementById("info-icon-container");
       const infoTooltip = document.getElementById("info-tooltip");
+      const infoIconContainer = document.getElementById("info-icon-container");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -170,24 +170,28 @@
         </p>
       `;
 
-      const showInfoTooltip = () => {
-        infoIconContainer.classList.add("info-tooltip-visible");
-      };
+      let tooltipHideTimeout;
 
-      const hideInfoTooltip = () => {
-        infoIconContainer.classList.remove("info-tooltip-visible");
-      };
+      function showInfoTooltip() {
+        clearTimeout(tooltipHideTimeout);
+        infoTooltip.classList.add("visible");
+      }
+
+      function hideInfoTooltip() {
+        clearTimeout(tooltipHideTimeout);
+        tooltipHideTimeout = setTimeout(() => {
+          if (!infoIconContainer.matches(":focus-within")) {
+            infoTooltip.classList.remove("visible");
+          }
+        }, 50);
+      }
 
       infoIconContainer.addEventListener("mouseenter", showInfoTooltip);
       infoIconContainer.addEventListener("mouseleave", hideInfoTooltip);
       infoIconContainer.addEventListener("focusin", showInfoTooltip);
-      infoIconContainer.addEventListener("focusout", (event) => {
-        if (event.relatedTarget && infoIconContainer.contains(event.relatedTarget)) {
-          return;
-        }
-
-        hideInfoTooltip();
-      });
+      infoIconContainer.addEventListener("focusout", hideInfoTooltip);
+      infoTooltip.addEventListener("mouseenter", showInfoTooltip);
+      infoTooltip.addEventListener("mouseleave", hideInfoTooltip);
 
       /// NAVIGATION BAR ///
 
