@@ -245,7 +245,56 @@ gltfLoader.setDRACOLoader(draco);
 
 const loadedRegions = new Set();
 const visibleRegions = new Set();
+const bulkSelectedRegions = new Set();
+const regionDisplayState = new Map();
+const DEFAULT_REGION_STATE = {
+  color: "Yellow",
+  hemisphere: "Both",
+};
 
+function getRegionDisplayState(regionID) {
+  const state = regionDisplayState.get(regionID);
+  if (!state) {
+    return { ...DEFAULT_REGION_STATE };
+  }
+  return { ...state };
+}
+
+export function recordRegionState(regionID, state = {}) {
+  const previous = regionDisplayState.get(regionID) || DEFAULT_REGION_STATE;
+  const nextState = {
+    color: state.color ?? previous.color ?? DEFAULT_REGION_STATE.color,
+    hemisphere:
+      state.hemisphere ??
+      previous.hemisphere ??
+      DEFAULT_REGION_STATE.hemisphere,
+  };
+
+  regionDisplayState.set(regionID, nextState);
+  return nextState;
+}
+
+export function setRegionBulkSelected(regionID, isSelected) {
+  if (isSelected) {
+    bulkSelectedRegions.add(regionID);
+  } else {
+    bulkSelectedRegions.delete(regionID);
+  }
+}
+
+export function getBulkSelectedRegions() {
+  return Array.from(bulkSelectedRegions);
+}
+
+export function clearBulkSelection() {
+  bulkSelectedRegions.clear();
+}
+
+function regionHasVisibleHemisphere(regionID) {
+  return (
+    visibleRegions.has(`${regionID}L`) || visibleRegions.has(`${regionID}R`)
+  );
+}
 const _addRoot = async () => {
   // Define transparent root material
   const material = new THREE.MeshBasicMaterial({
@@ -293,6 +342,11 @@ const colors = {
 // LOAD SELECTED //
 
 export function loadRegion(regionID, colorSelection, hemisphereSelection) {
+  recordRegionState(regionID, {
+    color: colorSelection,
+    hemisphere: hemisphereSelection,
+  });
+
   const loadRegionObject = (regionName) => {
     // Check if the region is already loaded
     if (!loadedRegions.has(regionName)) {
@@ -413,9 +467,58 @@ export function hideAll() {
   });
 }
 
+export function applyBulkVisibility(action) {
+  const selectedRegions = Array.from(bulkSelectedRegions);
+  if (!selectedRegions.length) {
+    return;
+  }
+
+  selectedRegions.forEach((regionID) => {
+    const state = getRegionDisplayState(regionID);
+    if (action === "show") {
+      loadRegion(regionID, state.color, state.hemisphere);
+    } else if (action === "hide") {
+      hideRegion(regionID, state.hemisphere);
+    }
+  });
+}
+
+export function applyBulkHemisphere(hemisphereSelection) {
+  const selectedRegions = Array.from(bulkSelectedRegions);
+  if (!selectedRegions.length) {
+    return;
+  }
+
+  selectedRegions.forEach((regionID) => {
+    recordRegionState(regionID, { hemisphere: hemisphereSelection });
+
+    if (regionHasVisibleHemisphere(regionID)) {
+      const state = getRegionDisplayState(regionID);
+      updateHemisphere(regionID, hemisphereSelection, state.color);
+    }
+  });
+}
+
+export function applyBulkColor(colorSelection) {
+  const selectedRegions = Array.from(bulkSelectedRegions);
+  if (!selectedRegions.length) {
+    return;
+  }
+
+  selectedRegions.forEach((regionID) => {
+    const state = getRegionDisplayState(regionID);
+    updateColor(colorSelection, regionID, state.hemisphere);
+  });
+}
+
 // UPDATE COLORS //
 
 export function updateColor(selectedColor, regionID, hemisphereSelection) {
+  recordRegionState(regionID, {
+    color: selectedColor,
+    hemisphere: hemisphereSelection,
+  });
+
   // Helper function to set the color for a specific region
   const setRegionColor = (regionName) => {
     // Traverse all objects in the scene
@@ -445,6 +548,11 @@ export function updateColor(selectedColor, regionID, hemisphereSelection) {
 // UPDATE SELECTED HEMISPHERE //
 
 export function updateHemisphere(regionID, hemisphereSelection, selectedColor) {
+  recordRegionState(regionID, {
+    color: selectedColor,
+    hemisphere: hemisphereSelection,
+  });
+
   // Helper function to load a specific hemisphere
   const loadSelectedHemisphere = (selectedHemisphere) => {
     loadRegion(regionID, selectedColor, selectedHemisphere);

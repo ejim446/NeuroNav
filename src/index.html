@@ -46,6 +46,40 @@
           <p id="color-text" class="banner-text">Color</p>
           <p id="toggle-text" class="banner-text">Toggle View</p>
           <div class="selection-container">
+            <div class="bulk-toolbar disabled" id="bulk-toolbar">
+              <div class="bulk-toolbar-header">
+                <span id="bulk-count">No regions selected</span>
+                <button id="bulk-clear-selection" type="button">
+                  Clear Selection
+                </button>
+              </div>
+              <div class="bulk-toolbar-controls">
+                <label class="bulk-label" for="bulk-hemisphere">Hemisphere</label>
+                <select id="bulk-hemisphere" class="bulk-select" disabled>
+                  <option value="Both">Both</option>
+                  <option value="Left">Left</option>
+                  <option value="Right">Right</option>
+                </select>
+                <label class="bulk-label" for="bulk-color">Color</label>
+                <select id="bulk-color" class="bulk-select" disabled></select>
+                <button
+                  id="bulk-show"
+                  class="bulk-action-button"
+                  type="button"
+                  disabled
+                >
+                  Show
+                </button>
+                <button
+                  id="bulk-hide"
+                  class="bulk-action-button"
+                  type="button"
+                  disabled
+                >
+                  Hide
+                </button>
+              </div>
+            </div>
             <ul class="selection-list"></ul>
           </div>
         </div>
@@ -218,111 +252,337 @@
       setInitialState();
     </script>
     <script type="module">
-      import { updateHemisphere, updateColor } from "/scripts/main.js";
+      import {
+        updateHemisphere,
+        updateColor,
+        recordRegionState,
+        setRegionBulkSelected,
+        getBulkSelectedRegions,
+        applyBulkColor,
+        applyBulkHemisphere,
+        applyBulkVisibility,
+        clearBulkSelection,
+      } from "/scripts/main.js";
 
-      // POPULATE OUTLINER ELEMENTS //
+      const colorOptions = [
+        "Yellow",
+        "Deep Blue",
+        "Magenta",
+        "Pink",
+        "Peach",
+        "Ivory",
+        "Coral",
+        "Light Blue",
+      ];
+
+      const selectionList = document.querySelector(".selection-list");
+      const bulkToolbar = document.getElementById("bulk-toolbar");
+      const bulkCount = document.getElementById("bulk-count");
+      const bulkHemisphere = document.getElementById("bulk-hemisphere");
+      const bulkColor = document.getElementById("bulk-color");
+      const bulkShowButton = document.getElementById("bulk-show");
+      const bulkHideButton = document.getElementById("bulk-hide");
+      const bulkClearSelection = document.getElementById(
+        "bulk-clear-selection",
+      );
+
+      colorOptions.forEach((color) => {
+        const option = document.createElement("option");
+        option.value = color;
+        option.text = color;
+        bulkColor.appendChild(option);
+      });
 
       fetch("/reference.json")
         .then((response) => response.json())
         .then((regions) => {
           handleRegions(regions);
         })
-        .catch((error) => {});
+        .catch(() => {});
 
       function handleRegions(regions) {
-        const colorOptions = [
-          "Yellow",
-          "Deep Blue",
-          "Magenta",
-          "Pink",
-          "Peach",
-          "Ivory",
-          "Coral",
-          "Light Blue",
-        ];
-
-        const selectionList = document.querySelector(".selection-list");
         let defaultColorIndex = 0;
 
         for (const key in regions) {
           const selectionElement = document.createElement("li");
           selectionElement.classList.add("selection-element");
           selectionElement.value = String(key);
+          selectionElement.dataset.regionId = String(key);
+
+          const checkboxContainer = document.createElement("div");
+          checkboxContainer.classList.add("selection-checkbox-container");
+          const selectionCheckbox = document.createElement("input");
+          selectionCheckbox.type = "checkbox";
+          selectionCheckbox.classList.add("selection-checkbox");
+          selectionCheckbox.id = `selection-checkbox-${key}`;
+          selectionCheckbox.addEventListener("change", () => {
+            setRegionBulkSelected(key, selectionCheckbox.checked);
+            updateBulkToolbarState();
+          });
+          checkboxContainer.appendChild(selectionCheckbox);
+          selectionElement.appendChild(checkboxContainer);
+
           const selectionText = document.createElement("p");
           selectionText.classList.add("selection-text");
           selectionText.textContent = regions[key];
-
           selectionElement.appendChild(selectionText);
-          selectionList.appendChild(selectionElement);
 
           const hemispherePicker = document.createElement("select");
-          const hemisphereOptions = ["Both", "Left", "Right"];
-
-          hemisphereOptions.forEach((hemisphere) => {
+          ["Both", "Left", "Right"].forEach((hemisphere) => {
             const hemisphereOption = document.createElement("option");
             hemisphereOption.text = hemisphere;
             hemisphereOption.value = hemisphere;
             hemisphereOption.classList.add("hemisphere-option");
             hemispherePicker.appendChild(hemisphereOption);
           });
-          hemispherePicker.setAttribute("id", `$hpicker${key}`);
+          hemispherePicker.setAttribute("id", `hpicker${key}`);
           hemispherePicker.classList.add("hemisphere-picker");
-          selectionElement.append(hemispherePicker);
-
-          hemispherePicker.addEventListener("change", () => {
-            const selectionElement =
-              hemispherePicker.closest(".selection-element");
-            const eyeIcon = selectionElement
-              .querySelector(".eye-container")
-              .querySelector(".eye-icon");
-            if (eyeIcon.id === "eye-open-icon") {
-              const regionID = selectionElement.value;
-              const selectedHemisphere = hemispherePicker.value;
-              const selectedColor =
-                selectionElement.querySelector(".color-picker").value;
-              updateHemisphere(regionID, selectedHemisphere, selectedColor);
-            }
-          });
 
           const colorPicker = document.createElement("select");
-
           colorOptions.forEach((color, index) => {
             const pickerOption = document.createElement("option");
             pickerOption.text = color;
             pickerOption.value = color;
             pickerOption.classList.add("color-option");
-            colorPicker.appendChild(pickerOption);
-
             if (index === defaultColorIndex) {
               pickerOption.selected = true;
             }
+            colorPicker.appendChild(pickerOption);
           });
           colorPicker.classList.add("color-picker");
-          selectionElement.appendChild(colorPicker);
+
+          hemispherePicker.addEventListener("change", () => {
+            recordRegionState(key, {
+              hemisphere: hemispherePicker.value,
+              color: colorPicker.value,
+            });
+
+            const eyeIcon = selectionElement.querySelector(
+              ".eye-container .eye-icon",
+            );
+            if (eyeIcon && eyeIcon.id === "eye-open-icon") {
+              updateHemisphere(key, hemispherePicker.value, colorPicker.value);
+            }
+
+            reflectBulkSelections();
+          });
 
           colorPicker.addEventListener("change", () => {
-            const selectionElement = colorPicker.closest(".selection-element");
-            const regionID = selectionElement.value;
-            const selectedColor = colorPicker.value;
-            const hemisphere =
-              selectionElement.querySelector(".hemisphere-picker").value;
-            updateColor(selectedColor, regionID, hemisphere);
+            recordRegionState(key, {
+              color: colorPicker.value,
+              hemisphere: hemispherePicker.value,
+            });
+            updateColor(colorPicker.value, key, hemispherePicker.value);
+            reflectBulkSelections();
           });
+
+          selectionElement.appendChild(hemispherePicker);
+          selectionElement.appendChild(colorPicker);
 
           const svgContainer = document.createElement("div");
           svgContainer.innerHTML = `
                 <svg id="eye-closed-icon" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71.55 37.16">
                     <path class="cls-1" d="M68.29,43.28l-7.2-4.81-2.58-1.72-9.91-6.62-5.79-3.87-11.73-7.83-5.79-3.87-7.9-5.28-4.8-3.2L4.01.36c-.37-.24-.78-.36-1.19-.36-.69,0-1.37.34-1.79.96-.66.99-.39,2.32.59,2.97l11.32,7.56c-3.65,2.06-7,4.61-10.01,7.62l-1.5,1.5c-1.92,1.92-1.92,5.05,0,6.97l1.5,1.5c4.43,4.43,9.6,7.86,15.36,10.2,5.56,2.26,11.44,3.4,17.47,3.4s11.91-1.14,17.47-3.4c.27-.11.54-.22.81-.34l11.86,7.91c.37.24.78.36,1.19.36.69,0,1.37-.34,1.79-.96.66-.99.39-2.32-.59-2.97ZM35.78,38.26c-3.79,0-7.34-1.47-10.02-4.15-2.68-2.68-4.15-6.24-4.15-10.02,0-2.12.47-4.14,1.31-5.95l5.81,3.88c-.19.66-.3,1.35-.3,2.07,0,.13,0,.25,0,.38.02.47.09.93.2,1.37.52,2.12,1.95,3.87,3.85,4.83.03.02.07.04.11.05.03.01.06.03.09.04.94.44,1.99.68,3.1.68,1.75,0,3.36-.61,4.62-1.63l5.8,3.87c-2.59,2.81-6.3,4.58-10.42,4.58Z"/>
                     <path class="cls-1" d="M39.33,17.65s-.05-.03-.07-.04c-.09-.05-.18-.09-.27-.14-.03-.01-.05-.02-.08-.04-.08-.04-.15-.07-.23-.1-.02,0-.04-.02-.06-.03-.09-.04-.19-.08-.28-.11-.03,0-.05-.02-.08-.03-.08-.03-.17-.06-.26-.09-.02,0-.03-.01-.05-.02-.1-.03-.2-.06-.3-.09-.03,0-.05-.01-.08-.02-.09-.02-.19-.05-.28-.07-.01,0-.02,0-.04,0-.11-.02-.21-.04-.32-.06-.03,0-.05,0-.08-.01-.1-.02-.21-.03-.31-.04,0,0-.01,0-.02,0-.11-.01-.22-.02-.33-.03-.03,0-.05,0-.08,0-.11,0-.22,0-.34,0-.42,0-.84.04-1.25.11l8.42,5.62c-.01-.07-.03-.13-.05-.2,0-.01,0-.02,0-.03-.02-.1-.05-.19-.08-.28,0-.02-.01-.05-.02-.07-.03-.1-.06-.19-.1-.29,0-.02-.02-.05-.03-.07-.03-.08-.06-.16-.1-.25,0-.02-.02-.04-.02-.06-.04-.09-.08-.18-.12-.27-.01-.03-.03-.06-.04-.09-.04-.08-.08-.16-.12-.25-.33-.61-.73-1.16-1.21-1.65-.48-.49-1.02-.91-1.61-1.25h0s-.07-.04-.11-.06Z"/>
-                    <path class="cls-1" d="M70.11,20.6l-1.5-1.5c-4.43-4.43-9.6-7.86-15.36-10.2-5.56-2.26-11.44-3.4-17.47-3.4-5.03,0-9.95.8-14.67,2.37l6.72,4.49c2.27-1.54,5.01-2.45,7.95-2.45,7.81,0,14.17,6.36,14.17,14.17,0,.97-.1,1.93-.29,2.85l11.89,7.94c2.52-1.69,4.88-3.62,7.06-5.8l1.5-1.5c1.92-1.92,1.92-5.05,0-6.97Z"/>    
+                    <path class="cls-1" d="M70.11,20.6l-1.5-1.5c-4.43-4.43-9.6-7.86-15.36-10.2-5.56-2.26-11.44-3.4-17.47-3.4-5.03,0-9.95.8-14.67,2.37l6.72,4.49c2.27-1.54,5.01-2.45,7.95-2.45,7.81,0,14.17,6.36,14.17,14.17,0,.97-.1,1.93-.29,2.85l11.89,7.94c2.52-1.69,4.88-3.62,7.06-5.8l1.5-1.5c1.92-1.92,1.92-5.05,0-6.97Z"/>
                 </svg>`;
-          svgContainer.setAttribute("onclick", "toggleView()");
+          svgContainer.setAttribute("onclick", "toggleView(event)");
           svgContainer.classList.add("eye-container");
           selectionElement.appendChild(svgContainer);
 
+          const initialColor = colorOptions[defaultColorIndex];
+          recordRegionState(key, {
+            color: initialColor,
+            hemisphere: hemispherePicker.value,
+          });
+
+          selectionList.appendChild(selectionElement);
           defaultColorIndex = (defaultColorIndex + 1) % colorOptions.length;
         }
+
+        updateBulkToolbarState();
       }
+
+      function getSelectionElementById(regionID) {
+        return selectionList.querySelector(
+          `.selection-element[data-region-id="${regionID}"]`,
+        );
+      }
+
+      function syncRegionState(selectionElement) {
+        const regionID = selectionElement.dataset.regionId;
+        const hemisphere = selectionElement.querySelector(
+          ".hemisphere-picker",
+        ).value;
+        const color = selectionElement.querySelector(".color-picker").value;
+        recordRegionState(regionID, { color, hemisphere });
+      }
+
+      function setEyeIconState(selectionElement, open) {
+        const eyeIcon = selectionElement.querySelector(
+          ".eye-container .eye-icon",
+        );
+        if (!eyeIcon) return;
+        const targetId = open ? "eye-open-icon" : "eye-closed-icon";
+        if (eyeIcon.id === targetId) return;
+        const svgMarkup = open
+          ? window.eyeOpenIconSVG
+          : window.eyeClosedIconSVG;
+        if (!svgMarkup) return;
+        eyeIcon.innerHTML = svgMarkup;
+        eyeIcon.id = targetId;
+      }
+
+      function getSharedValue(values) {
+        if (!values.length) return undefined;
+        const [first, ...rest] = values;
+        return rest.every((value) => value === first) ? first : null;
+      }
+
+      function reflectBulkSelections() {
+        const selectedIds = getBulkSelectedRegions();
+        if (!selectedIds.length) {
+          bulkHemisphere.classList.remove("mixed");
+          bulkColor.classList.remove("mixed");
+          return;
+        }
+
+        const hemisphereValues = selectedIds
+          .map((regionID) => {
+            const element = getSelectionElementById(regionID);
+            return element
+              ? element.querySelector(".hemisphere-picker").value
+              : undefined;
+          })
+          .filter((value) => value !== undefined);
+
+        const sharedHemisphere = getSharedValue(hemisphereValues);
+        if (sharedHemisphere) {
+          bulkHemisphere.value = sharedHemisphere;
+          bulkHemisphere.classList.remove("mixed");
+        } else if (sharedHemisphere === null && hemisphereValues.length) {
+          bulkHemisphere.value = hemisphereValues[0];
+          bulkHemisphere.classList.add("mixed");
+        }
+
+        const colorValues = selectedIds
+          .map((regionID) => {
+            const element = getSelectionElementById(regionID);
+            return element ? element.querySelector(".color-picker").value : undefined;
+          })
+          .filter((value) => value !== undefined);
+
+        const sharedColor = getSharedValue(colorValues);
+        if (sharedColor) {
+          bulkColor.value = sharedColor;
+          bulkColor.classList.remove("mixed");
+        } else if (sharedColor === null && colorValues.length) {
+          bulkColor.value = colorValues[0];
+          bulkColor.classList.add("mixed");
+        }
+      }
+
+      function updateBulkToolbarState() {
+        const selectedIds = getBulkSelectedRegions();
+        const hasSelection = selectedIds.length > 0;
+
+        bulkToolbar.classList.toggle("disabled", !hasSelection);
+        bulkCount.textContent = hasSelection
+          ? `${selectedIds.length} region${selectedIds.length === 1 ? "" : "s"} selected`
+          : "No regions selected";
+
+        [
+          bulkHemisphere,
+          bulkColor,
+          bulkShowButton,
+          bulkHideButton,
+          bulkClearSelection,
+        ].forEach((element) => {
+          element.disabled = !hasSelection;
+        });
+
+        reflectBulkSelections();
+      }
+
+      function handleBulkVisibility(action) {
+        const selectedIds = getBulkSelectedRegions();
+        if (!selectedIds.length) return;
+
+        selectedIds.forEach((regionID) => {
+          const element = getSelectionElementById(regionID);
+          if (element) {
+            syncRegionState(element);
+          }
+        });
+
+        applyBulkVisibility(action);
+
+        selectedIds.forEach((regionID) => {
+          const element = getSelectionElementById(regionID);
+          if (element) {
+            setEyeIconState(element, action === "show");
+          }
+        });
+      }
+
+      bulkHemisphere.addEventListener("change", () => {
+        const selectedIds = getBulkSelectedRegions();
+        if (!selectedIds.length) return;
+
+        selectedIds.forEach((regionID) => {
+          const element = getSelectionElementById(regionID);
+          if (element) {
+            element.querySelector(".hemisphere-picker").value =
+              bulkHemisphere.value;
+            syncRegionState(element);
+          }
+        });
+
+        applyBulkHemisphere(bulkHemisphere.value);
+        reflectBulkSelections();
+      });
+
+      bulkColor.addEventListener("change", () => {
+        const selectedIds = getBulkSelectedRegions();
+        if (!selectedIds.length) return;
+
+        selectedIds.forEach((regionID) => {
+          const element = getSelectionElementById(regionID);
+          if (element) {
+            element.querySelector(".color-picker").value = bulkColor.value;
+            syncRegionState(element);
+          }
+        });
+
+        applyBulkColor(bulkColor.value);
+        reflectBulkSelections();
+      });
+
+      bulkShowButton.addEventListener("click", () => {
+        handleBulkVisibility("show");
+      });
+
+      bulkHideButton.addEventListener("click", () => {
+        handleBulkVisibility("hide");
+      });
+
+      bulkClearSelection.addEventListener("click", () => {
+        const selectedIds = getBulkSelectedRegions();
+        if (!selectedIds.length) return;
+
+        selectedIds.forEach((regionID) => {
+          const element = getSelectionElementById(regionID);
+          if (element) {
+            const checkbox = element.querySelector(".selection-checkbox");
+            if (checkbox) {
+              checkbox.checked = false;
+            }
+          }
+        });
+
+        clearBulkSelection();
+        updateBulkToolbarState();
+      });
     </script>
     <script type="module">
       import {
@@ -380,7 +640,7 @@
 
       const svgContainers = document.querySelectorAll(".eye-container");
 
-      function toggleView() {
+      function toggleView(event) {
         const svg = event.currentTarget.querySelector("svg");
 
         if (svg.getAttribute("id") === "eye-open-icon") {
@@ -446,6 +706,9 @@
         <path class="cls-1" d="M39.33,17.65s-.05-.03-.07-.04c-.09-.05-.18-.09-.27-.14-.03-.01-.05-.02-.08-.04-.08-.04-.15-.07-.23-.1-.02,0-.04-.02-.06-.03-.09-.04-.19-.08-.28-.11-.03,0-.05-.02-.08-.03-.08-.03-.17-.06-.26-.09-.02,0-.03-.01-.05-.02-.1-.03-.2-.06-.3-.09-.03,0-.05-.01-.08-.02-.09-.02-.19-.05-.28-.07-.01,0-.02,0-.04,0-.11-.02-.21-.04-.32-.06-.03,0-.05,0-.08-.01-.1-.02-.21-.03-.31-.04,0,0-.01,0-.02,0-.11-.01-.22-.02-.33-.03-.03,0-.05,0-.08,0-.11,0-.22,0-.34,0-.42,0-.84.04-1.25.11l8.42,5.62c-.01-.07-.03-.13-.05-.2,0-.01,0-.02,0-.03-.02-.1-.05-.19-.08-.28,0-.02-.01-.05-.02-.07-.03-.1-.06-.19-.1-.29,0-.02-.02-.05-.03-.07-.03-.08-.06-.16-.1-.25,0-.02-.02-.04-.02-.06-.04-.09-.08-.18-.12-.27-.01-.03-.03-.06-.04-.09-.04-.08-.08-.16-.12-.25-.33-.61-.73-1.16-1.21-1.65-.48-.49-1.02-.91-1.61-1.25h0s-.07-.04-.11-.06Z"/>
         <path class="cls-1" d="M70.11,20.6l-1.5-1.5c-4.43-4.43-9.6-7.86-15.36-10.2-5.56-2.26-11.44-3.4-17.47-3.4-5.03,0-9.95.8-14.67,2.37l6.72,4.49c2.27-1.54,5.01-2.45,7.95-2.45,7.81,0,14.17,6.36,14.17,14.17,0,.97-.1,1.93-.29,2.85l11.89,7.94c2.52-1.69,4.88-3.62,7.06-5.8l1.5-1.5c1.92-1.92,1.92-5.05,0-6.97Z"/>
     `;
+
+      window.eyeOpenIconSVG = eyeOpenIconSVG;
+      window.eyeClosedIconSVG = eyeClosedIconSVG;
 
       window.toggleSidebar = toggleSidebar;
       window.toggleView = toggleView;
