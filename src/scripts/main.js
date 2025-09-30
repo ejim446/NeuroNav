@@ -2,6 +2,15 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/Addons.js";
+import {
+  acceleratedRaycast,
+  computeBoundsTree,
+  disposeBoundsTree,
+} from "three-mesh-bvh";
+
+THREE.Mesh.prototype.raycast = acceleratedRaycast;
+THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
+THREE.BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree;
 
 // SCENE //
 
@@ -46,6 +55,7 @@ controls.maxDistance = 5;
 controls.maxTargetRadius = 0.5;
 
 const raycaster = new THREE.Raycaster();
+raycaster.firstHitOnly = true;
 const pointer = new THREE.Vector2();
 const pointerClientPosition = { x: 0, y: 0 };
 let pointerInsideRenderer = false;
@@ -102,6 +112,10 @@ function createOutline(mesh, regionName) {
 
   // Clone geometry to avoid modifying original
   const geometry = mesh.geometry.clone();
+
+  if (geometry?.isBufferGeometry) {
+    geometry.computeBoundsTree();
+  }
 
   const positionAttribute = geometry.attributes.position;
   if (!positionAttribute) {
@@ -312,6 +326,9 @@ const _addRoot = async () => {
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
           child.material = material;
+          if (child.geometry?.isBufferGeometry) {
+            child.geometry.computeBoundsTree();
+          }
         }
       });
 
@@ -360,6 +377,9 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
             child.name = regionName;
             // Apply the material to the mesh
             child.material = material;
+            if (child.geometry?.isBufferGeometry) {
+              child.geometry.computeBoundsTree();
+            }
             // Create an outline for the mesh
             createOutline(child, regionName);
             // Fade in the object
