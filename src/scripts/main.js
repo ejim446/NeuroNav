@@ -602,15 +602,103 @@ Object.assign(tooltip.style, {
 
 document.body.appendChild(tooltip);
 
+const infoPanel = document.getElementById("region-info-panel");
+
+function normalizeToArray(values) {
+  if (!values) return [];
+  if (Array.isArray(values)) {
+    return values
+      .map((value) => (typeof value === "string" ? value.trim() : ""))
+      .filter(Boolean);
+  }
+  if (typeof values === "string") {
+    const trimmed = values.trim();
+    return trimmed ? [trimmed] : [];
+  }
+  return [];
+}
+
+function renderInfoList(values, emptyMessage) {
+  const items = normalizeToArray(values);
+  if (!items.length) {
+    return `<p class="region-info-placeholder">${emptyMessage}</p>`;
+  }
+  return `<ul class="region-info-list">${items
+    .map((item) => `<li>${item}</li>`)
+    .join("")}</ul>`;
+}
+
+function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
+  if (!infoPanel) return;
+
+  const name = regionInfo?.name ?? regionId;
+  const description = regionInfo?.description?.trim();
+  const alternativeNames =
+    regionInfo?.aliases && regionInfo.aliases.length
+      ? regionInfo.aliases
+      : regionInfo?.keywords;
+  const groups = normalizeToArray(regionInfo?.groups);
+
+  const descriptionSection = description
+    ? `<p class="region-info-description">${description}</p>`
+    : `<p class="region-info-placeholder">No description available.</p>`;
+
+  const groupsSection = groups.length
+    ? `<div class="region-info-section"><h4>Groups</h4><p class="region-info-groups">${groups.join(
+        " • ",
+      )}</p></div>`
+    : "";
+
+  infoPanel.innerHTML = `
+    <h3>${name}</h3>
+    <p class="region-info-subtitle">${hemisphere} Hemisphere • ID ${regionId}</p>
+    ${descriptionSection}
+    <div class="region-info-section">
+      <h4>Alternative Names</h4>
+      ${renderInfoList(alternativeNames, "No alternative names recorded.")}
+    </div>
+    <div class="region-info-section">
+      <h4>Functions</h4>
+      ${renderInfoList(
+        regionInfo?.functions,
+        "No functional summary available.",
+      )}
+    </div>
+    <div class="region-info-section">
+      <h4>Connections</h4>
+      ${renderInfoList(
+        regionInfo?.connections,
+        "No connection data available.",
+      )}
+    </div>
+    ${groupsSection}
+  `;
+
+  infoPanel.classList.add("visible");
+  infoPanel.setAttribute("aria-hidden", "false");
+}
+
+function hideRegionInfoPanel() {
+  if (!infoPanel) return;
+
+  infoPanel.classList.remove("visible");
+  infoPanel.setAttribute("aria-hidden", "true");
+  infoPanel.innerHTML = "";
+}
+
+if (infoPanel) {
+  infoPanel.addEventListener("click", (event) => event.stopPropagation());
+  hideRegionInfoPanel();
+}
+
 // Event listeners
 renderer.domElement.addEventListener("click", onClick);
 document.body.addEventListener("click", () => {
   if (tooltipsEnabled) tooltip.style.display = "none";
+  hideRegionInfoPanel();
 });
 
-function onClick(event) {
-  if (!tooltipsEnabled) return; // Do nothing if tooltips are disabled
-
+function getIntersectedRegion(event) {
   // Find coordinates of the mouse position
   const mouse = new THREE.Vector2(
     (event.clientX / window.innerWidth) * 2 - 1,
@@ -619,50 +707,63 @@ function onClick(event) {
 
   // Update the raycaster with the mouse coordinates and the camera
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(scene.children, true); // Get all intersected objects
+  const intersects = raycaster.intersectObjects(scene.children, true);
 
-  if (intersects.length > 0) {
-    let object; // Initialize variable to hold the intersected object
-    try {
-      // Loop through the intersected objects
-      for (let i = 0; i < intersects.length; i++) {
-        const candidate = intersects[i].object;
-        const candidateName = candidate.name;
+  if (!intersects.length) return null;
 
-        const isRegionMesh =
-          candidate instanceof THREE.Mesh &&
-          candidateName !== "root" &&
-          !candidateName.includes("Outline");
+  try {
+    for (let i = 0; i < intersects.length; i++) {
+      const candidate = intersects[i].object;
+      const candidateName = candidate.name;
 
-        // Check if the object is a valid, currently visible region
-        if (isRegionMesh && visibleRegions.has(candidateName)) {
-          object = candidate; // Assign the first valid object
-          break; // Exit the loop once a valid object is found
-        }
+      const isRegionMesh =
+        candidate instanceof THREE.Mesh &&
+        candidateName !== "root" &&
+        !candidateName.includes("Outline");
+
+      if (isRegionMesh && visibleRegions.has(candidateName)) {
+        return candidate;
       }
-    } catch (error) {
-      object = undefined; // Catch empty intersects
     }
+  } catch (error) {
+    return null;
+  }
 
-    // If a valid object is found and it is visible
-    if (object && visibleRegions.has(object.name)) {
-      // Set the tooltip content to the region name
-      const regionId = object.name.slice(0, -1);
-      const regionInfo = regions && regions[regionId];
+  return null;
+}
+
+function onClick(event) {
+  const object = getIntersectedRegion(event);
+
+  if (object && visibleRegions.has(object.name)) {
+    const regionId = object.name.slice(0, -1);
+    const hemisphere = object.name.endsWith("L")
+      ? "Left"
+      : object.name.endsWith("R")
+        ? "Right"
+        : "Midline";
+    const regionInfo = regions && regions[regionId];
+
+    showRegionInfoPanel(regionId, hemisphere, regionInfo);
+
+    if (tooltipsEnabled) {
       if (regionInfo) {
         tooltip.innerHTML = createTooltipContent(regionInfo);
       } else {
         tooltip.innerHTML = regionId;
       }
-      // Display the tooltip and position it near the mouse cursor
       tooltip.style.display = "block";
       tooltip.style.left = `${event.clientX + 10}px`;
       tooltip.style.top = `${event.clientY + 10}px`;
-      event.stopPropagation(); // Stop event propagation to prevent other click handlers
     } else {
-      tooltip.style.display = "none"; // Hide the tooltip if no valid object is found
+      tooltip.style.display = "none";
     }
+
+    event.stopPropagation();
   } else {
-    tooltip.style.display = "none"; // Hide the tooltip if no intersections are found
+    if (tooltipsEnabled) {
+      tooltip.style.display = "none";
+    }
+    hideRegionInfoPanel();
   }
 }
