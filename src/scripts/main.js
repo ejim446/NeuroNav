@@ -549,12 +549,14 @@ export function updateBackground() {
 /// REGION TOOLTIPS ///
 
 let tooltipsEnabled = true;
+let hoveredRegionName = null;
 
 // DISABLE TOOLTIPS //
 
 export function disableTooltips(check) {
   if (!check) {
     tooltipsEnabled = false;
+    hoveredRegionName = null;
     tooltip.style.display = "none";
   } else {
     tooltipsEnabled = true;
@@ -574,17 +576,19 @@ const tooltip = document.createElement("div");
 
 function createTooltipContent(regionInfo) {
   const name = regionInfo.name ?? "";
-  const related = Array.from(
-    new Set([...(regionInfo.groups ?? []), ...(regionInfo.keywords ?? [])]),
-  ).filter((value) => value && value.toLowerCase() !== name.toLowerCase());
-  const description = regionInfo.description?.trim();
+  const groups = Array.isArray(regionInfo.groups)
+    ? regionInfo.groups
+    : regionInfo.groups
+      ? [regionInfo.groups]
+      : [];
+
+  const normalizedGroups = groups
+    .map((group) => (typeof group === "string" ? group.trim() : ""))
+    .filter(Boolean);
 
   let content = `<strong>${name}</strong>`;
-  if (related.length) {
-    content += `<br/><small>${related.slice(0, 3).join(" • ")}</small>`;
-  }
-  if (description) {
-    content += `<br/>${description}`;
+  if (normalizedGroups.length) {
+    content += `<br/><small>${normalizedGroups.join(" • ")}</small>`;
   }
   return content;
 }
@@ -601,6 +605,49 @@ Object.assign(tooltip.style, {
 });
 
 document.body.appendChild(tooltip);
+
+function hideTooltip() {
+  hoveredRegionName = null;
+  tooltip.style.display = "none";
+}
+
+function showTooltip(event, regionObject) {
+  if (!tooltipsEnabled || !regionObject) {
+    hideTooltip();
+    return;
+  }
+
+  const regionId = regionObject.name.slice(0, -1);
+  const regionInfo = regions && regions[regionId];
+
+  if (hoveredRegionName !== regionObject.name) {
+    hoveredRegionName = regionObject.name;
+    if (regionInfo) {
+      tooltip.innerHTML = createTooltipContent(regionInfo);
+    } else {
+      tooltip.textContent = regionId;
+    }
+  }
+
+  tooltip.style.display = "block";
+  tooltip.style.left = `${event.clientX + 10}px`;
+  tooltip.style.top = `${event.clientY + 10}px`;
+}
+
+function onPointerMove(event) {
+  if (!tooltipsEnabled) return;
+
+  const object = getIntersectedRegion(event);
+
+  if (object && visibleRegions.has(object.name)) {
+    showTooltip(event, object);
+  } else {
+    hideTooltip();
+  }
+}
+
+renderer.domElement.addEventListener("pointermove", onPointerMove);
+renderer.domElement.addEventListener("pointerleave", hideTooltip);
 
 const infoPanel = document.getElementById("region-info-panel");
 
@@ -756,22 +803,15 @@ function onClick(event) {
     showRegionInfoPanel(regionId, hemisphere, regionInfo);
 
     if (tooltipsEnabled) {
-      if (regionInfo) {
-        tooltip.innerHTML = createTooltipContent(regionInfo);
-      } else {
-        tooltip.innerHTML = regionId;
-      }
-      tooltip.style.display = "block";
-      tooltip.style.left = `${event.clientX + 10}px`;
-      tooltip.style.top = `${event.clientY + 10}px`;
+      showTooltip(event, object);
     } else {
-      tooltip.style.display = "none";
+      hideTooltip();
     }
 
     event.stopPropagation();
   } else {
     if (tooltipsEnabled) {
-      tooltip.style.display = "none";
+      hideTooltip();
     }
     hideRegionInfoPanel();
   }
