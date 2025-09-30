@@ -55,6 +55,11 @@ canvas {
         letter-spacing: 0.03em;
 }
 
+#region-info-panel .region-info-embryonic-origin {
+        margin: 0.35rem 0 0;
+        line-height: 1.4;
+}
+
 #region-info-panel .region-info-list {
         margin: 0.35rem 0 0;
         padding-left: 1.25rem;

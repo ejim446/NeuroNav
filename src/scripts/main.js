@@ -638,10 +638,18 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       ? regionInfo.aliases
       : regionInfo?.keywords;
   const groups = normalizeToArray(regionInfo?.groups);
+  const embryonicOrigin =
+    typeof regionInfo?.embryonic_origin === "string"
+      ? regionInfo.embryonic_origin.trim()
+      : "";
 
   const descriptionSection = description
     ? `<p class="region-info-description">${description}</p>`
     : `<p class="region-info-placeholder">No description available.</p>`;
+
+  const embryonicOriginSection = embryonicOrigin
+    ? `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-embryonic-origin">${embryonicOrigin}</p></div>`
+    : `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-placeholder">No embryonic origin information available.</p></div>`;
 
   const groupsSection = groups.length
     ? `<div class="region-info-section"><h4>Groups</h4><p class="region-info-groups">${groups.join(
@@ -653,6 +661,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
     <h3>${name}</h3>
     <p class="region-info-subtitle">${hemisphere} Hemisphere • ID ${regionId}</p>
     ${descriptionSection}
+    ${embryonicOriginSection}
     <div class="region-info-section">
       <h4>Alternative Names</h4>
       ${renderInfoList(alternativeNames, "No alternative names recorded.")}
