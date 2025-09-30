@@ -20,7 +20,8 @@
     "connections": [
       "Receives axons from olfactory receptor neurons via the olfactory nerve.",
       "Projects to the piriform cortex, amygdala, and entorhinal cortex."
-    ]
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "2": {
     "name": "Anterior Olfactory Nucleus",
@@ -42,7 +43,8 @@
     "connections": [
       "Maintains reciprocal connections with the olfactory bulb and piriform cortex.",
       "Links the two olfactory bulbs through anterior commissure fibers."
-    ]
+    ],
+    "embryonic_origin": "Undetermined"
   },
   "3": {
     "name": "Piriform Cortex",
@@ -53,29 +55,78 @@
     "groups": [
       "Olfactory System"
     ],
-    "description": ""
+    "description": "Primary olfactory cortex of the temporal lobe that supports odor identification and associative odor memory.",
+    "aliases": [
+      "Pyriform Cortex",
+      "Primary Olfactory Cortex",
+      "Area piriformis"
+    ],
+    "functions": [
+      "Integrates olfactory bulb input into perceptual odor representations.",
+      "Supports associative learning that links odors to context and reward."
+    ],
+    "connections": [
+      "Receives dense afferents from the olfactory bulb and anterior olfactory nucleus.",
+      "Projects to orbitofrontal cortex, amygdala, entorhinal cortex, and hypothalamic olfactory areas."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "4": {
-    "name": "Frontal Agranular Insular Cortex",
+    "name": "Anterior (Agranular) Insular Cortex",
     "keywords": [
       "Olfactory System",
       "Smell"
     ],
     "groups": [
-      "Olfactory System"
+      "Cerebral Cortex",
+      "Insular Cortex"
     ],
-    "description": ""
+    "description": "Agranular anterior insular cortex integrating interoceptive, affective, and cognitive signals; a hub of the salience network.",
+    "aliases": [
+      "Frontal Agranular Insula",
+      "Anterior Insular Cortex"
+    ],
+    "functions": [
+      "Monitors internal bodily states relevant to taste, autonomic responses, and affect.",
+      "Participates in salience detection and interoceptive awareness.",
+      "Integrates interoceptive signals with emotion and cognition for subjective awareness.",
+      "Supports salience detection and network switching with cingulo-opercular regions.",
+      "Contributes to visceromotor control and autonomic regulation."
+    ],
+    "connections": [
+      "Interconnects with orbitofrontal cortex, anterior cingulate cortex, and amygdala.",
+      "Receives viscerosensory input via thalamic and brainstem relays.",
+      "Dense reciprocal connections with anterior cingulate cortex, orbitofrontal cortex, amygdala, and brainstem autonomic centers."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "5": {
-    "name": "Temporal Agranular Insular Cortex",
+    "name": "Posterior (Agranular/Dysgranular) Insular Cortex",
     "keywords": [
       "Olfactory System",
       "Smell"
     ],
     "groups": [
-      "Olfactory System"
+      "Cerebral Cortex",
+      "Insular Cortex"
     ],
-    "description": ""
+    "description": "Posterior/dysgranular insula processing primary interoceptive inputs including pain, temperature, and viscerosensory signals.",
+    "aliases": [
+      "Temporal Agranular Insula",
+      "Posterior Insular Cortex"
+    ],
+    "functions": [
+      "Integrates chemosensory information with visceral sensation.",
+      "Supports emotional memory associated with taste and smell.",
+      "Represents somatotopic interoceptive maps for pain and temperature.",
+      "Contributes to sensorimotor integration for orofacial and visceromotor functions."
+    ],
+    "connections": [
+      "Receives projections from piriform cortex and thalamic taste relays.",
+      "Projects to amygdala, entorhinal cortex, and orbitofrontal regions.",
+      "Receives thalamic (VPL/VPM) and brainstem interoceptive inputs; connects with somatosensory and cingulate cortices."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "6": {
     "name": "Head of Caudate",
@@ -86,7 +137,20 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": ""
+    "description": "Anterior striatal sector involved in goal-directed action selection and cognitive aspects of motor control.",
+    "aliases": [
+      "Caudate Head",
+      "Anterior Caudate Nucleus"
+    ],
+    "functions": [
+      "Tracks action-outcome contingencies and supports executive planning.",
+      "Participates in working memory and attention circuits with prefrontal cortex."
+    ],
+    "connections": [
+      "Receives glutamatergic inputs from dorsolateral prefrontal and orbitofrontal cortices.",
+      "Projects via striatopallidal pathways to globus pallidus and substantia nigra pars reticulata."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "7": {
     "name": "Body of Caudate",
@@ -97,7 +161,20 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": ""
+    "description": "Elongated middle portion of the caudate nucleus modulating cognitive-motor integration and eye movement control.",
+    "aliases": [
+      "Caudate Body",
+      "Corpus Caudatum"
+    ],
+    "functions": [
+      "Coordinates cortico-striatal loops for saccadic control and habit learning.",
+      "Adjusts motor output based on feedback and motivational context."
+    ],
+    "connections": [
+      "Receives afferents from association cortices and intralaminar thalamic nuclei.",
+      "Projects to globus pallidus externus and substantia nigra pars reticulata."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "8": {
     "name": "Tail of Caudate",
@@ -108,7 +185,19 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": ""
+    "description": "Posterior tapering segment of the caudate nucleus linking striatal circuits with visual and limbic cortices.",
+    "aliases": [
+      "Caudate Tail"
+    ],
+    "functions": [
+      "Supports visual attention, spatial learning, and reward prediction for peripheral stimuli.",
+      "Participates in associative learning connecting visual cues with action outcomes."
+    ],
+    "connections": [
+      "Receives projections from visual association cortex and superior colliculus.",
+      "Sends outputs through striatonigral pathways to substantia nigra and pallidum."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "9": {
     "name": "Putamen",
@@ -119,7 +208,20 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": ""
+    "description": "Large dorsolateral striatal nucleus crucial for motor skill learning and sensorimotor integration.",
+    "aliases": [
+      "Putamen Nucleus",
+      "Dorsolateral Striatum"
+    ],
+    "functions": [
+      "Modulates execution of voluntary movements and habit formation.",
+      "Integrates somatosensory, motor, and premotor cortical inputs for action selection."
+    ],
+    "connections": [
+      "Receives dense corticostriatal projections from primary motor, premotor, and somatosensory cortices.",
+      "Outputs via direct and indirect pathways to globus pallidus and substantia nigra."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "10": {
     "name": "Nucleus Accumbens",
@@ -132,7 +234,23 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": "Key component of the ventral striatum involved in reward and motivation."
+    "description": "Ventral striatal complex with core and shell subregions integrating cortical, limbic, and dopaminergic inputs to shape reward, motivation, and action selection.",
+    "embryonic_origin": "Telencephalon",
+    "aliases": [
+      "NAc",
+      "Ventral Striatum",
+      "Accumbens Nucleus"
+    ],
+    "functions": [
+      "Computes motivational salience and invigorates goal-directed behavior.",
+      "Integrates dopaminergic prediction-error signals from VTA with cortical/hippocampal inputs.",
+      "Participates in reinforcement learning, habit formation, and extinction."
+    ],
+    "connections": [
+      "Receives glutamatergic inputs from medial prefrontal cortex, orbitofrontal cortex, amygdala, and hippocampus.",
+      "Receives dopaminergic input from ventral tegmental area (mesolimbic pathway).",
+      "Projects GABAergic outputs to ventral pallidum and via thalamus to frontal cortex."
+    ]
   },
   "11": {
     "name": "External Segment of Globus Pallidus",
@@ -143,7 +261,20 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": ""
+    "description": "Lateral pallidal segment that implements the indirect basal ganglia pathway to suppress competing motor programs.",
+    "aliases": [
+      "Globus Pallidus Externus",
+      "GPe"
+    ],
+    "functions": [
+      "Shapes movement by relaying inhibitory signals within the indirect basal ganglia circuit.",
+      "Regulates rhythmic activity important for gait and posture."
+    ],
+    "connections": [
+      "Receives GABAergic input from striatal medium spiny neurons of the indirect pathway.",
+      "Projects to subthalamic nucleus, globus pallidus internus, and substantia nigra pars reticulata."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "12": {
     "name": "Internal Segment of Globus Pallidus",
@@ -154,40 +285,93 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": ""
+    "description": "Medial output nucleus of the basal ganglia that gates thalamocortical drive to premotor and motor areas.",
+    "aliases": [
+      "Globus Pallidus Internus",
+      "GPi",
+      "Medial Globus Pallidus"
+    ],
+    "functions": [
+      "Provides tonic inhibitory control over motor thalamus to regulate movement initiation.",
+      "Encodes movement parameters for learned motor sequences."
+    ],
+    "connections": [
+      "Receives direct pathway input from striatum and excitatory drive from subthalamic nucleus.",
+      "Projects via the ansa lenticularis and lenticular fasciculus to ventral anterior and ventrolateral thalamic nuclei."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "13": {
     "name": "Claustrum",
     "keywords": [
-      "Basal Ganglia",
-      "Striatum"
+      "Claustrum",
+      "Telencephalon"
     ],
     "groups": [
-      "Basal Ganglia"
+      "Telencephalon"
     ],
-    "description": ""
+    "description": "Thin telencephalic gray matter sheet between insula and putamen; highly connected with widespread cortical areas.",
+    "aliases": [
+      "Insular Claustrum",
+      "Claustral Cortex"
+    ],
+    "functions": [
+      "Facilitates multimodal integration and attention switching across cortical networks."
+    ],
+    "connections": [
+      "Reciprocally connected with widespread neocortex; links to limbic structures have been reported."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "14": {
     "name": "Basal Forebrain",
     "keywords": [
-      "Basal Ganglia",
-      "Striatum"
+      "Basal Forebrain",
+      "Cholinergic System"
     ],
     "groups": [
-      "Basal Ganglia"
+      "Basal Forebrain"
     ],
-    "description": ""
+    "description": "Heterogeneous basal forebrain complex (nucleus basalis, diagonal band, medial septal nuclei) providing widespread cholinergic input.",
+    "aliases": [
+      "Substantia Innominata",
+      "Nucleus Basalis of Meynert (component)"
+    ],
+    "functions": [
+      "Supports attention, arousal, and learning through cortical acetylcholine release.",
+      "Modulates hippocampal plasticity underlying memory encoding."
+    ],
+    "connections": [
+      "Receives input from limbic structures such as amygdala and prefrontal cortex.",
+      "Projects diffusely to neocortex, hippocampus, and amygdaloid complex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "15": {
     "name": "Septal Nuclei",
     "keywords": [
-      "Basal Ganglia",
-      "Striatum"
+      "Septal Area",
+      "Medial Septum",
+      "Limbic System"
     ],
     "groups": [
-      "Basal Ganglia"
+      "Basal Forebrain",
+      "Limbic System"
     ],
-    "description": ""
+    "description": "Basal forebrain nuclei coordinating hippocampal theta and autonomic responses.",
+    "aliases": [
+      "Septal Area",
+      "Septum Pellucidum Nuclei"
+    ],
+    "functions": [
+      "Drive hippocampal oscillations important for memory and navigation.",
+      "Integrate limbic inputs to regulate reward, motivation, and autonomic tone."
+    ],
+    "connections": [
+      "Receive afferents from hippocampus, amygdala, and hypothalamus via the fornix.",
+      "Project via the medial forebrain bundle and fornix to hippocampus and hypothalamus."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "16": {
     "name": "Amygdaloid Complex",
@@ -200,7 +384,8 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": "Hub for processing emotional salience and associative memory."
+    "description": "Hub for processing emotional salience and associative memory.",
+    "embryonic_origin": "Telencephalon"
   },
   "17": {
     "name": "Anterior Amygdaloid Area",
@@ -212,7 +397,20 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": ""
+    "description": "Rostral amygdalar subdivision interfacing olfactory, cortical, and basal forebrain inputs to shape emotional salience.",
+    "aliases": [
+      "Anterior Amygdaloid Area",
+      "Periamygdaloid Cortex"
+    ],
+    "functions": [
+      "Integrates olfactory cues with affective context for social and reproductive behaviors.",
+      "Provides modulatory output to basal forebrain cholinergic neurons."
+    ],
+    "connections": [
+      "Receives projections from olfactory bulb, piriform cortex, and hippocampal formation.",
+      "Projects to medial amygdaloid nuclei, hypothalamus, and septal region."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "18": {
     "name": "Central Nuclear Group",
@@ -224,7 +422,21 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": ""
+    "description": "Amygdalar core comprising the central nucleus that orchestrates autonomic and behavioral expressions of emotion.",
+    "aliases": [
+      "Central Amygdaloid Nucleus",
+      "Central Amygdala",
+      "CeA"
+    ],
+    "functions": [
+      "Coordinates defensive reactions and conditioned fear responses.",
+      "Regulates autonomic output via projections to hypothalamic and brainstem centers."
+    ],
+    "connections": [
+      "Receives convergent input from basolateral amygdala and brainstem sensory relays.",
+      "Projects to hypothalamus, periaqueductal gray, parabrachial nucleus, and brainstem autonomic nuclei."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "19": {
     "name": "Lateral Nucleus",
@@ -236,7 +448,20 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": ""
+    "description": "Principal sensory gateway of the amygdala processing multimodal inputs relevant to emotional learning.",
+    "aliases": [
+      "Lateral Amygdaloid Nucleus",
+      "LA"
+    ],
+    "functions": [
+      "Encodes associative fear memories by integrating cortical and thalamic sensory signals.",
+      "Supports evaluation of stimulus salience for emotional decision making."
+    ],
+    "connections": [
+      "Receives auditory and visual inputs from sensory thalamus and temporal cortex.",
+      "Projects to basolateral and central amygdalar nuclei for output to hypothalamic-brainstem effectors."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "20": {
     "name": "Basolateral Nucleus",
@@ -249,7 +474,8 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": "Part of the basolateral complex supporting emotional learning."
+    "description": "Part of the basolateral complex supporting emotional learning.",
+    "embryonic_origin": "Telencephalon"
   },
   "21": {
     "name": "Basomedial Nucleus",
@@ -264,7 +490,8 @@
       "Amygdala",
       "Basolateral Complex"
     ],
-    "description": "Transitional amygdalar nucleus linking olfactory and visceral information streams."
+    "description": "Transitional amygdalar nucleus linking olfactory and visceral information streams.",
+    "embryonic_origin": "Telencephalon"
   },
   "22": {
     "name": "Anterior Cortical Nucleus",
@@ -276,7 +503,19 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": ""
+    "description": "Olfactory-related amygdalar cortex involved in odor-guided behaviors and autonomic regulation.",
+    "aliases": [
+      "Anterior Cortical Amygdaloid Nucleus"
+    ],
+    "functions": [
+      "Links olfactory cues to reproductive and defensive behaviors.",
+      "Modulates autonomic responses tied to odor perception."
+    ],
+    "connections": [
+      "Receives afferents from olfactory bulb, piriform cortex, and lateral olfactory tract.",
+      "Projects to medial amygdala, hypothalamic preoptic, and ventromedial nuclei."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "23": {
     "name": "Posterior Cortical Nucleus",
@@ -288,7 +527,19 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": ""
+    "description": "Posterior cortical amygdalar subdivision bridging olfactory and hippocampal circuits for contextual odor memory.",
+    "aliases": [
+      "Posterior Cortical Amygdaloid Nucleus"
+    ],
+    "functions": [
+      "Supports contextual processing of olfactory cues and social odors.",
+      "Interfaces with hippocampus for odor-guided spatial memory."
+    ],
+    "connections": [
+      "Receives input from olfactory bulb, entorhinal cortex, and piriform cortex.",
+      "Projects to hippocampal subiculum, medial amygdala, and hypothalamic targets."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "24": {
     "name": "Medial Nucleus",
@@ -300,7 +551,20 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": ""
+    "description": "Medial amygdaloid nucleus specialized for chemosensory processing and reproductive behaviors.",
+    "aliases": [
+      "Medial Amygdala",
+      "MeA"
+    ],
+    "functions": [
+      "Interprets pheromonal information to regulate social and mating behaviors.",
+      "Influences hypothalamic autonomic and endocrine responses to olfactory cues."
+    ],
+    "connections": [
+      "Receives accessory olfactory bulb and vomeronasal inputs via the stria terminalis.",
+      "Projects to bed nucleus of the stria terminalis, hypothalamus, and brainstem autonomic centers."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "25": {
     "name": "Amygdalohippocampal Area",
@@ -313,7 +577,8 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": "Interface between amygdala and hippocampal formation."
+    "description": "Interface between amygdala and hippocampal formation.",
+    "embryonic_origin": "Telencephalon"
   },
   "26": {
     "name": "Bed Nucleus of Stria Terminalis",
@@ -325,7 +590,20 @@
       "Limbic System",
       "Amygdala"
     ],
-    "description": ""
+    "description": "Extended amygdala structure mediating sustained fear, stress responses, and neuroendocrine regulation.",
+    "aliases": [
+      "BNST",
+      "Bed Nucleus of the Terminal Stria"
+    ],
+    "functions": [
+      "Integrates limbic information to modulate hypothalamic-pituitary-adrenal axis activity.",
+      "Supports anxiety-related vigilance and social behavior modulation."
+    ],
+    "connections": [
+      "Receives input from amygdala, hippocampus, and prefrontal cortex via stria terminalis.",
+      "Projects to hypothalamus, brainstem autonomic nuclei, and ventral tegmental area."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "27": {
     "name": "Thalamus",
@@ -337,7 +615,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Relay hub of the diencephalon that channels sensory, motor, and limbic information to the cerebral cortex.",
+    "aliases": [
+      "Thalamic Complex",
+      "Dorsal Thalamus"
+    ],
+    "functions": [
+      "Filters and routes ascending sensory signals to specific cortical targets.",
+      "Participates in cortico-thalamo-cortical loops supporting attention, sleep, and consciousness."
+    ],
+    "connections": [
+      "Receives inputs from spinal, brainstem, basal ganglia, and cerebellar pathways.",
+      "Projects via thalamocortical radiations to virtually all cortical areas."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "28": {
     "name": "Anterior Nuclear Group of Thalamus",
@@ -349,7 +640,19 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Anterior thalamic nuclei cluster critical for memory and spatial navigation via Papez circuit.",
+    "aliases": [
+      "Anterior Thalamic Nuclei"
+    ],
+    "functions": [
+      "Transmit hippocampal and mammillary body signals for episodic memory processing.",
+      "Contribute to head-direction signaling and spatial orientation."
+    ],
+    "connections": [
+      "Receive mammillothalamic tract input from mammillary bodies and hippocampal fornix fibers.",
+      "Project to cingulate gyrus and retrosplenial cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "29": {
     "name": "Lateral Dorsal Nucleus of Thalamus",
@@ -361,7 +664,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Thalamic relay linking hippocampal circuits with cingulate cortex for visuospatial memory.",
+    "aliases": [
+      "Lateral Dorsal Thalamic Nucleus",
+      "LD Nucleus"
+    ],
+    "functions": [
+      "Supports visuospatial attention and memory consolidation.",
+      "Integrates hippocampal and parietal inputs for navigation."
+    ],
+    "connections": [
+      "Receives input from hippocampal subiculum and retrosplenial cortex.",
+      "Projects predominantly to cingulate cortex and parietal association areas."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "30": {
     "name": "Mediodorsal Nucleus of Thalamus",
@@ -373,7 +689,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Association thalamic nucleus connecting prefrontal cortex with limbic and basal ganglia networks.",
+    "aliases": [
+      "Mediodorsal Thalamic Nucleus",
+      "MD Nucleus"
+    ],
+    "functions": [
+      "Facilitates working memory, decision making, and reward-guided behavior.",
+      "Integrates limbic signals into prefrontal executive circuits."
+    ],
+    "connections": [
+      "Receives afferents from amygdala, basal ganglia, and olfactory cortex.",
+      "Projects heavily to prefrontal cortex and anterior cingulate cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "31": {
     "name": "Reuniens Nucleus of Thalamus",
@@ -385,10 +714,23 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Midline thalamic nucleus coordinating hippocampal-prefrontal synchrony for memory consolidation.",
+    "aliases": [
+      "Nucleus Reuniens",
+      "Thalamic Reuniens"
+    ],
+    "functions": [
+      "Synchronizes hippocampal theta activity with medial prefrontal cortex during memory tasks.",
+      "Supports retrieval and extinction of contextual fear memories."
+    ],
+    "connections": [
+      "Receives hippocampal, amygdalar, and brainstem reticular inputs.",
+      "Projects to medial prefrontal cortex, hippocampal CA1, and subiculum."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "32": {
-    "name": "Posterolateral Nucleus of Thalamus",
+    "name": "Lateral Posterior Nucleus (LP)",
     "keywords": [
       "Diencephalon",
       "Thalamus"
@@ -397,7 +739,22 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Higher-order thalamic nucleus in rodents, homologous to pulvinar in primates; involved in visual processing and cortico-thalamic relay.",
+    "aliases": [
+      "Lateral Posterior Thalamic Nucleus"
+    ],
+    "functions": [
+      "Mediates attention shifts and integration of visual-somatosensory information.",
+      "Supports higher-order perceptual processing in parietal association cortex.",
+      "Mediates visual spatial attention and integration of visual information.",
+      "Acts as a relay between superior colliculus and visual association cortex."
+    ],
+    "connections": [
+      "Interconnected with multiple visual association areas; in rodents, LP is pulvinar homolog.",
+      "Inputs from superior colliculus.",
+      "Outputs to visual association areas and parietal cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "33": {
     "name": "Pulvinar of Thalamus",
@@ -410,7 +767,16 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": "Visual thalamic nucleus integrating attention and sensory signals."
+    "description": "Large posterior thalamic nucleus subdivided into medial, lateral, inferior, and anterior regions; key in higher-order visual attention and cortico-cortical communication.",
+    "embryonic_origin": "Diencephalon",
+    "functions": [
+      "Supports visual attention, salience detection, and integration of multimodal sensory inputs.",
+      "Facilitates cortico-thalamo-cortical communication between parietal, temporal, and frontal association cortices."
+    ],
+    "connections": [
+      "Reciprocally connected with parietal, temporal, and frontal association cortices.",
+      "Inputs from superior colliculus; outputs to multiple association cortices."
+    ]
   },
   "34": {
     "name": "Ventral Anterior Nucleus of Thalamus",
@@ -422,7 +788,24 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Motor thalamic nucleus transmitting basal ganglia output to frontal motor areas.",
+    "aliases": [
+      "Ventral Anterior Thalamic Nucleus",
+      "VA Nucleus"
+    ],
+    "functions": [
+      "Facilitates planning and initiation of voluntary movements.",
+      "Integrates cerebellar and basal ganglia signals for motor set maintenance.",
+      "Relays basal ganglia signals to premotor cortex.",
+      "Involved in motor planning and initiation."
+    ],
+    "connections": [
+      "Receives input from globus pallidus internus and substantia nigra pars reticulata.",
+      "Projects to premotor cortex, supplementary motor area, and frontal eye fields.",
+      "Inputs from globus pallidus.",
+      "Outputs to premotor and supplementary motor areas."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "35": {
     "name": "Ventral Lateral Nucleus of Thalamus",
@@ -434,20 +817,25 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": "Motor relay nucleus that channels cerebellar and basal ganglia output to cortex.",
+    "description": "Motor thalamic relay nucleus transmitting cerebellar and basal ganglia output to motor cortex.",
     "aliases": [
       "VL thalamus",
       "Ventrolateral thalamic nucleus"
     ],
     "functions": [
       "Supports voluntary movement planning and execution.",
-      "Integrates cerebellar timing signals with basal ganglia output."
+      "Integrates cerebellar timing signals with basal ganglia output.",
+      "Integrates cerebellar and basal ganglia signals for fine motor control.",
+      "Contributes to voluntary motor coordination."
     ],
     "connections": [
       "Receives input from the dentate nucleus of the cerebellum.",
       "Receives basal ganglia projections from the globus pallidus internus.",
-      "Projects to primary motor and premotor cortical areas."
-    ]
+      "Projects to primary motor and premotor cortical areas.",
+      "Inputs from cerebellum and globus pallidus.",
+      "Outputs to primary motor and premotor cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "36": {
     "name": "Ventral Posterior Lateral Nucleus",
@@ -459,7 +847,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Somatosensory relay conveying body tactile and proprioceptive information to primary somatosensory cortex.",
+    "aliases": [
+      "Ventral Posterolateral Nucleus",
+      "VPL Thalamus"
+    ],
+    "functions": [
+      "Transmits discriminative touch, vibration, and proprioception from trunk and limbs.",
+      "Participates in pain and temperature processing via spinothalamic pathways."
+    ],
+    "connections": [
+      "Receives lemniscal inputs from medial lemniscus and spinothalamic tract.",
+      "Projects to postcentral gyrus and secondary somatosensory cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "37": {
     "name": "Ventral Posterior Medial Nucleus",
@@ -471,7 +872,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Thalamic relay for trigeminal somatosensory information targeting face representation in cortex.",
+    "aliases": [
+      "Ventral Posteromedial Nucleus",
+      "VPM Thalamus"
+    ],
+    "functions": [
+      "Conveys facial touch, taste, and nociceptive signals to the primary somatosensory cortex.",
+      "Supports gustatory processing through its parvicellular subdivision."
+    ],
+    "connections": [
+      "Receives trigeminothalamic and gustatory inputs from brainstem nuclei.",
+      "Projects to face area of postcentral gyrus and insular gustatory cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "38": {
     "name": "Dorsal Lateral Geniculate Nucleus",
@@ -483,7 +897,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Primary visual thalamic relay transmitting retinal input to the visual cortex.",
+    "aliases": [
+      "Dorsal Lateral Geniculate Nucleus",
+      "dLGN"
+    ],
+    "functions": [
+      "Processes spatial and chromatic features for conscious vision.",
+      "Maintains retinotopic maps and regulates visual attention via corticothalamic feedback."
+    ],
+    "connections": [
+      "Receives retinal ganglion cell axons via the optic tract.",
+      "Projects through optic radiations to primary visual cortex (V1)."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "39": {
     "name": "Medial Geniculate Nuclei",
@@ -495,7 +922,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Auditory thalamic nuclei relaying sound frequency and localization cues to auditory cortex.",
+    "aliases": [
+      "Medial Geniculate Body",
+      "MGB"
+    ],
+    "functions": [
+      "Transforms auditory brainstem inputs into cortical receptive field properties.",
+      "Supports auditory attention and sound localization."
+    ],
+    "connections": [
+      "Receives ascending inputs from inferior colliculus and auditory brainstem nuclei.",
+      "Projects to primary and secondary auditory cortices in the temporal lobe."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "40": {
     "name": "Centromedian Nucleus of Thalamus",
@@ -507,7 +947,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Intralaminar thalamic nucleus involved in arousal, nociception, and basal ganglia communication.",
+    "aliases": [
+      "Centromedian Thalamic Nucleus",
+      "CM Nucleus"
+    ],
+    "functions": [
+      "Modulates attention and sensorimotor gating within basal ganglia loops.",
+      "Participates in pain processing and arousal regulation."
+    ],
+    "connections": [
+      "Receives inputs from spinothalamic tract, reticular formation, and globus pallidus internus.",
+      "Projects to striatum, supplementary motor area, and widespread cortex via intralaminar projections."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "41": {
     "name": "Parafascicular Nucleus of Thalamus",
@@ -519,7 +972,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Intralaminar thalamic partner of the centromedian nucleus that influences associative learning and nociception.",
+    "aliases": [
+      "Parafascicular Thalamic Nucleus",
+      "Pf Nucleus"
+    ],
+    "functions": [
+      "Supports cognitive flexibility and action selection within basal ganglia circuits.",
+      "Contributes to pain perception and autonomic responses."
+    ],
+    "connections": [
+      "Receives inputs from spinoreticular and cerebellar pathways.",
+      "Projects densely to striatal matrix and limbic cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "42": {
     "name": "Habenular Nuclei",
@@ -532,7 +998,8 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": "Epithalamic relay shaping reward and aversion signaling."
+    "description": "Epithalamic relay shaping reward and aversion signaling.",
+    "embryonic_origin": "Diencephalon"
   },
   "43": {
     "name": "Pineal Body",
@@ -544,7 +1011,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Midline neuroendocrine gland that secretes melatonin to entrain circadian rhythms.",
+    "aliases": [
+      "Epiphysis Cerebri",
+      "Pineal Gland"
+    ],
+    "functions": [
+      "Synthesizes melatonin to regulate sleep-wake cycles and seasonal physiology.",
+      "Modulates hypothalamic and pituitary hormone release."
+    ],
+    "connections": [
+      "Receives sympathetic innervation via the superior cervical ganglion and paraventricular hypothalamus.",
+      "Projects hormonal signals into cerebrospinal fluid and systemic circulation."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "44": {
     "name": "Zona Incerta",
@@ -556,7 +1036,19 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Subthalamic gray zone participating in sensorimotor integration and arousal modulation.",
+    "aliases": [
+      "Zona Incerta Nucleus"
+    ],
+    "functions": [
+      "Influences somatosensory processing, eye movements, and arousal state.",
+      "Contributes to limbic-motor coordination for feeding and defensive behaviors."
+    ],
+    "connections": [
+      "Receives inputs from motor cortex, cerebellum, and basal ganglia structures.",
+      "Projects to thalamic nuclei, superior colliculus, spinal cord, and brainstem reticular formation."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "45": {
     "name": "Subthalamic Nucleus",
@@ -568,7 +1060,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Lentiform subthalamic nucleus essential for indirect basal ganglia pathway control of movement.",
+    "aliases": [
+      "Luys' Body",
+      "STN"
+    ],
+    "functions": [
+      "Provides excitatory drive to globus pallidus internus to suppress unwanted movements.",
+      "Participates in decision thresholds for action selection."
+    ],
+    "connections": [
+      "Receives inhibitory input from globus pallidus externus and excitatory cortical afferents.",
+      "Projects to globus pallidus internus, substantia nigra pars reticulata, and pedunculopontine nucleus."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "46": {
     "name": "Hypothalamus",
@@ -578,9 +1083,11 @@
     ],
     "groups": [
       "Diencephalon",
-      "Hypothalamus"
+      "Hypothalamus",
+      "Thalamus"
     ],
-    "description": "Controls autonomic, endocrine, and behavioral homeostasis."
+    "description": "Controls autonomic, endocrine, and behavioral homeostasis.",
+    "embryonic_origin": "Diencephalon"
   },
   "47": {
     "name": "Preoptic Region of Hypothalamus",
@@ -590,9 +1097,23 @@
     ],
     "groups": [
       "Diencephalon",
-      "Hypothalamus"
+      "Hypothalamus",
+      "Thalamus"
     ],
-    "description": ""
+    "description": "Anterior hypothalamic sector regulating reproductive behaviors, thermoregulation, and circadian rhythms.",
+    "aliases": [
+      "Preoptic Area",
+      "Anterior Hypothalamus"
+    ],
+    "functions": [
+      "Controls gonadotropin release and sexual behaviors via GnRH neurons.",
+      "Monitors core temperature and initiates heat-loss mechanisms."
+    ],
+    "connections": [
+      "Receives inputs from limbic forebrain, retina, and brainstem thermoregulatory centers.",
+      "Projects to pituitary gland, autonomic brainstem nuclei, and other hypothalamic regions."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "48": {
     "name": "Supraoptic Region of Hypothalamus",
@@ -602,9 +1123,23 @@
     ],
     "groups": [
       "Diencephalon",
-      "Hypothalamus"
+      "Hypothalamus",
+      "Thalamus"
     ],
-    "description": ""
+    "description": "Hypothalamic division housing magnocellular neurons that release vasopressin and oxytocin.",
+    "aliases": [
+      "Supraoptic Hypothalamus",
+      "Paraventricular-Supraoptic Complex"
+    ],
+    "functions": [
+      "Regulates water balance through vasopressin secretion.",
+      "Controls parturition and lactation via oxytocin release."
+    ],
+    "connections": [
+      "Receives osmotic and cardiovascular sensory inputs from circumventricular organs and brainstem.",
+      "Projects neurosecretory axons to posterior pituitary and parvocellular projections to autonomic centers."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "49": {
     "name": "Tuberal Region of Hypothalamus",
@@ -614,9 +1149,22 @@
     ],
     "groups": [
       "Diencephalon",
-      "Hypothalamus"
+      "Hypothalamus",
+      "Thalamus"
     ],
-    "description": ""
+    "description": "Mid-hypothalamic zone containing ventromedial and dorsomedial nuclei for energy balance and circadian rhythms.",
+    "aliases": [
+      "Tuberal Hypothalamus"
+    ],
+    "functions": [
+      "Regulates feeding, metabolism, and satiety signaling.",
+      "Coordinates circadian output via the suprachiasmatic nucleus connections."
+    ],
+    "connections": [
+      "Receives inputs from arcuate nucleus, brainstem visceral centers, and limbic cortex.",
+      "Projects to autonomic brainstem nuclei, pituitary, and widespread hypothalamic targets."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "50": {
     "name": "Mammillary Region of Hypothalamus",
@@ -626,9 +1174,22 @@
     ],
     "groups": [
       "Diencephalon",
-      "Hypothalamus"
+      "Hypothalamus",
+      "Thalamus"
     ],
-    "description": ""
+    "description": "Posterior hypothalamic region centered on mammillary bodies that supports memory and spatial navigation.",
+    "aliases": [
+      "Mammillary Hypothalamus"
+    ],
+    "functions": [
+      "Participates in recollective memory through the Papez circuit.",
+      "Integrates vestibular and head-direction signals for navigation."
+    ],
+    "connections": [
+      "Receives hippocampal inputs via the fornix.",
+      "Projects through the mammillothalamic and mammillotegmental tracts to thalamus and midbrain."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "51": {
     "name": "White Matter of Forebrain",
@@ -640,7 +1201,19 @@
       "White Matter",
       "Forebrain"
     ],
-    "description": ""
+    "description": "Major myelinated fiber systems of the forebrain enabling long-range communication between cortical and subcortical regions.",
+    "aliases": [
+      "Forebrain White Matter"
+    ],
+    "functions": [
+      "Supports efficient transmission of sensory, motor, and associative information across hemispheres and lobes.",
+      "Provides structural scaffolding for cortico-cortical and cortico-subcortical loops."
+    ],
+    "connections": [
+      "Includes commissural tracts, association fibers, and projection pathways.",
+      "Links cortical areas with thalamus, basal ganglia, hippocampus, and brainstem."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "52": {
     "name": "Anterior Commissure",
@@ -653,7 +1226,19 @@
       "White Matter",
       "Forebrain"
     ],
-    "description": ""
+    "description": "Compact commissural tract connecting temporal lobes and olfactory structures across hemispheres.",
+    "aliases": [
+      "Anterior Commissural Tract"
+    ],
+    "functions": [
+      "Interhemispheric communication between anterior temporal lobes and amygdalae.",
+      "Carries olfactory interconnections between hemispheres."
+    ],
+    "connections": [
+      "Interconnects anterior temporal cortices, amygdalae, and olfactory bulbs.",
+      "Links orbitofrontal and inferior frontal regions across the midline."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "53": {
     "name": "Corpus Callosum",
@@ -666,7 +1251,19 @@
       "White Matter",
       "Forebrain"
     ],
-    "description": ""
+    "description": "Largest cerebral commissure enabling integration of sensory, motor, and cognitive functions between hemispheres.",
+    "aliases": [
+      "Corpus Callosum Tract"
+    ],
+    "functions": [
+      "Coordinates bilateral cortical processing for language, vision, and motor control.",
+      "Facilitates interhemispheric transfer of learning and memory representations."
+    ],
+    "connections": [
+      "Contains callosal fibers linking homologous neocortical areas across frontal, parietal, temporal, and occipital lobes.",
+      "Connects cingulate cortices via the forceps minor and major."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "54": {
     "name": "Fornix",
@@ -678,20 +1275,44 @@
       "White Matter",
       "Forebrain"
     ],
-    "description": ""
+    "description": "C-shaped fiber bundle connecting hippocampus to mammillary bodies and septal area.",
+    "aliases": [
+      "Fornical Tract"
+    ],
+    "functions": [
+      "Supports memory consolidation and retrieval within the Papez circuit.",
+      "Transmits hippocampal signals controlling hypothalamic autonomic responses."
+    ],
+    "connections": [
+      "Arises from hippocampal fimbria and subiculum.",
+      "Projects to mammillary bodies, septal nuclei, and anterior thalamic nuclei."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "55": {
     "name": "Mammillothalamic Tract",
     "keywords": [
       "Forebrain",
-      "Vicq d’Azyr Bundle",
+      "Vicq d\u2019Azyr Bundle",
       "White Matter"
     ],
     "groups": [
       "White Matter",
       "Forebrain"
     ],
-    "description": ""
+    "description": "White matter tract linking mammillary bodies to anterior thalamic nuclei within the Papez circuit.",
+    "aliases": [
+      "Vicq d'Azyr Bundle"
+    ],
+    "functions": [
+      "Conveys mnemonic information from hypothalamus to thalamus for cingulate processing.",
+      "Supports spatial orientation and episodic memory."
+    ],
+    "connections": [
+      "Originates in mammillary bodies of the hypothalamus.",
+      "Terminates in anterior thalamic nuclei projecting to cingulate cortex."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "56": {
     "name": "Optic Tract",
@@ -705,7 +1326,19 @@
       "White Matter",
       "Forebrain"
     ],
-    "description": ""
+    "description": "Axonal continuation of the optic nerve carrying retinal signals to thalamic and midbrain visual centers.",
+    "aliases": [
+      "Optic Pathway"
+    ],
+    "functions": [
+      "Relays visual information for conscious perception, reflexes, and circadian entrainment.",
+      "Supports pupillary light reflex via pretectal projections."
+    ],
+    "connections": [
+      "Receives input from retinal ganglion cell axons after optic chiasm.",
+      "Projects to lateral geniculate nucleus, superior colliculus, pretectum, and suprachiasmatic nucleus."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "57": {
     "name": "Anterior Horn of Lateral Ventricle",
@@ -716,7 +1349,19 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Frontal extension of the lateral ventricle that cushions frontal lobe structures with cerebrospinal fluid.",
+    "aliases": [
+      "Frontal Horn of Lateral Ventricle"
+    ],
+    "functions": [
+      "Provides CSF circulation and homeostasis for frontal cerebral tissues.",
+      "Acts as anatomical landmark during neurosurgical navigation."
+    ],
+    "connections": [
+      "Continuous with the ventricular body at the foramen of Monro.",
+      "Communicates CSF flow with third ventricle via interventricular foramen."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "58": {
     "name": "Body of Lateral Ventricle",
@@ -727,7 +1372,19 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Central segment of the lateral ventricle running through parietal lobe white matter.",
+    "aliases": [
+      "Body of the Lateral Ventricle"
+    ],
+    "functions": [
+      "Maintains cerebrospinal fluid reservoir for parietal and callosal structures.",
+      "Supports nutrient exchange and waste clearance through ependymal lining."
+    ],
+    "connections": [
+      "Connects anterior and posterior horns of the lateral ventricle.",
+      "Communicates with choroid plexus for CSF production."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "59": {
     "name": "Posterior Horn of Lateral Ventricle",
@@ -738,7 +1395,19 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Occipital recess of the lateral ventricle extending into the occipital lobe.",
+    "aliases": [
+      "Occipital Horn of Lateral Ventricle"
+    ],
+    "functions": [
+      "Provides CSF support to visual association cortex.",
+      "Serves as radiologic landmark for optic radiations."
+    ],
+    "connections": [
+      "Continuous with ventricular atrium near the splenium of the corpus callosum.",
+      "Contains choroid plexus continuation into the temporal horn."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "60": {
     "name": "Inferior Horn of Lateral Ventricle",
@@ -749,7 +1418,19 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Temporal extension of the lateral ventricle adjacent to hippocampus and amygdala.",
+    "aliases": [
+      "Temporal Horn of Lateral Ventricle"
+    ],
+    "functions": [
+      "Supports CSF circulation near hippocampal formation.",
+      "Provides surgical corridor for medial temporal lobe procedures."
+    ],
+    "connections": [
+      "Extends from ventricular atrium alongside hippocampal head and tail.",
+      "Contains choroid plexus and collateral eminence landmarks."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "61": {
     "name": "Third Ventricle",
@@ -760,7 +1441,19 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Midline ventricular cavity of the diencephalon connecting lateral and fourth ventricles.",
+    "aliases": [
+      "Ventriculus Tertius"
+    ],
+    "functions": [
+      "Ensures cerebrospinal fluid circulation between forebrain and brainstem.",
+      "Provides ependymal interface for hypothalamic hormone diffusion."
+    ],
+    "connections": [
+      "Receives CSF from lateral ventricles via foramina of Monro.",
+      "Drains into cerebral aqueduct leading to fourth ventricle."
+    ],
+    "embryonic_origin": "Diencephalon"
   },
   "62": {
     "name": "Cerebellar Vermis",
@@ -772,7 +1465,8 @@
       "Hindbrain",
       "Cerebellum"
     ],
-    "description": "Midline cerebellar structure coordinating axial posture."
+    "description": "Midline cerebellar structure coordinating axial posture.",
+    "embryonic_origin": "Metencephalon"
   },
   "63": {
     "name": "Cerebellar Deep Nuclei",
@@ -787,13 +1481,37 @@
       "Hindbrain",
       "Cerebellum"
     ],
-    "description": ""
+    "description": "Deep cerebellar nuclei that serve as primary output channels from cerebellar cortex.",
+    "aliases": [
+      "Dentate-Interposed-Fastigial Nuclei"
+    ],
+    "functions": [
+      "Transform cerebellar cortical computations into motor and cognitive commands.",
+      "Contribute to balance, eye movements, and limb coordination."
+    ],
+    "connections": [
+      "Receive inhibitory Purkinje cell projections from cerebellar cortex.",
+      "Project via superior cerebellar peduncle to red nucleus, thalamus, and vestibular nuclei."
+    ],
+    "embryonic_origin": "Metencephalon"
   },
   "64": {
     "name": "White Matter of Hindbrain",
     "keywords": [],
     "groups": [],
-    "description": ""
+    "description": "Myelinated fiber tracts of the hindbrain conveying sensory, motor, and autonomic information.",
+    "aliases": [
+      "Hindbrain White Matter"
+    ],
+    "functions": [
+      "Provide conduits between spinal cord, cerebellum, and higher brain centers.",
+      "Support brainstem reflex arcs and cranial nerve pathways."
+    ],
+    "connections": [
+      "Includes ascending sensory tracts and descending corticospinal and corticonuclear fibers.",
+      "Links brainstem nuclei with cerebellum via cerebellar peduncles."
+    ],
+    "embryonic_origin": "Metencephalon / Myelencephalon"
   },
   "65": {
     "name": "Olfactory Tract",
@@ -804,7 +1522,19 @@
     "groups": [
       "Olfactory System"
     ],
-    "description": ""
+    "description": "Bundle of olfactory bulb axons transmitting odor information to olfactory cortex and limbic structures.",
+    "aliases": [
+      "Lateral Olfactory Tract"
+    ],
+    "functions": [
+      "Conveys processed olfactory signals for conscious perception and emotional associations.",
+      "Supports odor-guided behaviors through projections to limbic areas."
+    ],
+    "connections": [
+      "Originates from mitral and tufted cells of the olfactory bulb.",
+      "Projects to piriform cortex, olfactory tubercle, amygdala, and entorhinal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "66": {
     "name": "Precentral Gyrus",
@@ -816,7 +1546,20 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Primary motor cortex gyrus containing the somatotopic map for voluntary movements.",
+    "aliases": [
+      "Primary Motor Cortex",
+      "M1"
+    ],
+    "functions": [
+      "Generates corticospinal commands for skilled limb and facial movements.",
+      "Encodes force and direction parameters of motor output."
+    ],
+    "connections": [
+      "Receives input from premotor, supplementary motor, and somatosensory cortices.",
+      "Projects via corticospinal and corticobulbar tracts to spinal and brainstem motor nuclei."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "67": {
     "name": "Superior Frontal Gyrus",
@@ -828,7 +1571,19 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Dorsal frontal lobe gyrus involved in executive control, working memory, and self-referential processing.",
+    "aliases": [
+      "Superior Frontal Cortex"
+    ],
+    "functions": [
+      "Supports planning, attention shifting, and motor imagery.",
+      "Contributes to default mode network activity related to introspection."
+    ],
+    "connections": [
+      "Interconnects with dorsolateral prefrontal, parietal, and cingulate cortices.",
+      "Projects to caudate nucleus and thalamic mediodorsal nucleus."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "68": {
     "name": "Middle Frontal Gyrus",
@@ -841,7 +1596,19 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Central frontal gyrus mediating executive functions, language, and eye movement planning.",
+    "aliases": [
+      "Middle Frontal Cortex"
+    ],
+    "functions": [
+      "Facilitates working memory, attentional control, and reasoning.",
+      "Supports language production via dorsolateral prefrontal circuits."
+    ],
+    "connections": [
+      "Receives multimodal input from parietal association areas and thalamus.",
+      "Projects to caudate nucleus, premotor cortex, and inferior frontal regions."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "69": {
     "name": "Triangular Inferior Frontal Gyrus",
@@ -865,7 +1632,8 @@
     "connections": [
       "Interacts with the superior temporal gyrus via the arcuate fasciculus.",
       "Connects with dorsolateral prefrontal and supplementary motor areas."
-    ]
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "70": {
     "name": "Opercular Inferior Frontal Gyrus",
@@ -877,7 +1645,20 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Inferior frontal opercular subdivision implicated in language articulation and sensorimotor integration.",
+    "aliases": [
+      "Opercular Part of Inferior Frontal Gyrus",
+      "Broca's Pars Opercularis"
+    ],
+    "functions": [
+      "Coordinates speech production and phonological processing.",
+      "Integrates orofacial motor commands with auditory feedback."
+    ],
+    "connections": [
+      "Receives input from superior temporal auditory areas and premotor cortex.",
+      "Projects to motor cortex, basal ganglia, and supplementary motor area."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "71": {
     "name": "Gyrus Rectus (Straight Gyrus)",
@@ -889,7 +1670,20 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Medial orbital gyrus anterior to olfactory sulcus involved in reward valuation and autonomic control.",
+    "aliases": [
+      "Straight Gyrus",
+      "Gyrus Rectus"
+    ],
+    "functions": [
+      "Evaluates reward contingencies and social cues.",
+      "Regulates autonomic responses tied to emotion."
+    ],
+    "connections": [
+      "Connected with orbitofrontal cortex, amygdala, and hypothalamus.",
+      "Receives olfactory input via anterior olfactory nucleus and piriform cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "72": {
     "name": "Medial Orbital Gyrus",
@@ -901,10 +1695,22 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Medial orbital surface gyrus integrating reward, emotion, and visceral information.",
+    "aliases": [
+      "Medial Orbital Cortex"
+    ],
+    "functions": [
+      "Participates in valuation-based decision making.",
+      "Modulates autonomic responses and affective states."
+    ],
+    "connections": [
+      "Interconnects with ventromedial prefrontal cortex, amygdala, and hippocampus.",
+      "Projects to hypothalamus and ventral striatum."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "73": {
-    "name": "Anterior Intermediate Orbital Gyrus",
+    "name": "Anterior Orbital Gyrus",
     "keywords": [
       "Cerebral Cortex",
       "Frontal Lobe"
@@ -913,10 +1719,22 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Anterior orbital gyrus bridging medial and lateral orbital surfaces for social-emotional appraisal.",
+    "aliases": [
+      "Anterior Orbital Gyrus"
+    ],
+    "functions": [
+      "Assesses reward expectations and emotional significance of stimuli.",
+      "Supports adaptive decision making in complex social contexts."
+    ],
+    "connections": [
+      "Receives input from amygdala, temporal pole, and sensory association cortices.",
+      "Projects to ventromedial prefrontal and striatal circuits."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "74": {
-    "name": "Posterior Intermediate Orbital Gyrus",
+    "name": "Posterior Orbital Gyrus",
     "keywords": [
       "Cerebral Cortex",
       "Frontal Lobe"
@@ -925,7 +1743,19 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Posterior intermediate orbital gyrus contributing to taste, olfaction, and reward-guided behavior.",
+    "aliases": [
+      "Posterior Orbital Gyrus"
+    ],
+    "functions": [
+      "Integrates gustatory and olfactory cues with reward value.",
+      "Participates in reversal learning and adaptive control."
+    ],
+    "connections": [
+      "Connected with insular cortex, gustatory thalamus, and amygdala.",
+      "Projects to ventral striatum and medial prefrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "75": {
     "name": "Lateral Orbital Gyrus",
@@ -937,7 +1767,19 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Lateral orbital gyrus interfacing sensory association inputs with reward-based decision circuits.",
+    "aliases": [
+      "Lateral Orbitofrontal Cortex"
+    ],
+    "functions": [
+      "Supports evaluation of punishers and behavioral change.",
+      "Integrates multisensory evidence for value-based choices."
+    ],
+    "connections": [
+      "Receives projections from temporal association cortex, amygdala, and sensory cortices.",
+      "Projects to dorsolateral prefrontal cortex, striatum, and hypothalamus."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "76": {
     "name": "Rostral Paracentral Lobule",
@@ -949,7 +1791,19 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Medial frontal lobule housing supplementary motor areas for leg and trunk representation.",
+    "aliases": [
+      "Anterior Paracentral Lobule"
+    ],
+    "functions": [
+      "Initiates internally driven movements and bimanual coordination.",
+      "Participates in motor planning for locomotion."
+    ],
+    "connections": [
+      "Receives inputs from premotor cortex, basal ganglia, and cerebellum.",
+      "Projects to corticospinal tract targeting lower limb motor neurons."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "77": {
     "name": "Frontal Operculum",
@@ -961,7 +1815,19 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Portion of inferior frontal cortex forming operculum over insula, central to gustatory and language functions.",
+    "aliases": [
+      "Frontal Opercular Cortex"
+    ],
+    "functions": [
+      "Processes taste perception and orofacial somatosensation.",
+      "Contributes to articulation planning and phonological working memory."
+    ],
+    "connections": [
+      "Receives gustatory thalamic input and insular projections.",
+      "Projects to motor cortex, ventral striatum, and anterior insula."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "78": {
     "name": "Postcentral Gyrus",
@@ -973,10 +1839,23 @@
       "Cerebral Cortex",
       "Parietal Lobe"
     ],
-    "description": ""
+    "description": "Primary somatosensory cortex gyrus encoding tactile and proprioceptive information.",
+    "aliases": [
+      "Postcentral Cortex",
+      "S1"
+    ],
+    "functions": [
+      "Maps somatotopic sensory input for conscious perception of touch, vibration, and proprioception.",
+      "Supports sensorimotor integration for fine motor control."
+    ],
+    "connections": [
+      "Receives thalamic input from VPL and VPM nuclei.",
+      "Projects to secondary somatosensory cortex, posterior parietal cortex, and motor areas."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "79": {
-    "name": "Supraparietal Lobule",
+    "name": "Superior Parietal Lobule",
     "keywords": [
       "Cerebral Cortex",
       "Parietal Lobe"
@@ -985,7 +1864,19 @@
       "Cerebral Cortex",
       "Parietal Lobe"
     ],
-    "description": ""
+    "description": "Dorsal parietal lobule involved in visuomotor coordination, spatial attention, and reaching.",
+    "aliases": [
+      "Superior Parietal Lobule"
+    ],
+    "functions": [
+      "Integrates somatosensory and visual information for spatial representation.",
+      "Guides hand-eye coordination and body awareness."
+    ],
+    "connections": [
+      "Interconnects with premotor cortex, superior occipital cortex, and cerebellum.",
+      "Projects to intraparietal sulcus regions and dorsolateral prefrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "80": {
     "name": "Supramarginal Gyrus",
@@ -997,7 +1888,19 @@
       "Cerebral Cortex",
       "Parietal Lobe"
     ],
-    "description": ""
+    "description": "Inferior parietal gyrus supporting language, empathy, and multimodal integration.",
+    "aliases": [
+      "Supramarginal Cortex"
+    ],
+    "functions": [
+      "Facilitates phonological processing and verbal working memory.",
+      "Contributes to theory of mind and body schema."
+    ],
+    "connections": [
+      "Receives inputs from auditory cortex, somatosensory cortex, and visual association areas.",
+      "Projects to inferior frontal gyrus, premotor cortex, and temporoparietal junction."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "81": {
     "name": "Angular Gyrus",
@@ -1009,7 +1912,19 @@
       "Cerebral Cortex",
       "Parietal Lobe"
     ],
-    "description": ""
+    "description": "Posterior inferior parietal gyrus integrating visual, auditory, and somatosensory cues for language and spatial cognition.",
+    "aliases": [
+      "Angular Cortex"
+    ],
+    "functions": [
+      "Supports semantic processing, reading, and number cognition.",
+      "Mediates attention reorienting and spatial awareness."
+    ],
+    "connections": [
+      "Interconnects with temporal association cortex, prefrontal regions, and hippocampal formation.",
+      "Projects to default mode network hubs and language networks."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "82": {
     "name": "Precuneus",
@@ -1022,7 +1937,19 @@
       "Cerebral Cortex",
       "Parietal Lobe"
     ],
-    "description": ""
+    "description": "Medial parietal cortex involved in visuospatial imagery, self-referential thought, and memory retrieval.",
+    "aliases": [
+      "Precuneal Cortex"
+    ],
+    "functions": [
+      "Supports episodic memory and scene construction.",
+      "Participates in default mode network and conscious awareness."
+    ],
+    "connections": [
+      "Receives input from posterior cingulate, parietal, and occipital cortices.",
+      "Projects to medial prefrontal cortex, hippocampus, and thalamus."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "83": {
     "name": "Caudal Paracentral Lobule",
@@ -1034,7 +1961,19 @@
       "Cerebral Cortex",
       "Parietal Lobe"
     ],
-    "description": ""
+    "description": "Posterior continuation of paracentral lobule containing somatotopic representation of lower limbs in somatosensory cortex.",
+    "aliases": [
+      "Posterior Paracentral Lobule"
+    ],
+    "functions": [
+      "Processes sensory feedback from legs and pelvic region.",
+      "Contributes to proprioceptive control of gait."
+    ],
+    "connections": [
+      "Receives thalamic VPL input for lower limb sensory modalities.",
+      "Projects to supplementary motor and premotor areas for locomotor control."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "84": {
     "name": "Superior Temporal Gyrus",
@@ -1046,7 +1985,19 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Dorsal temporal gyrus specialized for auditory processing and language comprehension.",
+    "aliases": [
+      "Superior Temporal Cortex"
+    ],
+    "functions": [
+      "Processes primary auditory information including pitch and speech perception.",
+      "Supports social cognition via superior temporal sulcus regions."
+    ],
+    "connections": [
+      "Receives input from medial geniculate nucleus and auditory brainstem pathways.",
+      "Projects to inferior frontal gyrus, parietal association cortex, and limbic areas."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "85": {
     "name": "Middle Temporal Gyrus",
@@ -1059,7 +2010,19 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Middle temporal gyrus involved in semantic memory, language comprehension, and motion perception.",
+    "aliases": [
+      "Middle Temporal Cortex"
+    ],
+    "functions": [
+      "Supports lexical retrieval and conceptual knowledge.",
+      "Participates in processing visual motion and biological movement."
+    ],
+    "connections": [
+      "Interconnects with inferior frontal language areas, angular gyrus, and temporal pole.",
+      "Projects to ventral visual stream and limbic cortices."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "86": {
     "name": "Inferior Temporal Gyrus",
@@ -1071,7 +2034,19 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Inferior temporal gyrus forming part of ventral visual stream for object recognition.",
+    "aliases": [
+      "Inferior Temporal Cortex"
+    ],
+    "functions": [
+      "Encodes complex visual features for object and face recognition.",
+      "Supports semantic categorization and memory recall."
+    ],
+    "connections": [
+      "Receives input from occipital visual areas and superior temporal sulcus.",
+      "Projects to perirhinal cortex, amygdala, and prefrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "87": {
     "name": "Temporal Fusiform Gyrus",
@@ -1084,20 +2059,47 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Ventral temporal gyrus specialized for high-level visual processing including face and word recognition.",
+    "aliases": [
+      "Fusiform Gyrus",
+      "Occipitotemporal Gyrus"
+    ],
+    "functions": [
+      "Supports fusiform face area and visual word form area for expert pattern recognition.",
+      "Integrates visual identity cues with memory and emotion."
+    ],
+    "connections": [
+      "Receives input from ventral visual stream and occipital cortex.",
+      "Projects to inferior temporal, parahippocampal, and prefrontal areas."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "88": {
     "name": "Transverse Temporal Gyrus",
     "keywords": [
       "Cerebral Cortex",
-      "Heschl’s Gyrus",
+      "Heschl\u2019s Gyrus",
       "Temporal Lobe"
     ],
     "groups": [
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Heschl's gyrus forming primary auditory cortex receiving tonotopic thalamic input.",
+    "aliases": [
+      "Heschl's Gyrus",
+      "Primary Auditory Cortex",
+      "A1"
+    ],
+    "functions": [
+      "Processes fundamental acoustic features such as frequency, intensity, and timing.",
+      "Initiates cortical analysis for speech and music perception."
+    ],
+    "connections": [
+      "Receives thalamocortical projections from medial geniculate nucleus.",
+      "Projects to surrounding auditory association cortices and insula."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "89": {
     "name": "Planum Temporale",
@@ -1110,7 +2112,19 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Planum posterior to Heschl's gyrus involved in auditory spatial processing and language lateralization.",
+    "aliases": [
+      "Temporoparietal Planum"
+    ],
+    "functions": [
+      "Supports integration of auditory spatial cues and speech perception.",
+      "Contributes to phonological working memory and language dominance."
+    ],
+    "connections": [
+      "Interacts with superior temporal gyrus, inferior parietal lobule, and frontal operculum.",
+      "Receives projections from auditory association cortex and medial geniculate body."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "90": {
     "name": "Temporal Pole",
@@ -1122,7 +2136,19 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Anterior temporal lobe apex integrating multimodal sensory and limbic inputs for social and semantic processing.",
+    "aliases": [
+      "Temporal Pole Cortex"
+    ],
+    "functions": [
+      "Mediates social-emotional cognition and autobiographical memory.",
+      "Supports semantic representations of people and objects."
+    ],
+    "connections": [
+      "Receives afferents from amygdala, orbitofrontal cortex, and sensory association cortices.",
+      "Projects to limbic structures, insula, and prefrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "91": {
     "name": "Planum Polare",
@@ -1134,7 +2160,19 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Anterior superior temporal plane region processing complex auditory patterns and prosody.",
+    "aliases": [
+      "Planum Polare"
+    ],
+    "functions": [
+      "Analyzes spectral aspects of speech and music.",
+      "Participates in auditory attention and predictive coding."
+    ],
+    "connections": [
+      "Receives input from primary auditory cortex and medial geniculate nucleus.",
+      "Projects to superior temporal gyrus, inferior frontal cortex, and insula."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "92": {
     "name": "Occipital Pole",
@@ -1146,7 +2184,19 @@
       "Cerebral Cortex",
       "Occipital Lobe"
     ],
-    "description": ""
+    "description": "Posterior-most occipital lobe region containing primary visual cortex representations.",
+    "aliases": [
+      "Occipital Apex"
+    ],
+    "functions": [
+      "Supports high-acuity vision and processing of central visual field.",
+      "Integrates binocular input for depth perception."
+    ],
+    "connections": [
+      "Receives afferents via optic radiations from lateral geniculate nucleus.",
+      "Projects to surrounding visual association cortices and splenial callosal fibers."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "93": {
     "name": "Cuneus",
@@ -1159,7 +2209,19 @@
       "Cerebral Cortex",
       "Occipital Lobe"
     ],
-    "description": ""
+    "description": "Medial occipital gyrus forming part of primary visual cortex and dorsal visual stream.",
+    "aliases": [
+      "Cuneal Cortex"
+    ],
+    "functions": [
+      "Processes lower visual field information and motion cues.",
+      "Supports visuospatial attention via dorsal stream pathways."
+    ],
+    "connections": [
+      "Receives input from lateral geniculate nucleus via optic radiations.",
+      "Projects to superior parietal lobule and other occipital areas."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "94": {
     "name": "Lingual Gyrus",
@@ -1172,7 +2234,19 @@
       "Cerebral Cortex",
       "Occipital Lobe"
     ],
-    "description": ""
+    "description": "Medial occipitotemporal gyrus critical for visual memory and recognition of complex scenes.",
+    "aliases": [
+      "Lingual Cortex"
+    ],
+    "functions": [
+      "Participates in encoding of letters, words, and visual imagery.",
+      "Supports processing of visual scenes and dream imagery."
+    ],
+    "connections": [
+      "Interconnects with calcarine cortex, parahippocampal gyrus, and fusiform gyrus.",
+      "Projects to hippocampus and cingulate cortex via posterior cingulum."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "95": {
     "name": "Occipital Fusiform Gyrus",
@@ -1184,7 +2258,19 @@
       "Cerebral Cortex",
       "Occipital Lobe"
     ],
-    "description": ""
+    "description": "Ventral occipital gyrus serving as part of the ventral visual stream for object and face processing.",
+    "aliases": [
+      "Occipitotemporal Fusiform Gyrus"
+    ],
+    "functions": [
+      "Integrates shape, color, and texture information for recognition.",
+      "Supports reading and orthographic processing."
+    ],
+    "connections": [
+      "Receives projections from calcarine cortex and lateral occipital complex.",
+      "Projects to inferior temporal cortex and limbic structures."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "96": {
     "name": "Inferior Occipital Gyrus",
@@ -1196,7 +2282,19 @@
       "Cerebral Cortex",
       "Occipital Lobe"
     ],
-    "description": ""
+    "description": "Inferolateral occipital gyrus contributing to visual motion and object recognition pathways.",
+    "aliases": [
+      "Inferior Occipital Cortex"
+    ],
+    "functions": [
+      "Participates in processing complex object shapes and motion cues.",
+      "Supports integration of visual and spatial information for perception."
+    ],
+    "connections": [
+      "Receives input from primary visual cortex and lateral occipital areas.",
+      "Projects to temporal visual association cortices and parietal regions."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "97": {
     "name": "Superior Occipital Gyrus",
@@ -1219,7 +2317,8 @@
     "connections": [
       "Links to parietal cortices through the dorsal visual pathway.",
       "Interconnects with middle occipital gyrus and intraparietal sulcus."
-    ]
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "98": {
     "name": "Anterior Cingulate Gyrus",
@@ -1232,7 +2331,20 @@
       "Cerebral Cortex",
       "Limbic System"
     ],
-    "description": ""
+    "description": "Medial frontal gyrus implicated in cognitive control, emotion regulation, and autonomic integration.",
+    "aliases": [
+      "Rostral Cingulate Cortex",
+      "ACC"
+    ],
+    "functions": [
+      "Monitors conflict and error to adjust behavior.",
+      "Integrates emotion and motivation with decision making."
+    ],
+    "connections": [
+      "Receives input from prefrontal cortex, amygdala, and thalamus.",
+      "Projects to premotor cortex, autonomic brainstem nuclei, and limbic structures."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "99": {
     "name": "Posterior Cingulate Gyrus",
@@ -1245,7 +2357,19 @@
       "Cerebral Cortex",
       "Limbic System"
     ],
-    "description": ""
+    "description": "Posterior cingulate gyrus serving as a default mode network hub for memory and self-processing.",
+    "aliases": [
+      "PCC"
+    ],
+    "functions": [
+      "Supports episodic memory retrieval and spatial orientation.",
+      "Integrates internal mentation with environmental awareness."
+    ],
+    "connections": [
+      "Interconnects with precuneus, medial temporal lobe, and medial prefrontal cortex.",
+      "Receives thalamic inputs from anterior nuclei and projects via cingulum bundle."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "100": {
     "name": "Cingulo-Parahippocampal Isthmus",
@@ -1258,7 +2382,19 @@
       "Cerebral Cortex",
       "Limbic System"
     ],
-    "description": ""
+    "description": "Narrow bridge linking cingulate and parahippocampal gyri carrying fibers of the cingulum bundle.",
+    "aliases": [
+      "Isthmus of Cingulate Gyrus"
+    ],
+    "functions": [
+      "Integrates retrosplenial and parahippocampal processing for memory and navigation.",
+      "Supports limbic connectivity between posterior cingulate and hippocampal formation."
+    ],
+    "connections": [
+      "Contains cingulum fibers connecting posterior cingulate to parahippocampal regions.",
+      "Links retrosplenial cortex with hippocampus and entorhinal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "101": {
     "name": "Subcallosal (Parolfactory) Gyrus",
@@ -1272,7 +2408,20 @@
       "Cerebral Cortex",
       "Limbic System"
     ],
-    "description": ""
+    "description": "Small medial frontal gyrus adjacent to corpus callosum involved in reward, olfaction, and limbic processing.",
+    "aliases": [
+      "Subcallosal Gyrus",
+      "Parolfactory Area"
+    ],
+    "functions": [
+      "Regulates mood and autonomic responses via limbic circuits.",
+      "Participates in olfactory-driven emotional processing."
+    ],
+    "connections": [
+      "Receives inputs from orbitofrontal cortex, amygdala, and olfactory structures.",
+      "Projects to hypothalamus, ventral striatum, and cingulate cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "102": {
     "name": "Anterior Parahippocampal Gyrus",
@@ -1284,7 +2433,19 @@
       "Limbic System",
       "Hippocampal Formation"
     ],
-    "description": ""
+    "description": "Anterior segment of parahippocampal gyrus associated with entorhinal cortex and olfactory-limbic integration.",
+    "aliases": [
+      "Anterior Parahippocampal Cortex"
+    ],
+    "functions": [
+      "Supports encoding of contextual and episodic memories.",
+      "Integrates olfactory inputs with hippocampal memory circuits."
+    ],
+    "connections": [
+      "Receives input from entorhinal, perirhinal, and olfactory cortices.",
+      "Projects to hippocampal formation, amygdala, and orbitofrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "103": {
     "name": "Posterior Parahippocampal Gyrus",
@@ -1296,7 +2457,19 @@
       "Limbic System",
       "Hippocampal Formation"
     ],
-    "description": ""
+    "description": "Posterior parahippocampal gyrus encompassing parahippocampal place area for scene perception.",
+    "aliases": [
+      "Posterior Parahippocampal Cortex"
+    ],
+    "functions": [
+      "Processes spatial layouts and environmental scenes.",
+      "Supports memory for locations and contextual associations."
+    ],
+    "connections": [
+      "Receives input from retrosplenial cortex, occipital visual areas, and hippocampus.",
+      "Projects to entorhinal cortex, cingulate gyrus, and medial temporal lobe."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "104": {
     "name": "Ambiens Gyrus",
@@ -1308,7 +2481,20 @@
       "Limbic System",
       "Hippocampal Formation"
     ],
-    "description": ""
+    "description": "Medial temporal gyrus adjacent to hippocampus contributing to olfactory and memory integration.",
+    "aliases": [
+      "Gyrus Ambiens",
+      "Uncal Cortex"
+    ],
+    "functions": [
+      "Supports odor-based memory and emotional responses.",
+      "Links olfactory information with hippocampal encoding."
+    ],
+    "connections": [
+      "Receives input from olfactory cortex and amygdala.",
+      "Projects to entorhinal cortex, hippocampus, and hypothalamus."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "105": {
     "name": "Head of Hippocampus",
@@ -1321,7 +2507,24 @@
       "Limbic System",
       "Hippocampal Formation"
     ],
-    "description": ""
+    "description": "Telencephalic structure with dentate gyrus, CA fields, and subiculum; essential for episodic memory, navigation, and contextual learning.",
+    "aliases": [
+      "Hippocampal Head",
+      "Pes Hippocampi"
+    ],
+    "functions": [
+      "Encodes episodic memories with strong affective components.",
+      "Participates in hypothalamic-pituitary-adrenal axis modulation.",
+      "Encodes and retrieves episodic and spatial memory.",
+      "Supports spatial navigation via place cells and cognitive maps."
+    ],
+    "connections": [
+      "Receives entorhinal and amygdalar inputs via perforant pathway.",
+      "Projects to fornix, septal nuclei, and hypothalamus.",
+      "Inputs from entorhinal cortex via perforant path.",
+      "Outputs through subiculum and fornix to mammillary bodies and prefrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "106": {
     "name": "Body of Hippocampus",
@@ -1334,7 +2537,23 @@
       "Limbic System",
       "Hippocampal Formation"
     ],
-    "description": ""
+    "description": "Telencephalic structure with dentate gyrus, CA fields, and subiculum; essential for episodic memory, navigation, and contextual learning.",
+    "aliases": [
+      "Hippocampal Body"
+    ],
+    "functions": [
+      "Supports spatial navigation and associative memory.",
+      "Mediates communication between anterior and posterior hippocampal segments.",
+      "Encodes and retrieves episodic and spatial memory.",
+      "Supports spatial navigation via place cells and cognitive maps."
+    ],
+    "connections": [
+      "Receives perforant pathway input from entorhinal cortex and septal modulation.",
+      "Projects along longitudinal fibers to fornix and subiculum.",
+      "Inputs from entorhinal cortex via perforant path.",
+      "Outputs through subiculum and fornix to mammillary bodies and prefrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "107": {
     "name": "Tail of Hippocampus",
@@ -1347,7 +2566,23 @@
       "Limbic System",
       "Hippocampal Formation"
     ],
-    "description": ""
+    "description": "Telencephalic structure with dentate gyrus, CA fields, and subiculum; essential for episodic memory, navigation, and contextual learning.",
+    "aliases": [
+      "Hippocampal Tail"
+    ],
+    "functions": [
+      "Supports precise spatial mapping and scene discrimination.",
+      "Contributes to memory retrieval and navigation planning.",
+      "Encodes and retrieves episodic and spatial memory.",
+      "Supports spatial navigation via place cells and cognitive maps."
+    ],
+    "connections": [
+      "Receives input from retrosplenial cortex and entorhinal posterior regions.",
+      "Projects via fornix and subiculum to thalamus and mammillary bodies.",
+      "Inputs from entorhinal cortex via perforant path.",
+      "Outputs through subiculum and fornix to mammillary bodies and prefrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "108": {
     "name": "Long Insular Gyri",
@@ -1360,7 +2595,19 @@
       "Cerebral Cortex",
       "Insular Cortex"
     ],
-    "description": ""
+    "description": "Long gyri on insular surface processing visceral sensation and interoceptive awareness.",
+    "aliases": [
+      "Posterior Insular Gyri"
+    ],
+    "functions": [
+      "Encode pain, temperature, and vestibular signals.",
+      "Support integration of bodily states with emotional awareness."
+    ],
+    "connections": [
+      "Receive inputs from thalamic ventromedial posterior nucleus and somatosensory cortices.",
+      "Project to anterior insula, cingulate cortex, and prefrontal regions."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "109": {
     "name": "Short Insular Gyri",
@@ -1373,7 +2620,19 @@
       "Cerebral Cortex",
       "Insular Cortex"
     ],
-    "description": ""
+    "description": "Short anterior insular gyri responsible for higher-order interoception, emotion, and gustation.",
+    "aliases": [
+      "Anterior Insular Gyri"
+    ],
+    "functions": [
+      "Facilitate awareness of emotions and bodily feelings.",
+      "Participate in taste processing and autonomic control."
+    ],
+    "connections": [
+      "Receive input from thalamic gustatory nuclei, amygdala, and frontal operculum.",
+      "Project to anterior cingulate cortex, orbitofrontal cortex, and limbic structures."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "110": {
     "name": "Limen Insula",
@@ -1386,7 +2645,20 @@
       "Cerebral Cortex",
       "Insular Cortex"
     ],
-    "description": ""
+    "description": "Transition zone between insula and temporal lobe that relays olfactory and gustatory signals.",
+    "aliases": [
+      "Threshold of Insula",
+      "Insular Limen"
+    ],
+    "functions": [
+      "Integrates chemosensory inputs before distribution to insular and orbitofrontal cortices.",
+      "Coordinates visceral-autonomic responses to taste and smell."
+    ],
+    "connections": [
+      "Receives fibers from olfactory tract and gustatory thalamus.",
+      "Projects to anterior insula, amygdala, and frontal operculum."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "111": {
     "name": "Pretectal Region",
@@ -1399,7 +2671,19 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Dorsal midbrain region mediating pupillary reflexes and visual attention shifts.",
+    "aliases": [
+      "Pretectum"
+    ],
+    "functions": [
+      "Controls pupillary light reflex and accommodation.",
+      "Contributes to visuomotor coordination for eye movements."
+    ],
+    "connections": [
+      "Receives retinal and superior colliculus inputs via optic tract.",
+      "Projects to Edinger-Westphal nucleus, superior colliculus, and pulvinar."
+    ],
+    "embryonic_origin": "Undetermined"
   },
   "112": {
     "name": "Midbrain Tegmentum",
@@ -1412,7 +2696,19 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Central midbrain region containing ascending arousal systems and cranial nerve nuclei.",
+    "aliases": [
+      "Midbrain Tegmental Area"
+    ],
+    "functions": [
+      "Maintains arousal and reward processing via dopaminergic and cholinergic neurons.",
+      "Integrates sensory information for orienting and reflexive responses."
+    ],
+    "connections": [
+      "Receives inputs from cerebral cortex, cerebellum, and spinal cord.",
+      "Projects to thalamus, basal ganglia, hypothalamus, and spinal cord."
+    ],
+    "embryonic_origin": "Mesencephalon"
   },
   "113": {
     "name": "Red Nucleus",
@@ -1425,7 +2721,20 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Paired midbrain nucleus coordinating motor learning and limb movement timing.",
+    "aliases": [
+      "Nucleus Ruber",
+      "Red Nucleus"
+    ],
+    "functions": [
+      "Facilitates limb flexor control and motor learning.",
+      "Relays cerebellar output to spinal and cortical motor systems."
+    ],
+    "connections": [
+      "Receives cerebellar dentate nucleus projections via superior cerebellar peduncle.",
+      "Projects to spinal cord via rubrospinal tract and to thalamus."
+    ],
+    "embryonic_origin": "Mesencephalon"
   },
   "114": {
     "name": "Substantia Nigra",
@@ -1439,7 +2748,20 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Basal midbrain structure with dopaminergic and GABAergic subdivisions crucial for movement and reward.",
+    "aliases": [
+      "Substantia Nigra Pars Compacta",
+      "Substantia Nigra Pars Reticulata"
+    ],
+    "functions": [
+      "Regulates motor initiation through dopamine release to striatum.",
+      "Provides inhibitory output to thalamus and superior colliculus for eye movement control."
+    ],
+    "connections": [
+      "Receives afferents from striatum and subthalamic nucleus.",
+      "Projects dopaminergic fibers to striatum and inhibitory projections to thalamus and brainstem."
+    ],
+    "embryonic_origin": "Mesencephalon"
   },
   "115": {
     "name": "Superior Colliculus",
@@ -1452,7 +2774,19 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Layered midbrain tectal structure integrating visual signals for orienting movements.",
+    "aliases": [
+      "Superior Colliculus"
+    ],
+    "functions": [
+      "Coordinates saccadic eye movements and head orientation.",
+      "Integrates multimodal sensory cues for spatial attention."
+    ],
+    "connections": [
+      "Receives retinal, cortical, and auditory inputs.",
+      "Projects to brainstem gaze centers, thalamus, and spinal cord."
+    ],
+    "embryonic_origin": "Mesencephalon"
   },
   "116": {
     "name": "Inferior Colliculus",
@@ -1465,7 +2799,19 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Midbrain auditory tectal structure processing sound localization and reflexes.",
+    "aliases": [
+      "Inferior Colliculus"
+    ],
+    "functions": [
+      "Integrates auditory signals from brainstem nuclei for spatial hearing.",
+      "Drives acoustic startle and orienting reflexes."
+    ],
+    "connections": [
+      "Receives inputs from cochlear nucleus, superior olivary complex, and lateral lemniscus.",
+      "Projects to medial geniculate nucleus and auditory cortex."
+    ],
+    "embryonic_origin": "Mesencephalon"
   },
   "117": {
     "name": "Cerebral Peduncle (Crus Cerebri)",
@@ -1478,7 +2824,20 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Massive descending fiber bundle conveying cortical motor signals through the midbrain.",
+    "aliases": [
+      "Crus Cerebri",
+      "Cerebral Peduncle"
+    ],
+    "functions": [
+      "Transmits corticospinal, corticobulbar, and corticopontine fibers.",
+      "Supports voluntary movement control and cerebellar feedback loops."
+    ],
+    "connections": [
+      "Receives axons from frontal, parietal, and temporal cortices.",
+      "Projects to brainstem motor nuclei, pontine nuclei, and spinal cord."
+    ],
+    "embryonic_origin": "Undetermined"
   },
   "118": {
     "name": "Superior Cerebellar Peduncle",
@@ -1495,7 +2854,19 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Major efferent pathway from cerebellum carrying processed motor signals to brainstem and thalamus.",
+    "aliases": [
+      "Superior Cerebellar Peduncle"
+    ],
+    "functions": [
+      "Channels cerebellar output for motor coordination and eye movements.",
+      "Participates in cognitive loops linking cerebellum to frontal cortex."
+    ],
+    "connections": [
+      "Receives input from dentate, interposed, and fastigial nuclei.",
+      "Projects to red nucleus, thalamus, and vestibular nuclei."
+    ],
+    "embryonic_origin": "Metencephalon"
   },
   "119": {
     "name": "Cerebral Aqueduct",
@@ -1509,7 +2880,20 @@
       "Brainstem",
       "Midbrain"
     ],
-    "description": ""
+    "description": "Narrow canal linking third and fourth ventricles through the midbrain.",
+    "aliases": [
+      "Aqueduct of Sylvius",
+      "Cerebral Aqueduct"
+    ],
+    "functions": [
+      "Allows cerebrospinal fluid flow from forebrain to hindbrain.",
+      "Helps distribute neuroendocrine signals within ventricular system."
+    ],
+    "connections": [
+      "Connects third ventricle superiorly with fourth ventricle inferiorly.",
+      "Borders periaqueductal gray, facilitating diffusion of neuromodulators."
+    ],
+    "embryonic_origin": "Undetermined"
   },
   "120": {
     "name": "Paravermis of Cerebellum",
@@ -1522,7 +2906,20 @@
       "Hindbrain",
       "Cerebellum"
     ],
-    "description": ""
+    "description": "Intermediate cerebellar zone between vermis and hemispheres coordinating limb and trunk movements.",
+    "aliases": [
+      "Intermediate Cerebellar Cortex",
+      "Paravermis"
+    ],
+    "functions": [
+      "Adjusts ongoing limb movements and posture via spinocerebellar feedback.",
+      "Contributes to motor learning for reaching and grasping."
+    ],
+    "connections": [
+      "Receives spinocerebellar and pontocerebellar inputs.",
+      "Projects to interposed nuclei and onward to red nucleus and motor cortex."
+    ],
+    "embryonic_origin": "Metencephalon"
   },
   "121": {
     "name": "Lateral Hemisphere of Cerebellum",
@@ -1535,7 +2932,20 @@
       "Hindbrain",
       "Cerebellum"
     ],
-    "description": ""
+    "description": "Lateral cerebellar hemispheres involved in planning complex movements and cognitive processing.",
+    "aliases": [
+      "Cerebrocerebellum",
+      "Lateral Cerebellar Cortex"
+    ],
+    "functions": [
+      "Support motor planning, timing, and error correction.",
+      "Participate in language, working memory, and executive functions."
+    ],
+    "connections": [
+      "Receive extensive pontocerebellar input from cerebral cortex.",
+      "Project via dentate nucleus to thalamus and prefrontal/motor areas."
+    ],
+    "embryonic_origin": "Metencephalon"
   },
   "122": {
     "name": "Basilar Part of Pons",
@@ -1547,7 +2957,8 @@
       "Brainstem",
       "Pons"
     ],
-    "description": "Basilar pons containing pontine nuclei and transverse fibers."
+    "description": "Basilar pons containing pontine nuclei and transverse fibers.",
+    "embryonic_origin": "Metencephalon"
   },
   "123": {
     "name": "Pontine Tegmentum",
@@ -1559,7 +2970,8 @@
       "Brainstem",
       "Pons"
     ],
-    "description": "Pontine tegmental core with cranial nerve nuclei."
+    "description": "Pontine tegmental core with cranial nerve nuclei.",
+    "embryonic_origin": "Metencephalon"
   },
   "124": {
     "name": "Pyramidal Part of Medulla Oblongata",
@@ -1572,7 +2984,19 @@
       "Brainstem",
       "Medulla"
     ],
-    "description": ""
+    "description": "Anterior medullary pyramid containing corticospinal fibers descending to spinal cord.",
+    "aliases": [
+      "Pyramids of Medulla"
+    ],
+    "functions": [
+      "Convey voluntary motor commands from motor cortex to spinal motor neurons.",
+      "Participate in decussation controlling contralateral limb movements."
+    ],
+    "connections": [
+      "Receive corticospinal axons from cerebral cortex.",
+      "Project to spinal cord anterior horn cells after pyramidal decussation."
+    ],
+    "embryonic_origin": "Undetermined"
   },
   "125": {
     "name": "Tegmentum of Medulla Oblongata",
@@ -1585,7 +3009,19 @@
       "Brainstem",
       "Medulla"
     ],
-    "description": ""
+    "description": "Medullary tegmentum housing autonomic nuclei, reticular formation, and cranial nerve centers.",
+    "aliases": [
+      "Medullary Tegmentum"
+    ],
+    "functions": [
+      "Regulates cardiovascular, respiratory, and reflex functions.",
+      "Integrates sensory input for arousal and motor coordination."
+    ],
+    "connections": [
+      "Receives inputs from spinal cord, cerebellum, and cranial nerves.",
+      "Projects to hypothalamus, thalamus, and spinal cord."
+    ],
+    "embryonic_origin": "Mesencephalon"
   },
   "126": {
     "name": "Inferior Olive",
@@ -1598,7 +3034,19 @@
       "Brainstem",
       "Medulla"
     ],
-    "description": ""
+    "description": "Medullary olivary complex providing climbing fiber input to cerebellum for motor learning.",
+    "aliases": [
+      "Inferior Olivary Nucleus"
+    ],
+    "functions": [
+      "Generates error signals that guide cerebellar plasticity.",
+      "Synchronizes motor timing and coordination."
+    ],
+    "connections": [
+      "Receives input from cortex, spinal cord, and red nucleus.",
+      "Projects climbing fibers to contralateral cerebellar cortex."
+    ],
+    "embryonic_origin": "Undetermined"
   },
   "127": {
     "name": "Inferior Cerebellar Peduncle",
@@ -1610,7 +3058,20 @@
       "Hindbrain",
       "Cerebellum"
     ],
-    "description": ""
+    "description": "Large fiber bundle carrying afferent inputs from spinal cord and medulla to cerebellum.",
+    "aliases": [
+      "Restiform Body",
+      "Inferior Cerebellar Peduncle"
+    ],
+    "functions": [
+      "Transmits proprioceptive and vestibular information to cerebellum.",
+      "Supports balance and posture adjustments."
+    ],
+    "connections": [
+      "Receives dorsal spinocerebellar, vestibular, and olivocerebellar fibers.",
+      "Projects to cerebellar cortex and deep nuclei."
+    ],
+    "embryonic_origin": "Metencephalon"
   },
   "128": {
     "name": "Middle Cerebellar Peduncle",
@@ -1623,7 +3084,20 @@
       "Hindbrain",
       "Cerebellum"
     ],
-    "description": ""
+    "description": "Massive pontocerebellar pathway conveying cortical information into cerebellum.",
+    "aliases": [
+      "Brachium Pontis",
+      "Middle Cerebellar Peduncle"
+    ],
+    "functions": [
+      "Carries pontine nuclei efferents encoding cortical motor plans.",
+      "Supports coordination of voluntary movements and cognitive timing."
+    ],
+    "connections": [
+      "Receives pontocerebellar fibers originating from corticopontine inputs.",
+      "Projects to lateral cerebellar hemispheres."
+    ],
+    "embryonic_origin": "Metencephalon"
   },
   "129": {
     "name": "Fourth Ventricle",
@@ -1635,7 +3109,20 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Diamond-shaped ventricular cavity within pons and medulla containing cerebrospinal fluid.",
+    "aliases": [
+      "Ventriculus Quartus",
+      "Fourth Ventricle"
+    ],
+    "functions": [
+      "Circulates CSF between cerebral aqueduct and central canal/subarachnoid space.",
+      "Provides ependymal surface for neuroendocrine exchange."
+    ],
+    "connections": [
+      "Receives CSF from cerebral aqueduct and lateral apertures.",
+      "Drains into central canal and subarachnoid cisterns via foramina of Magendie and Luschka."
+    ],
+    "embryonic_origin": "Metencephalon / Myelencephalon"
   },
   "130": {
     "name": "Central Canal of Medulla Oblongata",
@@ -1647,7 +3134,19 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Continuation of ventricular system through medulla into spinal cord.",
+    "aliases": [
+      "Central Canal of Medulla"
+    ],
+    "functions": [
+      "Conducts cerebrospinal fluid toward spinal cord.",
+      "Supports diffusion of neuromodulators within medullary gray."
+    ],
+    "connections": [
+      "Continuous rostrally with fourth ventricle.",
+      "Extends caudally into spinal cord central canal."
+    ],
+    "embryonic_origin": "Ventricular System"
   },
   "131": {
     "name": "Midline Nuclear Complex",
@@ -1658,7 +3157,8 @@
     "groups": [
       "Brainstem"
     ],
-    "description": "Midline brainstem nuclei supporting arousal and visceral control."
+    "description": "Midline brainstem nuclei supporting arousal and visceral control.",
+    "embryonic_origin": "Undetermined"
   },
   "132": {
     "name": "Lateral Olfactory Gyrus",
@@ -1670,7 +3170,20 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Olfactory cortical gyrus along medial frontal lobe receiving olfactory tract fibers.",
+    "aliases": [
+      "Medial Olfactory Gyrus",
+      "Lateral Olfactory Stria Cortex"
+    ],
+    "functions": [
+      "Participates in odor discrimination and associative olfactory learning.",
+      "Links olfactory perception with emotion and memory."
+    ],
+    "connections": [
+      "Receives lateral olfactory tract projections from olfactory bulb.",
+      "Projects to piriform cortex, orbitofrontal cortex, and amygdala."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "133": {
     "name": "Parietal Operculum",
@@ -1683,7 +3196,19 @@
       "Cerebral Cortex",
       "Parietal Lobe"
     ],
-    "description": ""
+    "description": "Opercular parietal region overlying insula that contributes to somatosensory integration.",
+    "aliases": [
+      "Parietal Operculum"
+    ],
+    "functions": [
+      "Processes secondary somatosensory information including pain and temperature.",
+      "Integrates tactile input with gustatory and vestibular signals."
+    ],
+    "connections": [
+      "Receives thalamic input from ventral posterior inferior and ventromedial nuclei.",
+      "Projects to insula, inferior parietal lobule, and premotor cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "134": {
     "name": "Posteroventral Putamen",
@@ -1695,7 +3220,20 @@
     "groups": [
       "Basal Ganglia"
     ],
-    "description": ""
+    "description": "Ventral portion of putamen enriched in limbic and associative inputs.",
+    "aliases": [
+      "Ventral Putamen",
+      "Posteroventral Putamen"
+    ],
+    "functions": [
+      "Integrates reward-related and sensorimotor signals for habit formation.",
+      "Supports action selection linked to motivational context."
+    ],
+    "connections": [
+      "Receives inputs from orbitofrontal cortex, insula, and motor areas.",
+      "Projects to globus pallidus externus and ventral pallidum."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "135": {
     "name": "Paracingulate Gyrus",
@@ -1711,7 +3249,20 @@
       "Parietal Lobe",
       "Limbic System"
     ],
-    "description": ""
+    "description": "Medial frontal gyrus within cingulate sulcus involved in conflict monitoring and social cognition.",
+    "aliases": [
+      "Paracingulate Gyrus",
+      "Dorsal Anterior Cingulate"
+    ],
+    "functions": [
+      "Evaluates action outcomes and cognitive conflict.",
+      "Supports mentalizing and self-awareness."
+    ],
+    "connections": [
+      "Receives input from prefrontal cortex, limbic structures, and thalamus.",
+      "Projects to supplementary motor area, striatum, and brainstem autonomic centers."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "136": {
     "name": "Rostral Gyrus",
@@ -1724,7 +3275,20 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Medial frontal pole gyrus bordering cingulate sulcus involved in high-level executive and social cognition.",
+    "aliases": [
+      "Rostral Gyrus",
+      "Frontopolar Medial Gyrus"
+    ],
+    "functions": [
+      "Supports prospective memory and strategic planning.",
+      "Contributes to social inference and emotional regulation."
+    ],
+    "connections": [
+      "Interconnects with ventromedial prefrontal cortex, dorsolateral prefrontal cortex, and anterior cingulate.",
+      "Projects to caudate nucleus, thalamus, and limbic structures."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "137": {
     "name": "Frontomarginal Gyrus",
@@ -1737,7 +3301,20 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Anterior-most lateral frontal gyrus integrating multisensory information for complex cognition.",
+    "aliases": [
+      "Frontomarginal Gyrus",
+      "Brodmann Area 10"
+    ],
+    "functions": [
+      "Supports abstract reasoning, multitasking, and metacognitive awareness.",
+      "Participates in social and emotional evaluation."
+    ],
+    "connections": [
+      "Receives input from temporal pole, parietal association areas, and limbic cortex.",
+      "Projects to dorsolateral prefrontal cortex, orbitofrontal cortex, and caudate."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "138": {
     "name": "Frontal Pole",
@@ -1750,7 +3327,20 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Extreme anterior tip of frontal lobe involved in prospective reasoning and self-generated goals.",
+    "aliases": [
+      "Frontal Pole",
+      "Brodmann Area 10"
+    ],
+    "functions": [
+      "Supports long-range planning, exploration, and default mode network processing.",
+      "Integrates internal goals with social cognition."
+    ],
+    "connections": [
+      "Interconnects with medial prefrontal, orbitofrontal, and temporal association cortices.",
+      "Projects to dorsolateral prefrontal cortex, basal ganglia, and limbic circuits."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "139": {
     "name": "Perirhinal Gyrus",
@@ -1767,7 +3357,19 @@
       "Cerebral Cortex",
       "Temporal Lobe"
     ],
-    "description": ""
+    "description": "Medial temporal cortical region linking object recognition with memory consolidation.",
+    "aliases": [
+      "Perirhinal Cortex"
+    ],
+    "functions": [
+      "Supports familiarity-based recognition memory and semantic associations.",
+      "Integrates visual feature information for memory encoding."
+    ],
+    "connections": [
+      "Receives input from inferior temporal visual areas and amygdala.",
+      "Projects to entorhinal cortex, hippocampus, and orbitofrontal cortex."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "140": {
     "name": "Optic Radiation",
@@ -1783,7 +3385,20 @@
       "Forebrain",
       "Occipital Lobe"
     ],
-    "description": ""
+    "description": "Fan-shaped fiber pathway carrying visual signals from thalamus to occipital cortex.",
+    "aliases": [
+      "Geniculocalcarine Tract",
+      "Optic Radiations"
+    ],
+    "functions": [
+      "Transmits retinotopic information necessary for conscious vision.",
+      "Supports visual field processing including macular representation."
+    ],
+    "connections": [
+      "Originates in lateral geniculate nucleus of the thalamus.",
+      "Terminates in primary visual cortex along the calcarine fissure."
+    ],
+    "embryonic_origin": "Telencephalon"
   },
   "141": {
     "name": "Atrium of Lateral Ventricle",
@@ -1795,6 +3410,19 @@
     "groups": [
       "Ventricular System"
     ],
-    "description": ""
+    "description": "Trigonal expansion of lateral ventricle where temporal and occipital horns converge.",
+    "aliases": [
+      "Ventricular Atrium",
+      "Trigone of Lateral Ventricle"
+    ],
+    "functions": [
+      "Serves as CSF reservoir adjacent to hippocampal tail and splenium.",
+      "Provides anatomical reference for neurosurgical and imaging landmarks."
+    ],
+    "connections": [
+      "Continuous with body, temporal horn, and occipital horn of lateral ventricle.",
+      "Contains choroid plexus tuft connecting to temporal horn."
+    ],
+    "embryonic_origin": "Telencephalon"
   }
 }
