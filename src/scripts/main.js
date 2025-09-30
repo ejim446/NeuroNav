@@ -51,6 +51,22 @@ const pointerClientPosition = { x: 0, y: 0 };
 let pointerInsideRenderer = false;
 let pointerNeedsTooltipUpdate = false;
 const raycastTargets = [];
+let raycastTargetsDirty = true;
+
+function markRaycastTargetsDirty() {
+  raycastTargetsDirty = true;
+}
+
+function rebuildRaycastTargets() {
+  raycastTargets.length = 0;
+  visibleRegions.forEach((regionName) => {
+    const meshes = regionMeshMap.get(regionName);
+    if (meshes && meshes.length) {
+      raycastTargets.push(...meshes);
+    }
+  });
+  raycastTargetsDirty = false;
+}
 
 // WINDOW RESIZE //
 
@@ -86,37 +102,42 @@ function createOutline(mesh, regionName) {
 
   // Clone geometry to avoid modifying original
   const geometry = mesh.geometry.clone();
-  // geometry.applyMatrix4(mesh.matrixWorld); // Ensure object transformations are reflected in geometry
 
-  // Get vertices and normals arrays
-  const vertices = geometry.attributes.position.array;
-  const normals = geometry.attributes.normal.array;
-
-  // Modify the vertices by pushing them outward along their normals, i += 3 used to specify x, y, z
-  for (let i = 0; i < vertices.length; i += 3) {
-    // Create vectors for the current vertex and its normal
-    const vertex = new THREE.Vector3(
-      vertices[i],
-      vertices[i + 1],
-      vertices[i + 2],
-    );
-    const normal = new THREE.Vector3(
-      normals[i],
-      normals[i + 1],
-      normals[i + 2],
-    ).normalize();
-
-    // Push the vertex outward by the thickness amount
-    vertex.addScaledVector(normal, THICKNESS);
-
-    // Update the vertices array with the new vertex position
-    vertices[i] = vertex.x;
-    vertices[i + 1] = vertex.y;
-    vertices[i + 2] = vertex.z;
+  const positionAttribute = geometry.attributes.position;
+  if (!positionAttribute) {
+    return;
   }
 
-  // Update geometry with the modified vertices
-  geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+  let normalAttribute = geometry.attributes.normal;
+  if (!normalAttribute) {
+    geometry.computeVertexNormals();
+    normalAttribute = geometry.attributes.normal;
+  }
+
+  if (!normalAttribute) {
+    return;
+  }
+
+  const vertices = positionAttribute.array;
+  const normals = normalAttribute.array;
+
+  for (let i = 0; i < vertices.length; i += 3) {
+    const nx = normals[i];
+    const ny = normals[i + 1];
+    const nz = normals[i + 2];
+    const normalLength = Math.hypot(nx, ny, nz);
+
+    if (normalLength === 0) {
+      continue;
+    }
+
+    const scale = THICKNESS / normalLength;
+    vertices[i] += nx * scale;
+    vertices[i + 1] += ny * scale;
+    vertices[i + 2] += nz * scale;
+  }
+
+  positionAttribute.needsUpdate = true;
 
   // Define a fully opaque black material for the outline
   const material = new THREE.ShaderMaterial({
@@ -259,6 +280,19 @@ const loadedRegions = new Set();
 const visibleRegions = new Set();
 const regionMeshMap = new Map();
 
+function addVisibleRegion(regionName) {
+  if (!visibleRegions.has(regionName)) {
+    visibleRegions.add(regionName);
+    markRaycastTargetsDirty();
+  }
+}
+
+function removeVisibleRegion(regionName) {
+  if (visibleRegions.delete(regionName)) {
+    markRaycastTargetsDirty();
+  }
+}
+
 const _addRoot = async () => {
   // Define transparent root material
   const material = new THREE.MeshBasicMaterial({
@@ -342,7 +376,7 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
         scene.add(gltf.scene);
         // Mark the region as loaded and visible
         loadedRegions.add(regionName);
-        visibleRegions.add(regionName);
+        addVisibleRegion(regionName);
         if (tooltipsEnabled && pointerInsideRenderer) {
           pointerNeedsTooltipUpdate = true;
         }
@@ -360,7 +394,7 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
     meshes.forEach((mesh) => {
       fadeObject(mesh, "in");
     });
-    visibleRegions.add(regionName);
+    addVisibleRegion(regionName);
     if (tooltipsEnabled && pointerInsideRenderer) {
       pointerNeedsTooltipUpdate = true;
     }
@@ -392,7 +426,7 @@ export function hideRegion(regionID, hemisphereSelection) {
       if (!meshes) return;
 
       meshes.forEach((mesh) => fadeObject(mesh, "out"));
-      visibleRegions.delete(regionName);
+      removeVisibleRegion(regionName);
     });
   } else {
     // If only one hemisphere is selected
@@ -403,7 +437,7 @@ export function hideRegion(regionID, hemisphereSelection) {
     const meshes = regionMeshMap.get(regionName);
     if (meshes) {
       meshes.forEach((mesh) => fadeObject(mesh, "out"));
-      visibleRegions.delete(regionName);
+      removeVisibleRegion(regionName);
     }
   }
 
@@ -422,7 +456,7 @@ export function hideAll() {
     if (!meshes) return;
 
     meshes.forEach((mesh) => fadeObject(mesh, "out"));
-    visibleRegions.delete(regionName);
+    removeVisibleRegion(regionName);
   });
 
   hideTooltip();
@@ -806,13 +840,9 @@ function getIntersectedRegion(event) {
 function getIntersectedRegionFromPointer(pointerVector) {
   if (!visibleRegions.size) return null;
 
-  raycastTargets.length = 0;
-  visibleRegions.forEach((regionName) => {
-    const meshes = regionMeshMap.get(regionName);
-    if (meshes) {
-      raycastTargets.push(...meshes);
-    }
-  });
+  if (raycastTargetsDirty) {
+    rebuildRaycastTargets();
+  }
 
   if (!raycastTargets.length) return null;
 
