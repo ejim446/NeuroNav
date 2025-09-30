@@ -80,43 +80,43 @@ animate();
 // Flag for toggling outlines
 let outlinesEnabled = true;
 
+// Cache of outlines so we can avoid expensive scene lookups.
+const regionOutlines = new Map();
+
 // Creates an outline for a given mesh by pushing its vertices outward along their normals
 function createOutline(mesh, regionName) {
   const THICKNESS = 0.005; // Define outline thickness
 
   // Clone geometry to avoid modifying original
   const geometry = mesh.geometry.clone();
-  // geometry.applyMatrix4(mesh.matrixWorld); // Ensure object transformations are reflected in geometry
 
-  // Get vertices and normals arrays
-  const vertices = geometry.attributes.position.array;
-  const normals = geometry.attributes.normal.array;
-
-  // Modify the vertices by pushing them outward along their normals, i += 3 used to specify x, y, z
-  for (let i = 0; i < vertices.length; i += 3) {
-    // Create vectors for the current vertex and its normal
-    const vertex = new THREE.Vector3(
-      vertices[i],
-      vertices[i + 1],
-      vertices[i + 2],
-    );
-    const normal = new THREE.Vector3(
-      normals[i],
-      normals[i + 1],
-      normals[i + 2],
-    ).normalize();
-
-    // Push the vertex outward by the thickness amount
-    vertex.addScaledVector(normal, THICKNESS);
-
-    // Update the vertices array with the new vertex position
-    vertices[i] = vertex.x;
-    vertices[i + 1] = vertex.y;
-    vertices[i + 2] = vertex.z;
+  if (!geometry.attributes.normal) {
+    geometry.computeVertexNormals();
   }
 
-  // Update geometry with the modified vertices
-  geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+  const positionAttribute = geometry.getAttribute("position");
+  const normalAttribute = geometry.getAttribute("normal");
+
+  const positions = positionAttribute.array;
+  const normals = normalAttribute.array;
+
+  // Modify the vertices by pushing them outward along their normals, i += 3 used to specify x, y, z
+  for (let i = 0; i < positions.length; i += 3) {
+    const nx = normals[i];
+    const ny = normals[i + 1];
+    const nz = normals[i + 2];
+
+    const length = Math.hypot(nx, ny, nz) || 1;
+    const scale = THICKNESS / length;
+
+    positions[i] += nx * scale;
+    positions[i + 1] += ny * scale;
+    positions[i + 2] += nz * scale;
+  }
+
+  positionAttribute.needsUpdate = true;
+  geometry.computeBoundingSphere();
+  geometry.computeBoundingBox();
 
   // Define a fully opaque black material for the outline
   const material = new THREE.ShaderMaterial({
@@ -139,16 +139,28 @@ function createOutline(mesh, regionName) {
   const outline = new THREE.Mesh(geometry, material);
   outline.name = `${regionName}Outline`; // Set the name for the outline mesh
 
-  // Add the outline mesh to the scene
-  scene.add(outline);
+  // Cache outline lookups so we don't need to traverse the scene repeatedly.
+  regionOutlines.set(regionName, outline);
+  mesh.userData.outline = outline;
+
+  outline.position.copy(mesh.position);
+  outline.quaternion.copy(mesh.quaternion);
+  outline.scale.copy(mesh.scale);
+
+  // Add the outline mesh to the same parent as the mesh so that transforms are preserved.
+  if (mesh.parent) {
+    mesh.parent.add(outline);
+  } else {
+    scene.add(outline);
+  }
 }
 
 // FADE IN EFFECT //
 
 function fadeObject(object, fadeType) {
-
+  
   // Define startTime upon function call
-
+  
   const startTime = performance.now();
 
 
@@ -163,7 +175,7 @@ function fadeObject(object, fadeType) {
 
   const material = object.material;
 
-  const outline = scene.getObjectByName(`${object.name}Outline`);
+  const outline = object?.userData?.outline ?? null;
 
 
 
@@ -192,10 +204,8 @@ function fadeObject(object, fadeType) {
     material.opacity = progress;
 
 
-    if (progress == 1 && outlinesEnabled) {
-
+    if (progress == 1 && outlinesEnabled && outline) {
       outline.material.visible = true;
-
     }
 
     if (progress < 1) {
@@ -215,7 +225,9 @@ function fadeObject(object, fadeType) {
 
 
     // Hide outline and set opacity to inverse of progress
-    outline.material.visible = false;
+    if (outline) {
+      outline.material.visible = false;
+    }
     material.opacity = 1 - progress;
 
     // Update visibility upon zero opacity to avoid artifacts
@@ -514,38 +526,14 @@ export function hideRoot() {
 // TOGGLE REGION OUTLINES //
 
 export function updateOutlines(outlinesSelected) {
-  if (outlinesSelected) {
-    // If outlines are selected to be shown
+  outlinesEnabled = Boolean(outlinesSelected);
 
-    // Set global flag indicating outlines are enabled
-    outlinesEnabled = true;
+  regionOutlines.forEach((outline, regionName) => {
+    if (!outline) return;
 
-    // Traverse all objects in the scene
-    scene.traverse(function (object) {
-      // Check if the object is an outline and its corresponding region is visible
-      if (
-        object.name.includes("Outline") &&
-        visibleRegions.has(object.name.slice(0, -7))
-      ) {
-        // Make the outline visible
-        object.material.visible = true;
-      }
-    });
-  } else {
-    // If outlines are selected to be hidden
-
-    // Set global flag indicating outlines are disabled
-    outlinesEnabled = false;
-
-    // Traverse all objects in the scene
-    scene.traverse(function (object) {
-      // Check if the object is an outline
-      if (object.name.includes("Outline")) {
-        // Hide the outline
-        object.material.visible = false;
-      }
-    });
-  }
+    const shouldDisplay = outlinesEnabled && visibleRegions.has(regionName);
+    outline.material.visible = shouldDisplay;
+  });
 }
 
 // TOGGLE SCENE BACKGROUND //
