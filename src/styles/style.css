@@ -1,12 +1,81 @@
 canvas {
-	position: fixed;
-	top: 0;
-	left: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
   z-index: 0;
 }
 
+#region-info-panel {
+        position: fixed;
+        top: 1.5rem;
+        left: 1.5rem;
+        max-width: 22rem;
+        max-height: calc(100vh - 3rem);
+        padding: 1rem 1.25rem;
+        border-radius: var(--border-radius);
+        background: rgba(34, 37, 46, 0.92);
+        color: var(--white);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(6px);
+        display: none;
+        overflow-y: auto;
+        z-index: 5;
+}
+
+#region-info-panel.visible {
+        display: block;
+}
+
+#region-info-panel h3 {
+        margin: 0;
+        font-size: 1.4rem;
+        letter-spacing: 0.05em;
+}
+
+#region-info-panel .region-info-subtitle {
+        margin: 0.25rem 0 0.75rem;
+        font-size: 0.9rem;
+        color: var(--grey-primary);
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+}
+
+#region-info-panel .region-info-description {
+        margin: 0 0 0.75rem;
+        line-height: 1.5;
+}
+
+#region-info-panel .region-info-section + .region-info-section {
+        margin-top: 0.75rem;
+}
+
+#region-info-panel .region-info-section h4 {
+        margin: 0;
+        font-size: 1rem;
+        letter-spacing: 0.03em;
+}
+
+#region-info-panel .region-info-list {
+        margin: 0.35rem 0 0;
+        padding-left: 1.25rem;
+        line-height: 1.4;
+}
+
+#region-info-panel .region-info-placeholder {
+        margin: 0.35rem 0 0;
+        font-style: italic;
+        color: var(--grey-primary);
+}
+
+#region-info-panel .region-info-groups {
+        margin: 0.25rem 0 0;
+        font-size: 0.9rem;
+        color: var(--grey-primary);
+        line-height: 1.4;
+}
+
 :root {
-	font-size: var(--font-size);
+        font-size: var(--font-size);
 	font-family: var(--font-family);
 	letter-spacing: var(--letter-spacing-primary);
 	font-weight: var(--font-weight);

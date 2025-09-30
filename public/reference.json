@@ -8,7 +8,19 @@
     "groups": [
       "Olfactory System"
     ],
-    "description": ""
+    "description": "Processes incoming odor signals before they reach cortical olfactory areas.",
+    "aliases": [
+      "OB",
+      "Bulbus olfactorius"
+    ],
+    "functions": [
+      "Performs initial synaptic processing for olfactory receptor neuron inputs.",
+      "Sends refined odor information to limbic and cortical olfactory regions."
+    ],
+    "connections": [
+      "Receives axons from olfactory receptor neurons via the olfactory nerve.",
+      "Projects to the piriform cortex, amygdala, and entorhinal cortex."
+    ]
   },
   "2": {
     "name": "Anterior Olfactory Nucleus",
@@ -19,7 +31,18 @@
     "groups": [
       "Olfactory System"
     ],
-    "description": ""
+    "description": "Coordinates bilateral olfactory information and modulates odor perception.",
+    "aliases": [
+      "Anterior olfactory area"
+    ],
+    "functions": [
+      "Integrates odor representations across hemispheres.",
+      "Provides feedback modulation to the olfactory bulb."
+    ],
+    "connections": [
+      "Maintains reciprocal connections with the olfactory bulb and piriform cortex.",
+      "Links the two olfactory bulbs through anterior commissure fibers."
+    ]
   },
   "3": {
     "name": "Piriform Cortex",
@@ -411,7 +434,20 @@
       "Diencephalon",
       "Thalamus"
     ],
-    "description": ""
+    "description": "Motor relay nucleus that channels cerebellar and basal ganglia output to cortex.",
+    "aliases": [
+      "VL thalamus",
+      "Ventrolateral thalamic nucleus"
+    ],
+    "functions": [
+      "Supports voluntary movement planning and execution.",
+      "Integrates cerebellar timing signals with basal ganglia output."
+    ],
+    "connections": [
+      "Receives input from the dentate nucleus of the cerebellum.",
+      "Receives basal ganglia projections from the globus pallidus internus.",
+      "Projects to primary motor and premotor cortical areas."
+    ]
   },
   "36": {
     "name": "Ventral Posterior Lateral Nucleus",
@@ -817,7 +853,19 @@
       "Cerebral Cortex",
       "Frontal Lobe"
     ],
-    "description": ""
+    "description": "Frontal language region involved in expressive and semantic aspects of speech.",
+    "aliases": [
+      "Pars triangularis",
+      "Part of Broca's area"
+    ],
+    "functions": [
+      "Supports semantic selection and controlled language production.",
+      "Contributes to syntactic processing during speech planning."
+    ],
+    "connections": [
+      "Interacts with the superior temporal gyrus via the arcuate fasciculus.",
+      "Connects with dorsolateral prefrontal and supplementary motor areas."
+    ]
   },
   "70": {
     "name": "Opercular Inferior Frontal Gyrus",
@@ -1160,7 +1208,18 @@
       "Cerebral Cortex",
       "Occipital Lobe"
     ],
-    "description": ""
+    "description": "Dorsal occipital region that participates in spatial and motion aspects of vision.",
+    "aliases": [
+      "Superior occipital cortex"
+    ],
+    "functions": [
+      "Processes visuospatial information for the dorsal visual stream.",
+      "Integrates motion cues with parietal attention networks."
+    ],
+    "connections": [
+      "Links to parietal cortices through the dorsal visual pathway.",
+      "Interconnects with middle occipital gyrus and intraparietal sulcus."
+    ]
   },
   "98": {
     "name": "Anterior Cingulate Gyrus",
