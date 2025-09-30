@@ -45,6 +45,13 @@ controls.maxDistance = 5;
 // Ensure models are always centered while panning
 controls.maxTargetRadius = 0.5;
 
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+const pointerClientPosition = { x: 0, y: 0 };
+let pointerInsideRenderer = false;
+let pointerNeedsTooltipUpdate = false;
+const raycastTargets = [];
+
 // WINDOW RESIZE //
 
 window.addEventListener("resize", () => {
@@ -57,8 +64,13 @@ window.addEventListener("resize", () => {
 
 function animate() {
   requestAnimationFrame(animate);
-  renderer.render(scene, camera);
   controls.update();
+
+  if (pointerNeedsTooltipUpdate) {
+    processTooltipRaycast();
+  }
+
+  renderer.render(scene, camera);
 }
 
 animate();
@@ -245,6 +257,7 @@ gltfLoader.setDRACOLoader(draco);
 
 const loadedRegions = new Set();
 const visibleRegions = new Set();
+const regionMeshMap = new Map();
 
 const _addRoot = async () => {
   // Define transparent root material
@@ -306,22 +319,33 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
         });
 
         // Traverse the loaded model
+        const meshes = [];
         gltf.scene.traverse((child) => {
           if (child.isMesh) {
+            // Ensure the mesh is identifiable by region name
+            child.name = regionName;
             // Apply the material to the mesh
             child.material = material;
             // Create an outline for the mesh
             createOutline(child, regionName);
             // Fade in the object
             fadeObject(child, "in");
+            meshes.push(child);
           }
         });
+
+        if (meshes.length) {
+          regionMeshMap.set(regionName, meshes);
+        }
 
         // Add the loaded model to the scene
         scene.add(gltf.scene);
         // Mark the region as loaded and visible
         loadedRegions.add(regionName);
         visibleRegions.add(regionName);
+        if (tooltipsEnabled && pointerInsideRenderer) {
+          pointerNeedsTooltipUpdate = true;
+        }
       });
     } else {
       // If the region is already loaded, just show it
@@ -330,15 +354,16 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
   };
 
   const showRegion = (regionName) => {
-    // Traverse the scene to find the region object
-    scene.traverse(function (object) {
-      if (object instanceof THREE.Mesh && object.name === `${regionName}`) {
-        // Fade in the object
-        fadeObject(object, "in");
-        // Mark the region as visible
-        visibleRegions.add(regionName);
-      }
+    const meshes = regionMeshMap.get(regionName);
+    if (!meshes) return;
+
+    meshes.forEach((mesh) => {
+      fadeObject(mesh, "in");
     });
+    visibleRegions.add(regionName);
+    if (tooltipsEnabled && pointerInsideRenderer) {
+      pointerNeedsTooltipUpdate = true;
+    }
   };
 
   // Determine which hemisphere(s) to load based on selection
@@ -361,18 +386,13 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
 export function hideRegion(regionID, hemisphereSelection) {
   if (hemisphereSelection === "Both") {
     // If both hemispheres are selected, hide both left and right regions
-    scene.traverse(function (object) {
-      // Check if the object is a mesh and matches either left or right region ID
-      if (
-        object instanceof THREE.Mesh &&
-        (object.name === `${regionID}L` || object.name === `${regionID}R`)
-      ) {
-        // Fade out the object (and outline)
-        fadeObject(object, "out");
+    ["L", "R"].forEach((suffix) => {
+      const regionName = `${regionID}${suffix}`;
+      const meshes = regionMeshMap.get(regionName);
+      if (!meshes) return;
 
-        // Remove the region from the list of visible regions
-        visibleRegions.delete(object.name);
-      }
+      meshes.forEach((mesh) => fadeObject(mesh, "out"));
+      visibleRegions.delete(regionName);
     });
   } else {
     // If only one hemisphere is selected
@@ -380,37 +400,33 @@ export function hideRegion(regionID, hemisphereSelection) {
     const hemisphereSuffix = hemisphereSelection === "Left" ? "L" : "R";
     const regionName = `${regionID}${hemisphereSuffix}`;
 
-    // Traverse the scene to find the specific region to hide
-    scene.traverse(function (object) {
-      if (object instanceof THREE.Mesh && object.name === regionName) {
-        // Fade out the object
-        fadeObject(object, "out");
+    const meshes = regionMeshMap.get(regionName);
+    if (meshes) {
+      meshes.forEach((mesh) => fadeObject(mesh, "out"));
+      visibleRegions.delete(regionName);
+    }
+  }
 
-        // Remove the region from the list of visible regions
-        visibleRegions.delete(regionName);
-      }
-    });
+  hideTooltip();
+  if (pointerInsideRenderer && tooltipsEnabled) {
+    pointerNeedsTooltipUpdate = true;
   }
 }
 
 // DESELECT ALL //
 
 export function hideAll() {
-  // Traverse all objects in the scene
-  scene.traverse(function (object) {
-    // Check if the object is a mesh, not the root object, and not an outline (removed in fadeObject)
-    if (
-      object instanceof THREE.Mesh &&
-      object.name !== "root" &&
-      !object.name.includes("Outline")
-    ) {
-      // Fade out the object
-      fadeObject(object, "out");
+  const regionsToHide = Array.from(visibleRegions);
+  regionsToHide.forEach((regionName) => {
+    const meshes = regionMeshMap.get(regionName);
+    if (!meshes) return;
 
-      // Remove the object from the list of visible regions
-      visibleRegions.delete(object.name);
-    }
+    meshes.forEach((mesh) => fadeObject(mesh, "out"));
+    visibleRegions.delete(regionName);
   });
+
+  hideTooltip();
+  pointerNeedsTooltipUpdate = false;
 }
 
 // UPDATE COLORS //
@@ -418,13 +434,11 @@ export function hideAll() {
 export function updateColor(selectedColor, regionID, hemisphereSelection) {
   // Helper function to set the color for a specific region
   const setRegionColor = (regionName) => {
-    // Traverse all objects in the scene
-    scene.traverse(function (object) {
-      // Check if the object is a mesh and matches the region name
-      if (object instanceof THREE.Mesh && object.name === regionName) {
-        // Update the color of the object's material
-        object.material.color.setHex(colors[selectedColor]);
-      }
+    const meshes = regionMeshMap.get(regionName);
+    if (!meshes) return;
+
+    meshes.forEach((mesh) => {
+      mesh.material.color.setHex(colors[selectedColor]);
     });
   };
 
@@ -560,6 +574,9 @@ export function disableTooltips(check) {
     tooltip.style.display = "none";
   } else {
     tooltipsEnabled = true;
+    if (pointerInsideRenderer) {
+      pointerNeedsTooltipUpdate = true;
+    }
   }
 }
 
@@ -571,7 +588,6 @@ fetch("/reference.json")
     regions = data;
   });
 
-const raycaster = new THREE.Raycaster();
 const tooltip = document.createElement("div");
 
 function createTooltipContent(regionInfo) {
@@ -611,7 +627,7 @@ function hideTooltip() {
   tooltip.style.display = "none";
 }
 
-function showTooltip(event, regionObject) {
+function showTooltip(position, regionObject) {
   if (!tooltipsEnabled || !regionObject) {
     hideTooltip();
     return;
@@ -630,24 +646,51 @@ function showTooltip(event, regionObject) {
   }
 
   tooltip.style.display = "block";
-  tooltip.style.left = `${event.clientX + 10}px`;
-  tooltip.style.top = `${event.clientY + 10}px`;
+  tooltip.style.left = `${position.x + 10}px`;
+  tooltip.style.top = `${position.y + 10}px`;
+}
+
+function updatePointerState(event) {
+  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  pointerClientPosition.x = event.clientX;
+  pointerClientPosition.y = event.clientY;
 }
 
 function onPointerMove(event) {
-  if (!tooltipsEnabled) return;
+  updatePointerState(event);
+  pointerInsideRenderer = true;
 
-  const object = getIntersectedRegion(event);
-
-  if (object && visibleRegions.has(object.name)) {
-    showTooltip(event, object);
-  } else {
-    hideTooltip();
+  if (tooltipsEnabled) {
+    pointerNeedsTooltipUpdate = true;
   }
 }
 
+function onPointerLeave() {
+  pointerInsideRenderer = false;
+  pointerNeedsTooltipUpdate = false;
+  hideTooltip();
+}
+
 renderer.domElement.addEventListener("pointermove", onPointerMove);
-renderer.domElement.addEventListener("pointerleave", hideTooltip);
+renderer.domElement.addEventListener("pointerleave", onPointerLeave);
+
+function processTooltipRaycast() {
+  if (!tooltipsEnabled || !pointerInsideRenderer) {
+    pointerNeedsTooltipUpdate = false;
+    return;
+  }
+
+  const object = getIntersectedRegionFromPointer(pointer);
+
+  if (object && visibleRegions.has(object.name)) {
+    showTooltip(pointerClientPosition, object);
+  } else {
+    hideTooltip();
+  }
+
+  pointerNeedsTooltipUpdate = false;
+}
 
 const infoPanel = document.getElementById("region-info-panel");
 
@@ -750,39 +793,41 @@ if (infoPanel) {
 // Event listeners
 renderer.domElement.addEventListener("click", onClick);
 document.body.addEventListener("click", () => {
-  if (tooltipsEnabled) tooltip.style.display = "none";
+  if (tooltipsEnabled) hideTooltip();
   hideRegionInfoPanel();
 });
 
 function getIntersectedRegion(event) {
-  // Find coordinates of the mouse position
-  const mouse = new THREE.Vector2(
-    (event.clientX / window.innerWidth) * 2 - 1,
-    -(event.clientY / window.innerHeight) * 2 + 1,
-  );
+  updatePointerState(event);
+  pointerInsideRenderer = true;
+  return getIntersectedRegionFromPointer(pointer);
+}
 
-  // Update the raycaster with the mouse coordinates and the camera
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(scene.children, true);
+function getIntersectedRegionFromPointer(pointerVector) {
+  if (!visibleRegions.size) return null;
+
+  raycastTargets.length = 0;
+  visibleRegions.forEach((regionName) => {
+    const meshes = regionMeshMap.get(regionName);
+    if (meshes) {
+      raycastTargets.push(...meshes);
+    }
+  });
+
+  if (!raycastTargets.length) return null;
+
+  raycaster.setFromCamera(pointerVector, camera);
+  const intersects = raycaster.intersectObjects(raycastTargets, false);
 
   if (!intersects.length) return null;
 
-  try {
-    for (let i = 0; i < intersects.length; i++) {
-      const candidate = intersects[i].object;
-      const candidateName = candidate.name;
+  for (let i = 0; i < intersects.length; i++) {
+    const candidate = intersects[i].object;
+    const candidateName = candidate.name;
 
-      const isRegionMesh =
-        candidate instanceof THREE.Mesh &&
-        candidateName !== "root" &&
-        !candidateName.includes("Outline");
-
-      if (isRegionMesh && visibleRegions.has(candidateName)) {
-        return candidate;
-      }
+    if (candidate instanceof THREE.Mesh && visibleRegions.has(candidateName)) {
+      return candidate;
     }
-  } catch (error) {
-    return null;
   }
 
   return null;
@@ -803,7 +848,7 @@ function onClick(event) {
     showRegionInfoPanel(regionId, hemisphere, regionInfo);
 
     if (tooltipsEnabled) {
-      showTooltip(event, object);
+      showTooltip({ x: event.clientX, y: event.clientY }, object);
     } else {
       hideTooltip();
     }
