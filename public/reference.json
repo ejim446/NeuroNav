@@ -21,7 +21,10 @@
       "Receives axons from olfactory receptor neurons via the olfactory nerve.",
       "Projects to the piriform cortex, amygdala, and entorhinal cortex."
     ],
-    "embryonic_origin": "Telencephalon"
+    "embryonic_origin": "Telencephalon",
+    "citations": [
+      "https://portal.brain-map.org/explore/allen-brain-atlas"
+    ]
   },
   "2": {
     "name": "Anterior Olfactory Nucleus",
@@ -44,7 +47,10 @@
       "Maintains reciprocal connections with the olfactory bulb and piriform cortex.",
       "Links the two olfactory bulbs through anterior commissure fibers."
     ],
-    "embryonic_origin": "Undetermined"
+    "embryonic_origin": "Undetermined",
+    "citations": [
+      "https://www.ncbi.nlm.nih.gov/books/NBK551517/"
+    ]
   },
   "3": {
     "name": "Piriform Cortex",
@@ -69,7 +75,10 @@
       "Receives dense afferents from the olfactory bulb and anterior olfactory nucleus.",
       "Projects to orbitofrontal cortex, amygdala, entorhinal cortex, and hypothalamic olfactory areas."
     ],
-    "embryonic_origin": "Telencephalon"
+    "embryonic_origin": "Telencephalon",
+    "citations": [
+      "Gottfried JA. Central mechanisms of odour object perception. Nat Rev Neurosci. 2010;11(9):628-641."
+    ]
   },
   "4": {
     "name": "Anterior (Agranular) Insular Cortex",
