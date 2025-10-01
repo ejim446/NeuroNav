@@ -774,6 +774,47 @@ function normalizeToArray(values) {
   return [];
 }
 
+function escapeHtml(value) {
+  if (value == null) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderCitationLabel(index, citation, options = {}) {
+  const { inline = false } = options;
+  const trimmedCitation =
+    typeof citation === "string"
+      ? citation.trim()
+      : String(citation ?? "").trim();
+  const labelNumber = index + 1;
+  const label = `[${labelNumber}]`;
+  const ariaLabelBase = `Citation ${labelNumber}`;
+  const ariaLabel = escapeAttribute(
+    trimmedCitation ? `${ariaLabelBase}: ${trimmedCitation}` : ariaLabelBase,
+  );
+  const classNames = ["region-info-citation"];
+  if (inline) {
+    classNames.push("region-info-inline-citation");
+  }
+  const classAttribute = classNames.join(" ");
+
+  if (/^https?:\/\//i.test(trimmedCitation)) {
+    const safeHref = escapeAttribute(trimmedCitation);
+    return `<a class="${classAttribute}" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${ariaLabel}">${label}</a>`;
+  }
+
+  const title = trimmedCitation ? escapeAttribute(trimmedCitation) : "";
+  const titleAttribute = title ? ` title="${title}"` : "";
+  return `<span class="${classAttribute}"${titleAttribute} aria-label="${ariaLabel}" role="text">${label}</span>`;
+}
+
 function renderCitationMarkers(citations) {
   const items = normalizeToArray(citations);
   if (!items.length) {
@@ -781,33 +822,44 @@ function renderCitationMarkers(citations) {
   }
 
   const citationMarkers = items
-    .map((citation, index) => {
-      const trimmedCitation = citation.trim();
-      const label = `[${index + 1}]`;
-      const ariaLabel = escapeAttribute(
-        `Citation ${index + 1}: ${trimmedCitation}`,
-      );
-
-      if (/^https?:\/\//i.test(trimmedCitation)) {
-        const safeHref = escapeAttribute(trimmedCitation);
-        return `<a class="region-info-citation" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${ariaLabel}">${label}</a>`;
-      }
-
-      const title = escapeAttribute(trimmedCitation);
-      return `<span class="region-info-citation" title="${title}" aria-label="${ariaLabel}" role="text">${label}</span>`;
-    })
+    .map((citation, index) => renderCitationLabel(index, citation))
     .join(" ");
 
   return `<span class="region-info-citations">${citationMarkers}</span>`;
 }
 
-function renderInfoList(values, emptyMessage) {
+function renderTextWithCitations(text, citations) {
+  if (text == null) {
+    return "";
+  }
+
+  const escaped = escapeHtml(text);
+  if (!citations || !citations.length) {
+    return escaped;
+  }
+
+  return escaped.replace(/\[(\d+)\]/g, (match, numberString) => {
+    const citationIndex = Number(numberString) - 1;
+    if (!Number.isFinite(citationIndex) || citationIndex < 0) {
+      return match;
+    }
+
+    const citation = citations[citationIndex];
+    if (!citation) {
+      return match;
+    }
+
+    return renderCitationLabel(citationIndex, citation, { inline: true });
+  });
+}
+
+function renderInfoList(values, emptyMessage, citations) {
   const items = normalizeToArray(values);
   if (!items.length) {
     return `<p class="region-info-placeholder">${emptyMessage}</p>`;
   }
   return `<ul class="region-info-list">${items
-    .map((item) => `<li>${item}</li>`)
+    .map((item) => `<li>${renderTextWithCitations(item, citations)}</li>`)
     .join("")}</ul>`;
 }
 
@@ -828,11 +880,17 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       : "";
 
   const descriptionSection = description
-    ? `<p class="region-info-description">${description}${citationsMarkup}</p>`
+    ? `<p class="region-info-description">${renderTextWithCitations(
+        description,
+        regionInfo?.citations,
+      )}${citationsMarkup}</p>`
     : `<p class="region-info-placeholder">No description available.</p>`;
 
   const embryonicOriginSection = embryonicOrigin
-    ? `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-embryonic-origin">${embryonicOrigin}</p></div>`
+    ? `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-embryonic-origin">${renderTextWithCitations(
+        embryonicOrigin,
+        regionInfo?.citations,
+      )}</p></div>`
     : `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-placeholder">No embryonic origin information available.</p></div>`;
 
   const groupsSection = groups.length
@@ -855,6 +913,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       ${renderInfoList(
         regionInfo?.functions,
         "No functional summary available.",
+        regionInfo?.citations,
       )}
     </div>
     <div class="region-info-section">
@@ -862,6 +921,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       ${renderInfoList(
         regionInfo?.connections,
         "No connection data available.",
+        regionInfo?.citations,
       )}
     </div>
     ${groupsSection}
