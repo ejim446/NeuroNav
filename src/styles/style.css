@@ -75,6 +75,17 @@ canvas {
         cursor: help;
 }
 
+#region-info-panel .region-info-inline-citation {
+        display: inline;
+        margin: 0 0.15em;
+        font-size: 0.9em;
+        vertical-align: baseline;
+}
+
+#region-info-panel .region-info-inline-citation:first-child {
+        margin-left: 0.15em;
+}
+
 #region-info-panel .region-info-section + .region-info-section {
         margin-top: 0.75rem;
 }
