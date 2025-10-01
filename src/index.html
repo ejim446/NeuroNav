@@ -293,12 +293,22 @@
           const selectionElement = document.createElement("li");
           selectionElement.classList.add("selection-element");
           selectionElement.value = String(key);
+
+          const aliasTerms = Array.isArray(region.aliases)
+            ? region.aliases
+            : typeof region.aliases === "string"
+              ? [region.aliases]
+              : [];
+
           const searchTerms = [
             region.name,
+            ...aliasTerms,
             ...(region.keywords ?? []),
             ...(region.groups ?? []),
             region.description ?? "",
           ]
+            .map((term) => (typeof term === "string" ? term.trim() : ""))
+            .filter(Boolean)
             .join(" ")
             .toLowerCase();
           selectionElement.dataset.search = searchTerms;
