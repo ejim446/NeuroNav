@@ -748,7 +748,7 @@ function processTooltipRaycast() {
 
 const infoPanel = document.getElementById("region-info-panel");
 
-function escapeAttribute(value) {
+function escapeHtml(value) {
   if (value == null) {
     return "";
   }
@@ -758,6 +758,10 @@ function escapeAttribute(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value);
 }
 
 function normalizeToArray(values) {
@@ -774,31 +778,42 @@ function normalizeToArray(values) {
   return [];
 }
 
-function renderCitationMarkers(citations) {
+function renderCitationsList(citations) {
   const items = normalizeToArray(citations);
   if (!items.length) {
     return "";
   }
 
-  const citationMarkers = items
+  const listItems = items
     .map((citation, index) => {
       const trimmedCitation = citation.trim();
       const label = `[${index + 1}]`;
+      const labelMarkup = `<span class="region-info-citation-label">${label}</span>`;
       const ariaLabel = escapeAttribute(
-        `Citation ${index + 1}: ${trimmedCitation}`,
+        `Reference ${index + 1}: ${trimmedCitation}`,
       );
 
       if (/^https?:\/\//i.test(trimmedCitation)) {
         const safeHref = escapeAttribute(trimmedCitation);
-        return `<a class="region-info-citation" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${ariaLabel}">${label}</a>`;
+        const safeText = escapeHtml(trimmedCitation);
+        return `<li class="region-info-citation-item">${labelMarkup}<a class="region-info-citation-link" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${ariaLabel}">${safeText}</a></li>`;
       }
 
-      const title = escapeAttribute(trimmedCitation);
-      return `<span class="region-info-citation" title="${title}" aria-label="${ariaLabel}" role="text">${label}</span>`;
+      const safeText = escapeHtml(trimmedCitation);
+      return `<li class="region-info-citation-item">${labelMarkup}<span class="region-info-citation-text" aria-label="${ariaLabel}" role="text">${safeText}</span></li>`;
     })
-    .join(" ");
+    .join("");
 
-  return `<span class="region-info-citations">${citationMarkers}</span>`;
+  return `<ol class="region-info-citation-list">${listItems}</ol>`;
+}
+
+function renderCitationsSection(citations) {
+  const listMarkup = renderCitationsList(citations);
+  if (!listMarkup) {
+    return "";
+  }
+
+  return `<div class="region-info-section region-info-section-citations"><h4>References</h4>${listMarkup}</div>`;
 }
 
 function renderInfoList(values, emptyMessage) {
@@ -816,7 +831,6 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
 
   const name = regionInfo?.name ?? regionId;
   const description = regionInfo?.description?.trim();
-  const citationsMarkup = renderCitationMarkers(regionInfo?.citations);
   const alternativeNames =
     regionInfo?.aliases && regionInfo.aliases.length
       ? regionInfo.aliases
@@ -828,7 +842,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       : "";
 
   const descriptionSection = description
-    ? `<p class="region-info-description">${description}${citationsMarkup}</p>`
+    ? `<p class="region-info-description">${description}</p>`
     : `<p class="region-info-placeholder">No description available.</p>`;
 
   const embryonicOriginSection = embryonicOrigin
@@ -840,6 +854,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
         " • ",
       )}</p></div>`
     : "";
+  const citationsSection = renderCitationsSection(regionInfo?.citations);
 
   infoPanel.innerHTML = `
     <h3>${name}</h3>
@@ -865,6 +880,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       )}
     </div>
     ${groupsSection}
+    ${citationsSection}
   `;
 
   infoPanel.classList.add("visible");
