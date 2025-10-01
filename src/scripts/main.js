@@ -748,6 +748,18 @@ function processTooltipRaycast() {
 
 const infoPanel = document.getElementById("region-info-panel");
 
+function escapeAttribute(value) {
+  if (value == null) {
+    return "";
+  }
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function normalizeToArray(values) {
   if (!values) return [];
   if (Array.isArray(values)) {
@@ -760,6 +772,33 @@ function normalizeToArray(values) {
     return trimmed ? [trimmed] : [];
   }
   return [];
+}
+
+function renderCitationMarkers(citations) {
+  const items = normalizeToArray(citations);
+  if (!items.length) {
+    return "";
+  }
+
+  const citationMarkers = items
+    .map((citation, index) => {
+      const trimmedCitation = citation.trim();
+      const label = `[${index + 1}]`;
+      const ariaLabel = escapeAttribute(
+        `Citation ${index + 1}: ${trimmedCitation}`,
+      );
+
+      if (/^https?:\/\//i.test(trimmedCitation)) {
+        const safeHref = escapeAttribute(trimmedCitation);
+        return `<a class="region-info-citation" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${ariaLabel}">${label}</a>`;
+      }
+
+      const title = escapeAttribute(trimmedCitation);
+      return `<span class="region-info-citation" title="${title}" aria-label="${ariaLabel}" role="text">${label}</span>`;
+    })
+    .join(" ");
+
+  return `<span class="region-info-citations">${citationMarkers}</span>`;
 }
 
 function renderInfoList(values, emptyMessage) {
@@ -777,6 +816,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
 
   const name = regionInfo?.name ?? regionId;
   const description = regionInfo?.description?.trim();
+  const citationsMarkup = renderCitationMarkers(regionInfo?.citations);
   const alternativeNames =
     regionInfo?.aliases && regionInfo.aliases.length
       ? regionInfo.aliases
@@ -788,7 +828,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       : "";
 
   const descriptionSection = description
-    ? `<p class="region-info-description">${description}</p>`
+    ? `<p class="region-info-description">${description}${citationsMarkup}</p>`
     : `<p class="region-info-placeholder">No description available.</p>`;
 
   const embryonicOriginSection = embryonicOrigin
