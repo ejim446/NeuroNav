@@ -145,7 +145,15 @@
               return;
             }
 
-            const handleTransitionEnd = () => {
+            if (splashScreen.classList.contains("splash-hidden")) {
+              return;
+            }
+
+            const handleTransitionEnd = (event) => {
+              if (event.propertyName !== "opacity") {
+                return;
+              }
+
               splashScreen.removeEventListener(
                 "transitionend",
                 handleTransitionEnd,

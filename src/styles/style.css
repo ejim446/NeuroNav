@@ -136,7 +136,11 @@ canvas {
         background: var(--white);
         z-index: 20;
         opacity: 1;
-        transition: opacity 600ms ease;
+        transition:
+                opacity 600ms ease,
+                visibility 0s linear 600ms;
+        animation: splash-fade-in 600ms ease;
+        animation-fill-mode: forwards;
 }
 
 .splash-content {
@@ -163,11 +167,23 @@ canvas {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+        animation: none;
+}
+
+@keyframes splash-fade-in {
+        from {
+                opacity: 0;
+        }
+
+        to {
+                opacity: 1;
+        }
 }
 
 @media (prefers-reduced-motion: reduce) {
         #splash-screen {
                 transition: none;
+                animation: none;
         }
 }
 
