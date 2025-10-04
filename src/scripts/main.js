@@ -757,6 +757,51 @@ function processTooltipRaycast() {
 
 const infoPanel = document.getElementById("region-info-panel");
 
+const REGION_INFO_PANEL_WIDTH = {
+  minRem: 18,
+  maxRem: 32,
+  stepRem: 1,
+};
+
+function resetRegionInfoPanelWidth(panel) {
+  if (!panel) return;
+  panel.style.removeProperty("--region-info-panel-width");
+  panel.classList.remove("region-info-panel-scrollable");
+}
+
+function adjustRegionInfoPanelWidth(panel) {
+  if (!panel) return;
+
+  const { minRem, maxRem, stepRem } = REGION_INFO_PANEL_WIDTH;
+  const rootFontSize = Number.parseFloat(
+    getComputedStyle(document.documentElement).fontSize,
+  );
+
+  if (!Number.isFinite(rootFontSize) || rootFontSize <= 0) {
+    resetRegionInfoPanelWidth(panel);
+    return;
+  }
+
+  let widthRem = minRem;
+  panel.style.setProperty("--region-info-panel-width", `${widthRem}rem`);
+  panel.classList.remove("region-info-panel-scrollable");
+
+  // Trigger layout before measuring so the new width takes effect.
+  panel.getBoundingClientRect();
+
+  while (panel.scrollHeight > panel.clientHeight && widthRem < maxRem) {
+    widthRem = Math.min(widthRem + stepRem, maxRem);
+    panel.style.setProperty("--region-info-panel-width", `${widthRem}rem`);
+    panel.getBoundingClientRect();
+  }
+
+  if (panel.scrollHeight > panel.clientHeight) {
+    panel.classList.add("region-info-panel-scrollable");
+  } else {
+    panel.classList.remove("region-info-panel-scrollable");
+  }
+}
+
 function escapeHtml(value) {
   if (value == null) {
     return "";
@@ -903,6 +948,8 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
 
   infoPanel.classList.add("visible");
   infoPanel.setAttribute("aria-hidden", "false");
+
+  adjustRegionInfoPanelWidth(infoPanel);
 }
 
 function hideRegionInfoPanel() {
@@ -911,6 +958,7 @@ function hideRegionInfoPanel() {
   infoPanel.classList.remove("visible");
   infoPanel.setAttribute("aria-hidden", "true");
   infoPanel.innerHTML = "";
+  resetRegionInfoPanelWidth(infoPanel);
 }
 
 if (infoPanel) {

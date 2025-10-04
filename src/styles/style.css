@@ -9,7 +9,8 @@ canvas {
         position: fixed;
         top: 1.5rem;
         left: 1.5rem;
-        max-width: 22rem;
+        width: var(--region-info-panel-width, var(--region-info-panel-min-width, 18rem));
+        max-width: var(--region-info-panel-max-width, 32rem);
         max-height: calc(100vh - 3rem);
         padding: 1rem 1.25rem;
         border-radius: var(--border-radius);
@@ -18,12 +19,16 @@ canvas {
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         backdrop-filter: blur(6px);
         display: none;
-        overflow-y: auto;
+        overflow-y: hidden;
         z-index: 5;
 }
 
 #region-info-panel.visible {
         display: block;
+}
+
+#region-info-panel.region-info-panel-scrollable {
+        overflow-y: auto;
 }
 
 #region-info-panel h3 {
@@ -109,14 +114,17 @@ canvas {
 	--grey-secondary: #434b5b;
 	--grey-tertiary: #22252e;
 	--grey-quaternary: rgb(30, 30, 37, 1);
-	--grey-pentanary: #1a1920;
+        --grey-pentanary: #1a1920;
 
-	--black: #000;
-	--white: #fff;
+        --black: #000;
+        --white: #fff;
 
-	--border-radius: 5px;
+        --border-radius: 5px;
 
-	--icon-fill: #22252e;
+        --icon-fill: #22252e;
+
+        --region-info-panel-min-width: 18rem;
+        --region-info-panel-max-width: 32rem;
 }
 
 .navbar {
