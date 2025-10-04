@@ -362,123 +362,199 @@
   "name": "External Segment of Globus Pallidus",
   "keywords": [
     "Basal Ganglia",
-    "Striatum"
+    "Motor Control",
+    "Telencephalon",
+    "Cerebrum"
   ],
   "groups": [
-    "Basal Ganglia"
+    "Basal Ganglia",
+    "Telencephalon",
+    "Cerebrum"
   ],
-  "description": "Lateral pallidal segment that implements the indirect basal ganglia pathway to suppress competing motor programs.",
+  "description": "The GPe is the lateral segment of the globus pallidus, located medial to the putamen and separated from the GPi by the internal medullary lamina. It contains GABAergic neurons and acts as an intrinsic relay nucleus within the basal ganglia, especially involved in the indirect motor pathway. Unlike the GPi, it does not project to the thalamus [1][2].",
   "aliases": [
-    "Globus Pallidus Externus",
-    "GPe"
+    "GPe",
+    "Lateral Globus Pallidus",
+    "Globus Pallidus Externus"
   ],
   "functions": [
-    "Shapes movement by relaying inhibitory signals within the indirect basal ganglia circuit.",
-    "Regulates rhythmic activity important for gait and posture."
+    "Modulates movement by inhibiting the subthalamic nucleus and regulating GPi activity, helping suppress unwanted motion [1][3]",
+    "Participates in associative and limbic basal ganglia loops; implicated in habit learning and neuropsychiatric disorders [4]"
   ],
   "connections": [
-    "Receives GABAergic input from striatal medium spiny neurons of the indirect pathway.",
-    "Projects to subthalamic nucleus, globus pallidus internus, and substantia nigra pars reticulata."
+    "Receives GABAergic input from D2-expressing striatal neurons (indirect pathway); reciprocal connections with the subthalamic nucleus; also receives modulatory input from thalamic and brainstem nuclei [1][3][5][6]",
+    "Sends GABAergic outputs to the subthalamic nucleus, GPi, SNr, and striatum (via arkypallidal cells); does not project to the thalamus [2][5]"
   ],
-  "embryonic_origin": "Telencephalon"
+  "embryonic_origin": "Telencephalon [7]",
+  "citations": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK557755/",
+    "https://en.wikipedia.org/wiki/External_globus_pallidus",
+    "https://www.frontiersin.org/journals/neural-circuits/articles/10.3389/fncir.2021.645287/full",
+    "https://journals.lww.com/nrronline/fulltext/2025/06000/role_of_the_globus_pallidus_in_motor_and_non_motor.8.aspx",
+    "https://en.wikipedia.org/wiki/Globus_pallidus",
+    "https://www.kenhub.com/en/library/anatomy/basal-ganglia",
+    "https://www.frontiersin.org/journals/cellular-neuroscience/articles/10.3389/fncel.2022.939294/full"
+  ]
 },
 "12": {
   "name": "Internal Segment of Globus Pallidus",
   "keywords": [
     "Basal Ganglia",
-    "Striatum"
+    "Motor Control",
+    "Telencephalon",
+    "Cerebrum"
   ],
   "groups": [
-    "Basal Ganglia"
+    "Basal Ganglia",
+    "Telencephalon",
+    "Cerebrum"
   ],
-  "description": "Medial output nucleus of the basal ganglia that gates thalamocortical drive to premotor and motor areas.",
+  "description": "The internal segment of the globus pallidus (GPi) is a medial basal ganglia nucleus composed of GABAergic projection neurons. It serves as a primary output node of the basal ganglia, exerting tonic inhibition on motor thalamic and brainstem targets to regulate movement initiation and posture [1].",
   "aliases": [
-    "Globus Pallidus Internus",
     "GPi",
-    "Medial Globus Pallidus"
+    "Medial Globus Pallidus",
+    "Globus Pallidus Internus"
   ],
   "functions": [
-    "Provides tonic inhibitory control over motor thalamus to regulate movement initiation.",
-    "Encodes movement parameters for learned motor sequences."
+    "Exerts tonic GABAergic inhibition over motor thalamus to gate voluntary movement [1]",
+    "Encodes learned motor sequences and movement parameters [2]",
+    "Participates in cognitive and limbic circuits, including reward and mood regulation via projections to the lateral habenula [3]",
+    "Involved in rhythmic motor timing; pathological oscillations linked to disorders like Parkinson’s [2]"
+  ],
+  "connections": {
+    "inputs": [
+      "GABAergic direct pathway from striatum (D1-expressing neurons) [1]",
+      "Excitatory glutamatergic input from subthalamic nucleus (STN) [1]",
+      "Inhibitory input from external globus pallidus (GPe) [4]",
+      "Modulatory input from intralaminar thalamus [5]"
+    ],
+    "outputs": [
+      "Inhibitory projections to ventral anterior and ventrolateral thalamic nuclei (pallidothalamic tract) [1]",
+      "Brainstem targets including pedunculopontine nucleus (PPN) [6]",
+      "Rostromedial projections to lateral habenula via fasciculus retroflexus (reward/aversion circuit) [3]"
+    ]
+  },
+  "embryonic_origin": "Telencephalon [7]",
+  "citations": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK557755/",
+    "https://journals.lww.com/nrronline/fulltext/2025/06000/role_of_the_globus_pallidus_in_motor_and_non_motor.8.aspx",
+    "https://pubmed.ncbi.nlm.nih.gov/28254363/",
+    "https://www.frontiersin.org/journals/neural-circuits/articles/10.3389/fncir.2021.645287/full",
+    "https://en.wikipedia.org/wiki/Globus_pallidus",
+    "https://en.wikipedia.org/wiki/External_globus_pallidus",
+    "https://www.frontiersin.org/journals/cellular-neuroscience/articles/10.3389/fncel.2022.939294/full"
+  ]
+},
+"13": {
+  "name": "Claustrum",
+  "keywords": [
+    "Claustrum",
+    "Consciousness",
+    "Attention",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "groups": [
+    "Limbic System",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "The claustrum is a thin, irregular sheet of gray matter located deep within each cerebral hemisphere, sandwiched between the insular cortex and the putamen. It is bordered laterally by the extreme capsule and medially by the external capsule, running rostrocaudally beneath the insula. Though small (~0.25% of cortical volume), it is one of the most densely connected structures in the brain, linking nearly all cortical regions [1][2].",
+  "aliases": [
+    "Vielleux’s Nucleus",
+    "Claustral Complex"
+  ],
+  "functions": [
+    "Combines visual, auditory, and somatosensory input to form unified percepts [1][2]",
+    "Modulates attention by filtering salient stimuli and coordinating fronto-parietal networks [3][4]",
+    "May synchronize widespread cortical activity related to awareness; lesions or stimulation alter consciousness levels [5][6]",
+    "Interacts with hippocampus and amygdala, contributing to memory consolidation and emotional salience [7]",
+    "Integrates affective and sensory aspects of pain perception; lesions alter pain experience [6][8]"
   ],
   "connections": [
-    "Receives direct pathway input from striatum and excitatory drive from subthalamic nucleus.",
-    "Projects via the ansa lenticularis and lenticular fasciculus to ventral anterior and ventrolateral thalamic nuclei."
+    "Reciprocal projections with nearly all cortical areas (prefrontal, parietal, occipital, temporal, insular, and cingulate) [1][9]",
+    "Subcortical inputs from thalamus, amygdala, and hippocampus; outputs to basal ganglia (caudate, putamen) [10]"
+  ],
+  "embryonic_origin": "Telencephalon [6]",
+  "citations": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC4079070/",
+    "https://en.wikipedia.org/wiki/Claustrum",
+    "https://pubmed.ncbi.nlm.nih.gov/26231239/",
+    "https://www.cell.com/trends/neurosciences/fulltext/S0166-2236(15)00107-8",
+    "https://www.dpag.ox.ac.uk/news/little-understood-brain-region-linked-to-how-we-perceive-pain",
+    "https://www.sciencedirect.com/science/article/pii/S0960982220314391",
+    "https://pubmed.ncbi.nlm.nih.gov/283730642/",
+    "https://www.frontiersin.org/articles/10.3389/fnsys.2014.00117/full",
+    "https://academic.oup.com/cercor/article/25/2/406/358448",
+    "https://pubmed.ncbi.nlm.nih.gov/28254363/"
+  ]
+},
+"14": {
+  "name": "Basal Forebrain",
+  "keywords": [
+    "Cholinergic System",
+    "Attention",
+    "Arousal",
+    "Memory"
+  ],
+  "groups": [
+    "Limbic System",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "A group of ventral forebrain nuclei—including the nucleus basalis of Meynert, medial septal nucleus, and diagonal band of Broca—that provide the brain’s main cholinergic projections to the cortex, hippocampus, and amygdala. These structures regulate arousal, attention, learning, and memory through acetylcholine release and other modulatory outputs. Degeneration of basal forebrain neurons contributes to cognitive decline in aging and dementia [1][2][5].",
+  "aliases": [
+    "Substantia Innominata",
+    "Nucleus Basalis Complex",
+    "Septal–Diagonal Band System"
+  ],
+  "functions": [
+    "Promotes cortical activation and wakefulness through acetylcholine release [1][5]",
+    "Enhances selective attention by modulating sensory cortical responsiveness [2][8]",
+    "Supports learning and memory by facilitating hippocampal theta rhythms and cortical plasticity [2][5]",
+    "Integrates limbic input to regulate emotional salience and executive control [6][2]"
+  ],
+  "connections": [
+    "Receives input from amygdala, hippocampus, prefrontal cortex, hypothalamus, and brainstem arousal centers [2][6]",
+    "Projects diffusely to neocortex, hippocampus, amygdala, and thalamus [1][5]",
+    "Forms reciprocal circuits with limbic and cortical structures to regulate attention, arousal, and memory [2][5]"
+  ],
+  "embryonic_origin": "Telencephalon [7]",
+  "citations": [
+    "https://en.wikipedia.org/wiki/Basal_forebrain",
+    "https://www.frontiersin.org/journals/psychiatry/articles/10.3389/fpsyt.2022.888150/full",
+    "https://www.frontiersin.org/journals/neural-circuits/articles/10.3389/fncir.2022.916499/full",
+    "https://link.springer.com/article/10.1007/BF00247288",
+    "https://www.frontiersin.org/journals/molecular-neuroscience/articles/10.3389/fnmol.2019.00204/full",
+    "https://www.bu.edu/neural/Final/Publications/2001/Neuroscience.%202001.%20103(3)593-614.pdf"
+  ]
+},
+"15": {
+  "name": "Septal Nuclei",
+  "keywords": [
+    "Septal Area",
+    "Medial Septum",
+    "Limbic System"
+  ],
+  "groups": [
+    "Basal Forebrain",
+    "Limbic System"
+  ],
+  "description": "Basal forebrain nuclei coordinating hippocampal theta and autonomic responses.",
+  "aliases": [
+    "Septal Area",
+    "Septum Pellucidum Nuclei"
+  ],
+  "functions": [
+    "Drive hippocampal oscillations important for memory and navigation.",
+    "Integrate limbic inputs to regulate reward, motivation, and autonomic tone."
+  ],
+  "connections": [
+    "Receive afferents from hippocampus, amygdala, and hypothalamus via the fornix.",
+    "Project via the medial forebrain bundle and fornix to hippocampus and hypothalamus."
   ],
   "embryonic_origin": "Telencephalon"
 },
-  "13": {
-    "name": "Claustrum",
-    "keywords": [
-      "Claustrum",
-      "Telencephalon"
-    ],
-    "groups": [
-      "Telencephalon"
-    ],
-    "description": "Thin telencephalic gray matter sheet between insula and putamen; highly connected with widespread cortical areas.",
-    "aliases": [
-      "Insular Claustrum",
-      "Claustral Cortex"
-    ],
-    "functions": [
-      "Facilitates multimodal integration and attention switching across cortical networks."
-    ],
-    "connections": [
-      "Reciprocally connected with widespread neocortex; links to limbic structures have been reported."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "14": {
-    "name": "Basal Forebrain",
-    "keywords": [
-      "Basal Forebrain",
-      "Cholinergic System"
-    ],
-    "groups": [
-      "Basal Forebrain"
-    ],
-    "description": "Heterogeneous basal forebrain complex (nucleus basalis, diagonal band, medial septal nuclei) providing widespread cholinergic input.",
-    "aliases": [
-      "Substantia Innominata",
-      "Nucleus Basalis of Meynert (component)"
-    ],
-    "functions": [
-      "Supports attention, arousal, and learning through cortical acetylcholine release.",
-      "Modulates hippocampal plasticity underlying memory encoding."
-    ],
-    "connections": [
-      "Receives input from limbic structures such as amygdala and prefrontal cortex.",
-      "Projects diffusely to neocortex, hippocampus, and amygdaloid complex."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "15": {
-    "name": "Septal Nuclei",
-    "keywords": [
-      "Septal Area",
-      "Medial Septum",
-      "Limbic System"
-    ],
-    "groups": [
-      "Basal Forebrain",
-      "Limbic System"
-    ],
-    "description": "Basal forebrain nuclei coordinating hippocampal theta and autonomic responses.",
-    "aliases": [
-      "Septal Area",
-      "Septum Pellucidum Nuclei"
-    ],
-    "functions": [
-      "Drive hippocampal oscillations important for memory and navigation.",
-      "Integrate limbic inputs to regulate reward, motivation, and autonomic tone."
-    ],
-    "connections": [
-      "Receive afferents from hippocampus, amygdala, and hypothalamus via the fornix.",
-      "Project via the medial forebrain bundle and fornix to hippocampus and hypothalamus."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
   "16": {
     "name": "Amygdaloid Complex",
     "keywords": [
