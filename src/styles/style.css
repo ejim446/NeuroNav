@@ -45,43 +45,14 @@ canvas {
         line-height: 1.5;
 }
 
-#region-info-panel .region-info-section-citations {
-        margin-top: 0.75rem;
-}
-
-#region-info-panel .region-info-citation-list {
-        margin: 0.35rem 0 0;
-        padding: 0;
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-}
-
-#region-info-panel .region-info-citation-item {
-        display: flex;
-        align-items: baseline;
-        gap: 0.5rem;
-        line-height: 1.4;
-}
-
-#region-info-panel .region-info-citation-label {
-        color: var(--grey-secondary);
-        font-weight: 600;
-        flex-shrink: 0;
-}
-
-#region-info-panel .region-info-citation-text,
-#region-info-panel .region-info-citation-link {
+#region-info-panel .region-info-inline-citation {
         color: var(--grey-primary);
-}
-
-#region-info-panel .region-info-citation-link {
         text-decoration: none;
+        font-weight: 600;
 }
 
-#region-info-panel .region-info-citation-link:hover,
-#region-info-panel .region-info-citation-link:focus-visible {
+#region-info-panel .region-info-inline-citation:hover,
+#region-info-panel .region-info-inline-citation:focus-visible {
         color: var(--white);
         text-decoration: underline;
 }
