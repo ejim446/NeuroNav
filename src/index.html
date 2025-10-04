@@ -149,18 +149,26 @@
               return;
             }
 
-            const handleTransitionEnd = (event) => {
-              if (event.propertyName !== "opacity") {
-                return;
-              }
+            let fallbackTimeout;
 
+            const cleanup = () => {
               splashScreen.removeEventListener(
                 "transitionend",
                 handleTransitionEnd,
               );
+              window.clearTimeout(fallbackTimeout);
               splashScreen.remove();
             };
 
+            const handleTransitionEnd = (event) => {
+              if (event.target !== splashScreen || event.propertyName !== "opacity") {
+                return;
+              }
+
+              cleanup();
+            };
+
+            fallbackTimeout = window.setTimeout(cleanup, 750);
             splashScreen.addEventListener("transitionend", handleTransitionEnd);
             splashScreen.classList.add("splash-hidden");
           };
