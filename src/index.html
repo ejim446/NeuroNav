@@ -584,7 +584,13 @@
         const checkbox = document.getElementById(
           "description-boxes-checkbox",
         );
-        setDescriptionBoxesDisabled(checkbox.checked);
+        if (!checkbox) {
+          return;
+        }
+
+        requestAnimationFrame(() => {
+          setDescriptionBoxesDisabled(checkbox.checked);
+        });
       }
 
       const eyeOpenIconSVG = `
