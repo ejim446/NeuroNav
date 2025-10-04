@@ -787,51 +787,50 @@ function normalizeToArray(values) {
   return [];
 }
 
-function renderCitationsList(citations) {
-  const items = normalizeToArray(citations);
-  if (!items.length) {
+function linkifyCitations(text, citations) {
+  if (typeof text !== "string") {
     return "";
   }
 
-  const listItems = items
-    .map((citation, index) => {
-      const trimmedCitation = citation.trim();
-      const label = `[${index + 1}]`;
-      const labelMarkup = `<span class="region-info-citation-label">${label}</span>`;
-      const ariaLabel = escapeAttribute(
-        `Reference ${index + 1}: ${trimmedCitation}`,
-      );
-
-      if (/^https?:\/\//i.test(trimmedCitation)) {
-        const safeHref = escapeAttribute(trimmedCitation);
-        const safeText = escapeHtml(trimmedCitation);
-        return `<li class="region-info-citation-item">${labelMarkup}<a class="region-info-citation-link" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${ariaLabel}">${safeText}</a></li>`;
-      }
-
-      const safeText = escapeHtml(trimmedCitation);
-      return `<li class="region-info-citation-item">${labelMarkup}<span class="region-info-citation-text" aria-label="${ariaLabel}" role="text">${safeText}</span></li>`;
-    })
-    .join("");
-
-  return `<ol class="region-info-citation-list">${listItems}</ol>`;
-}
-
-function renderCitationsSection(citations) {
-  const listMarkup = renderCitationsList(citations);
-  if (!listMarkup) {
+  const trimmedText = text.trim();
+  if (!trimmedText) {
     return "";
   }
 
-  return `<div class="region-info-section region-info-section-citations"><h4>References</h4>${listMarkup}</div>`;
+  const escapedText = escapeHtml(trimmedText);
+  if (!Array.isArray(citations) || !citations.length) {
+    return escapedText;
+  }
+
+  return escapedText.replace(/\[(\d+)\]/g, (match, numberString) => {
+    const citationIndex = Number.parseInt(numberString, 10) - 1;
+    if (!Number.isInteger(citationIndex) || citationIndex < 0) {
+      return match;
+    }
+
+    const citation = citations[citationIndex];
+    if (typeof citation !== "string") {
+      return match;
+    }
+
+    const trimmedCitation = citation.trim();
+    if (!trimmedCitation) {
+      return match;
+    }
+
+    const safeHref = escapeAttribute(trimmedCitation);
+    const ariaLabel = escapeAttribute(`Reference ${numberString}`);
+    return `<a class="region-info-inline-citation" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${ariaLabel}">[${numberString}]</a>`;
+  });
 }
 
-function renderInfoList(values, emptyMessage) {
+function renderInfoList(values, emptyMessage, citations) {
   const items = normalizeToArray(values);
   if (!items.length) {
     return `<p class="region-info-placeholder">${emptyMessage}</p>`;
   }
   return `<ul class="region-info-list">${items
-    .map((item) => `<li>${item}</li>`)
+    .map((item) => `<li>${linkifyCitations(item, citations)}</li>`)
     .join("")}</ul>`;
 }
 
@@ -851,19 +850,24 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       : "";
 
   const descriptionSection = description
-    ? `<p class="region-info-description">${description}</p>`
+    ? `<p class="region-info-description">${linkifyCitations(
+        description,
+        regionInfo?.citations,
+      )}</p>`
     : `<p class="region-info-placeholder">No description available.</p>`;
 
   const embryonicOriginSection = embryonicOrigin
-    ? `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-embryonic-origin">${embryonicOrigin}</p></div>`
+    ? `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-embryonic-origin">${linkifyCitations(
+        embryonicOrigin,
+        regionInfo?.citations,
+      )}</p></div>`
     : `<div class="region-info-section"><h4>Embryonic Origin</h4><p class="region-info-placeholder">No embryonic origin information available.</p></div>`;
 
   const groupsSection = groups.length
-    ? `<div class="region-info-section"><h4>Groups</h4><p class="region-info-groups">${groups.join(
-        " • ",
-      )}</p></div>`
+    ? `<div class="region-info-section"><h4>Groups</h4><p class="region-info-groups">${groups
+        .map((group) => escapeHtml(group))
+        .join(" • ")}</p></div>`
     : "";
-  const citationsSection = renderCitationsSection(regionInfo?.citations);
 
   infoPanel.innerHTML = `
     <h3>${name}</h3>
@@ -872,13 +876,18 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
     ${embryonicOriginSection}
     <div class="region-info-section">
       <h4>Alternative Names</h4>
-      ${renderInfoList(alternativeNames, "No alternative names recorded.")}
+      ${renderInfoList(
+        alternativeNames,
+        "No alternative names recorded.",
+        regionInfo?.citations,
+      )}
     </div>
     <div class="region-info-section">
       <h4>Functions</h4>
       ${renderInfoList(
         regionInfo?.functions,
         "No functional summary available.",
+        regionInfo?.citations,
       )}
     </div>
     <div class="region-info-section">
@@ -886,10 +895,10 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
       ${renderInfoList(
         regionInfo?.connections,
         "No connection data available.",
+        regionInfo?.citations,
       )}
     </div>
     ${groupsSection}
-    ${citationsSection}
   `;
 
   infoPanel.classList.add("visible");
