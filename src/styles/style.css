@@ -385,21 +385,24 @@ canvas {
 }
 
 #hemisphere-text {
-	grid-row: 1 / 2;
-	grid-column: 4 / 5;
-	justify-self: center;
+    grid-row: 1 / 2;
+    grid-column: 4 / 5;
+    justify-self: stretch;
+    text-align: center;
 }
 
 #color-text {
-	grid-row: 1 / 2;
-	grid-column: 5 / 6;
-	justify-self: center;
+    grid-row: 1 / 2;
+    grid-column: 5 / 6;
+    justify-self: stretch;
+    text-align: center;
 }
 
 #toggle-text {
-	grid-row: 1 / 2;
-	grid-column: 6 / 7;
-	justify-self: center;
+    grid-row: 1 / 2;
+    grid-column: 6 / 7;
+    justify-self: stretch;
+    text-align: center;
 }
 
 .selection-container {
@@ -466,16 +469,16 @@ canvas {
 }
 
 .eye-container {
-	grid-column: 6 / 7;
-	justify-self: center;
-	align-self: center;
-	width: 20px;
-	height: 30px;
-	fill: white;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    grid-column: 6 / 7;
+    justify-self: stretch;
+    align-self: center;
+    width: 100%;
+    height: 30px;
+    fill: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #eye-open-icon {
