@@ -1,237 +1,301 @@
 {
-  "1": {
-    "name": "Olfactory Bulb",
-    "keywords": [
-      "Olfactory System",
-      "Smell"
-    ],
-    "groups": [
-      "Olfactory System"
-    ],
-    "description": "Processes incoming odor signals before they reach cortical olfactory areas.",
-    "aliases": [
-      "OB",
-      "Bulbus olfactorius"
-    ],
-    "functions": [
-      "Performs initial synaptic processing for olfactory receptor neuron inputs.",
-      "Sends refined odor information to limbic and cortical olfactory regions."
-    ],
-    "connections": [
-      "Receives axons from olfactory receptor neurons via the olfactory nerve.",
-      "Projects to the piriform cortex, amygdala, and entorhinal cortex."
-    ],
-    "embryonic_origin": "Telencephalon",
-    "citations": [
-      "https://portal.brain-map.org/explore/allen-brain-atlas"
-    ]
-  },
-  "2": {
-    "name": "Anterior Olfactory Nucleus",
-    "keywords": [
-      "Olfactory System",
-      "Smell"
-    ],
-    "groups": [
-      "Olfactory System"
-    ],
-    "description": "Coordinates bilateral olfactory information and modulates odor perception.",
-    "aliases": [
-      "Anterior olfactory area"
-    ],
-    "functions": [
-      "Integrates odor representations across hemispheres.",
-      "Provides feedback modulation to the olfactory bulb."
-    ],
-    "connections": [
-      "Maintains reciprocal connections with the olfactory bulb and piriform cortex.",
-      "Links the two olfactory bulbs through anterior commissure fibers."
-    ],
-    "embryonic_origin": "Undetermined",
-    "citations": [
-      "https://www.ncbi.nlm.nih.gov/books/NBK551517/"
-    ]
-  },
-  "3": {
-    "name": "Piriform Cortex",
-    "keywords": [
-      "Olfactory System",
-      "Smell"
-    ],
-    "groups": [
-      "Olfactory System"
-    ],
-    "description": "Primary olfactory cortex of the temporal lobe that supports odor identification and associative odor memory.",
-    "aliases": [
-      "Pyriform Cortex",
-      "Primary Olfactory Cortex",
-      "Area piriformis"
-    ],
-    "functions": [
-      "Integrates olfactory bulb input into perceptual odor representations.",
-      "Supports associative learning that links odors to context and reward."
-    ],
-    "connections": [
-      "Receives dense afferents from the olfactory bulb and anterior olfactory nucleus.",
-      "Projects to orbitofrontal cortex, amygdala, entorhinal cortex, and hypothalamic olfactory areas."
-    ],
-    "embryonic_origin": "Telencephalon",
-    "citations": [
-      "Gottfried JA. Central mechanisms of odour object perception. Nat Rev Neurosci. 2010;11(9):628-641."
-    ]
-  },
-  "4": {
-    "name": "Anterior (Agranular) Insular Cortex",
-    "keywords": [
-      "Olfactory System",
-      "Smell"
-    ],
-    "groups": [
-      "Cerebral Cortex",
-      "Insular Cortex"
-    ],
-    "description": "Agranular anterior insular cortex integrating interoceptive, affective, and cognitive signals; a hub of the salience network.",
-    "aliases": [
-      "Frontal Agranular Insula",
-      "Anterior Insular Cortex"
-    ],
-    "functions": [
-      "Monitors internal bodily states relevant to taste, autonomic responses, and affect.",
-      "Participates in salience detection and interoceptive awareness.",
-      "Integrates interoceptive signals with emotion and cognition for subjective awareness.",
-      "Supports salience detection and network switching with cingulo-opercular regions.",
-      "Contributes to visceromotor control and autonomic regulation."
-    ],
-    "connections": [
-      "Interconnects with orbitofrontal cortex, anterior cingulate cortex, and amygdala.",
-      "Receives viscerosensory input via thalamic and brainstem relays.",
-      "Dense reciprocal connections with anterior cingulate cortex, orbitofrontal cortex, amygdala, and brainstem autonomic centers."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "5": {
-    "name": "Posterior (Agranular/Dysgranular) Insular Cortex",
-    "keywords": [
-      "Olfactory System",
-      "Smell"
-    ],
-    "groups": [
-      "Cerebral Cortex",
-      "Insular Cortex"
-    ],
-    "description": "Posterior/dysgranular insula processing primary interoceptive inputs including pain, temperature, and viscerosensory signals.",
-    "aliases": [
-      "Temporal Agranular Insula",
-      "Posterior Insular Cortex"
-    ],
-    "functions": [
-      "Integrates chemosensory information with visceral sensation.",
-      "Supports emotional memory associated with taste and smell.",
-      "Represents somatotopic interoceptive maps for pain and temperature.",
-      "Contributes to sensorimotor integration for orofacial and visceromotor functions."
-    ],
-    "connections": [
-      "Receives projections from piriform cortex and thalamic taste relays.",
-      "Projects to amygdala, entorhinal cortex, and orbitofrontal regions.",
-      "Receives thalamic (VPL/VPM) and brainstem interoceptive inputs; connects with somatosensory and cingulate cortices."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "6": {
-    "name": "Head of Caudate",
-    "keywords": [
-      "Basal Ganglia",
-      "Striatum"
-    ],
-    "groups": [
-      "Basal Ganglia"
-    ],
-    "description": "Anterior striatal sector involved in goal-directed action selection and cognitive aspects of motor control.",
-    "aliases": [
-      "Caudate Head",
-      "Anterior Caudate Nucleus"
-    ],
-    "functions": [
-      "Tracks action-outcome contingencies and supports executive planning.",
-      "Participates in working memory and attention circuits with prefrontal cortex."
-    ],
-    "connections": [
-      "Receives glutamatergic inputs from dorsolateral prefrontal and orbitofrontal cortices.",
-      "Projects via striatopallidal pathways to globus pallidus and substantia nigra pars reticulata."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "7": {
-    "name": "Body of Caudate",
-    "keywords": [
-      "Basal Ganglia",
-      "Striatum"
-    ],
-    "groups": [
-      "Basal Ganglia"
-    ],
-    "description": "Elongated middle portion of the caudate nucleus modulating cognitive-motor integration and eye movement control.",
-    "aliases": [
-      "Caudate Body",
-      "Corpus Caudatum"
-    ],
-    "functions": [
-      "Coordinates cortico-striatal loops for saccadic control and habit learning.",
-      "Adjusts motor output based on feedback and motivational context."
-    ],
-    "connections": [
-      "Receives afferents from association cortices and intralaminar thalamic nuclei.",
-      "Projects to globus pallidus externus and substantia nigra pars reticulata."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "8": {
-    "name": "Tail of Caudate",
-    "keywords": [
-      "Basal Ganglia",
-      "Striatum"
-    ],
-    "groups": [
-      "Basal Ganglia"
-    ],
-    "description": "Posterior tapering segment of the caudate nucleus linking striatal circuits with visual and limbic cortices.",
-    "aliases": [
-      "Caudate Tail"
-    ],
-    "functions": [
-      "Supports visual attention, spatial learning, and reward prediction for peripheral stimuli.",
-      "Participates in associative learning connecting visual cues with action outcomes."
-    ],
-    "connections": [
-      "Receives projections from visual association cortex and superior colliculus.",
-      "Sends outputs through striatonigral pathways to substantia nigra and pallidum."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "9": {
-    "name": "Putamen",
-    "keywords": [
-      "Basal Ganglia",
-      "Striatum"
-    ],
-    "groups": [
-      "Basal Ganglia"
-    ],
-    "description": "Large dorsolateral striatal nucleus crucial for motor skill learning and sensorimotor integration.",
-    "aliases": [
-      "Putamen Nucleus",
-      "Dorsolateral Striatum"
-    ],
-    "functions": [
-      "Modulates execution of voluntary movements and habit formation.",
-      "Integrates somatosensory, motor, and premotor cortical inputs for action selection."
-    ],
-    "connections": [
-      "Receives dense corticostriatal projections from primary motor, premotor, and somatosensory cortices.",
-      "Outputs via direct and indirect pathways to globus pallidus and substantia nigra."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
+"1": {
+  "name": "Olfactory Bulb",
+  "keywords": [
+    "Olfactory System",
+    "Smell",
+    "Cerebrum",
+    "Telencephalon"
+  ],
+  "groups": [
+    "Olfactory System",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "Processes odorant information from sensory neurons and relays it to higher-order brain regions such as the amygdala, orbitofrontal cortex (OFC), and hippocampus. OFC and hippocampal inputs are received indirectly via the piriform and entorhinal cortices, respectively. [1]",
+  "aliases": [
+    "OB",
+    "Bulbus olfactorius"
+  ],
+  "functions": [
+    "Mediates local odor discrimination [1]",
+    "Permits higher brain areas involved in arousal and attention to modulate odor detection and discrimination [1]"
+  ],
+  "connections": [
+    "Receives a single source of olfactory input: axons from olfactory receptor neurons in the olfactory epithelium [1]",
+    "Outputs via mitral and tufted cell axons to the anterior olfactory nucleus (AON), piriform cortex, amygdala, and entorhinal cortex [1]",
+    "Receives top-down modulation from the olfactory cortex, amygdala, neocortex, hippocampus, locus coeruleus, and substantia nigra [1]"
+  ],
+  "embryonic_origin": "Telencephalon [2]",
+  "citations": [
+    "https://en.wikipedia.org/wiki/Olfactory_bulb",
+    "https://www.ncbi.nlm.nih.gov/books/NBK55972/"
+  ]
+},
+"2": {
+  "name": "Anterior Olfactory Nucleus",
+  "keywords": [
+    "Olfactory System",
+    "Smell",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "groups": [
+    "Olfactory System",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "An early relay and processing area for olfactory information, located posterior to the olfactory bulb and within the olfactory tract. [1] It integrates and distributes odor signals between hemispheres and provides modulatory feedback to the olfactory bulb. [2]",
+  "aliases": [
+    "AON",
+    "Anterior olfactory area",
+    "Anterior olfactory cortex"
+  ],
+  "functions": [
+    "Plays a pivotal, though relatively poorly understood, role in the processing of odor information [1]",
+    "Distributes odor information across hemispheres via the anterior commissure [2]",
+    "Provides feedback modulation to the olfactory bulb [2]"
+  ],
+  "connections": [
+    "Receives input from the ipsilateral olfactory bulb [1]",
+    "Sends projections to the contralateral olfactory bulb via the anterior commissure [2]",
+    "Projects ipsilaterally to the piriform cortex and other olfactory cortical areas [2]"
+  ],
+  "embryonic_origin": "Telencephalon [3]",
+  "citations": [
+    "https://en.wikipedia.org/wiki/Anterior_olfactory_nucleus",
+    "https://pubmed.ncbi.nlm.nih.gov/37343762/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC3430874/"
+  ]
+},
+"3": {
+  "name": "Piriform Cortex",
+  "keywords": [
+    "Olfactory System",
+    "Smell",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "groups": [
+    "Olfactory System",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "Located between the insula and temporal lobe, the piriform cortex serves as a primary olfactory cortical area that relays odor information to higher-order brain regions. It exhibits characteristics of an association cortex, integrating individual odor components into unified perceptual representations. [1][2]",
+  "aliases": [
+    "Pyriform cortex",
+    "Primary olfactory cortex",
+    "Area piriformis"
+  ],
+  "functions": [
+    "Integrates olfactory bulb input into perceptual odor representations [2]",
+    "Contributes to odor learning, memory, and associative processing [2][3]"
+  ],
+  "connections": [
+    "Receives afferents from the olfactory bulb via axons of mitral and tufted cells [3]",
+    "Has reciprocal connections with the prefrontal cortex, amygdala, perirhinal cortex, and entorhinal cortex [2]",
+    "Sends outputs to the orbitofrontal cortex via the mediodorsal thalamus [2]"
+  ],
+  "embryonic_origin": "Telencephalon [3]",
+  "citations": [
+    "https://en.wikipedia.org/wiki/Piriform_cortex",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC3722866/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC3430874/"
+  ]
+},
+"4": {
+  "name": "Anterior (Agranular) Insular Cortex",
+  "keywords": [
+    "Insula",
+    "Anterior insula",
+    "Agranular insular cortex",
+    "Interoception",
+    "Social cognition"
+  ],
+  "groups": [
+    "Insular Cortex / Insula",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "The most anterior portion of the insula, identified cytoarchitecturally by the absence or extreme thinning of granular cortical layers II and IV (i.e., agranular) [1][2][3]. The insular cortex more broadly serves as a hub integrating visceral, emotional, and interoceptive signals, linking internal bodily states to subjective awareness and higher-order cognitive–affective processes [2][3][4].",
+  "aliases": [
+    "Anterior insula",
+    "Agranular insula"
+  ],
+  "functions": [
+    "Mediates attention to internal bodily signals (e.g., heartbeat, respiration) [4]",
+    "Integrates autonomic, cognitive, and emotional inputs to support subjective feeling states and emotional awareness [2][4]",
+    "Engages during perception of bodily or emotional states in others (vicarious or empathic processing) [2]",
+    "Serves as a hub for detecting salient internal or external events and mediating switching among large-scale brain networks (e.g., default mode, executive) [4]"
+  ],
+  "connections": [
+    "Exhibits reciprocal projections with multiple amygdaloid nuclei, including the basolateral nucleus [4]",
+    "Receives interoceptive input via brainstem–thalamic pathways and from posterior insular regions [3][4]",
+    "Strongly connected with the anterior cingulate cortex (ACC), prefrontal cortex (PFC, including orbitofrontal regions), and other limbic structures [3][4]",
+    "Maintains bidirectional projections with middle (dysgranular) and posterior insular subregions, facilitating anterior–posterior integration along the insular axis [4]"
+  ],
+  "embryonic_origin": "Telencephalon [4]",
+  "citations": [
+    "https://en.wikipedia.org/wiki/Agranular_insula",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC3756831/",
+    "https://www.ncbi.nlm.nih.gov/books/NBK570606/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10616063/"
+  ]
+},
+"5": {
+  "name": "Posterior (Agranular/Dysgranular) Insular Cortex",
+  "keywords": [
+    "Insula",
+    "Posterior insula",
+    "Agranular / Dysgranular insular cortex",
+    "Interoception"
+  ],
+  "groups": [
+    "Insular Cortex / Insula",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "The insular cortex displays a cytoarchitectural gradient from anterior agranular to posterior dysgranular/granular cortex. The anterior portion lacks well-defined granular layers (II and IV), while the posterior portion contains a partially developed layer IV, reflecting a transition toward sensory cortical organization [1][2]. Functionally, the insula integrates visceral, somatosensory, and emotional information: the posterior regions are primarily involved in primary interoceptive and somatosensory representation, whereas anterior regions contribute to subjective awareness and affective integration [2][3].",
+  "aliases": [
+    "Posterior insula",
+    "Agranular insula",
+    "Dysgranular insula",
+    "Insular cortex"
+  ],
+  "functions": [
+    "The posterior insula represents internal bodily states such as pain, temperature, and visceral sensations; anterior regions transform these into conscious awareness [2][3]."
+  ],
+  "connections": [
+    "Receives interoceptive and nociceptive input via posterior thalamic nuclei [3]",
+    "Exhibits bidirectional connections with somatosensory cortices (S1/S2), orbitofrontal cortex, anterior cingulate cortex, and amygdala [2][3]",
+    "Maintains extensive reciprocal connections along the anterior–posterior insular axis, supporting the transformation of sensory input into emotional and cognitive representations [1][2]"
+  ],
+  "embryonic_origin": "Telencephalon [1]",
+  "citations": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC2871375/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC6032992/",
+    "https://www.overcominghateportal.org/uploads/5/4/1/5/5415260/conb_craig_2003.pdf"
+  ]
+},
+"6": {
+  "name": "Head of Caudate",
+  "keywords": [
+    "Basal Ganglia",
+    "Striatum",
+    "Executive function",
+    "Goal-directed behavior"
+  ],
+  "groups": [
+    "Basal Ganglia",
+    "Striatum"
+  ],
+  "description": "The anterior, bulbous portion of the caudate nucleus, located adjacent to the lateral ventricle. It is primarily involved in goal-directed action selection, working memory, and cognitive components of motor control [1][2].",
+  "aliases": [
+    "Caudate head",
+    "Anterior caudate nucleus"
+  ],
+  "functions": [
+    "Supports adaptive decision making by tracking action–outcome contingencies [2]",
+    "Participates in executive processes including planning, attention, and working memory via prefrontal circuits [1][3]"
+  ],
+  "connections": [
+    "Receives glutamatergic inputs from dorsolateral prefrontal cortex (DLPFC) and orbitofrontal cortex (OFC) [2]",
+    "Projects to the globus pallidus and substantia nigra pars reticulata via direct and indirect striatal pathways [1][3]"
+  ],
+  "embryonic_origin": "Telencephalon [1]",
+  "citations": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK557407/",
+    "https://www.sciencedirect.com/science/article/pii/S0301008208001019",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC3288226/"
+  ]
+},
+"7": {
+  "name": "Body of Caudate",
+  "keywords": [
+    "Basal Ganglia",
+    "Striatum",
+    "Cognitive-motor integration",
+    "Eye movements"
+  ],
+  "groups": [
+    "Basal Ganglia",
+    "Striatum"
+  ],
+  "description": "The elongated central segment of the caudate nucleus, curving along the lateral ventricle’s body. It contributes to cognitive–motor coordination and saccadic eye movement control [1][2].",
+  "aliases": [
+    "Caudate Body",
+    "Corpus Caudatum"
+  ],
+  "functions": [
+    "Integrates feedback and motivational information into motor output [1]",
+    "Participates in habit learning and cortico-striatal loops for saccadic control [2]"
+  ],
+  "connections": [
+    "Receives projections from association cortices and intralaminar thalamic nuclei [1]",
+    "Projects to the external globus pallidus and substantia nigra pars reticulata [1][3]"
+  ],
+  "embryonic_origin": "Telencephalon [1]",
+  "citations": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK557407/",
+    "https://www.sciencedirect.com/science/article/pii/S0301008208001019",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC3288226/"
+  ]
+},
+"8": {
+  "name": "Tail of Caudate",
+  "keywords": [
+    "Basal Ganglia",
+    "Striatum",
+    "Visual attention",
+    "Associative learning"
+  ],
+  "groups": [
+    "Basal Ganglia",
+    "Striatum"
+  ],
+  "description": "The posterior tapering segment of the caudate nucleus that arches into the temporal lobe, adjacent to the amygdala. It connects striatal circuitry with visual and limbic areas [1][2].",
+  "aliases": [
+    "Caudate Tail"
+  ],
+  "functions": [
+    "Supports visual attention, spatial learning, and reward prediction for peripheral stimuli [2][3]",
+    "Mediates associative learning linking visual cues with action outcomes [2]"
+  ],
+  "connections": [
+    "Receives projections from visual association cortex and superior colliculus [3]",
+    "Sends outputs via striatonigral and striatopallidal pathways to substantia nigra and globus pallidus [1][3]"
+  ],
+  "embryonic_origin": "Telencephalon [1]",
+  "citations": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK557407/",
+    "https://www.overcominghateportal.org/uploads/5/4/1/5/5415260/conb_craig_2003.pdf",
+    "https://www.frontiersin.org/articles/10.3389/fnsys.2013.00104/full"
+  ]
+},
+"9": {
+  "name": "Putamen",
+  "keywords": [
+    "Basal Ganglia",
+    "Striatum"
+  ],
+  "groups": [
+    "Basal Ganglia"
+  ],
+  "description": "Large dorsolateral striatal nucleus crucial for motor skill learning and sensorimotor integration.",
+  "aliases": [
+    "Putamen Nucleus",
+    "Dorsolateral Striatum"
+  ],
+  "functions": [
+    "Modulates execution of voluntary movements and habit formation.",
+    "Integrates somatosensory, motor, and premotor cortical inputs for action selection."
+  ],
+  "connections": [
+    "Receives dense corticostriatal projections from primary motor, premotor, and somatosensory cortices.",
+    "Outputs via direct and indirect pathways to globus pallidus and substantia nigra."
+  ],
+  "embryonic_origin": "Telencephalon"
+},
   "10": {
     "name": "Nucleus Accumbens",
     "keywords": [
