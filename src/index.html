@@ -168,9 +168,12 @@
               cleanup();
             };
 
-            fallbackTimeout = window.setTimeout(cleanup, 750);
+            fallbackTimeout = window.setTimeout(cleanup, 1000);
             splashScreen.addEventListener("transitionend", handleTransitionEnd);
-            splashScreen.classList.add("splash-hidden");
+            splashScreen.classList.add("splash-hiding");
+            window.requestAnimationFrame(() => {
+              splashScreen.classList.add("splash-hidden");
+            });
           };
 
           const prefersReducedMotion = window.matchMedia(
