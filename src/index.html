@@ -7,6 +7,12 @@
     <title>NeuroNav</title>
   </head>
   <body>
+    <div id="splash-screen" aria-hidden="true">
+      <div class="splash-content">
+        <img src="/brain-logo.svg" alt="NeuroNav logo" class="splash-logo" />
+        <span class="splash-title">NEURONAV</span>
+      </div>
+    </div>
     <canvas id="bg"></canvas>
     <aside
       id="region-info-panel"
@@ -129,6 +135,40 @@
     <script>
       
       /// CITATION ///
+
+      const splashScreen = document.getElementById("splash-screen");
+      if (splashScreen) {
+        window.addEventListener("load", () => {
+          const hideSplash = (removeImmediately = false) => {
+            if (removeImmediately) {
+              splashScreen.remove();
+              return;
+            }
+
+            const handleTransitionEnd = () => {
+              splashScreen.removeEventListener(
+                "transitionend",
+                handleTransitionEnd,
+              );
+              splashScreen.remove();
+            };
+
+            splashScreen.addEventListener("transitionend", handleTransitionEnd);
+            splashScreen.classList.add("splash-hidden");
+          };
+
+          const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+
+          if (prefersReducedMotion) {
+            hideSplash(true);
+            return;
+          }
+
+          setTimeout(() => hideSplash(), 2500);
+        });
+      }
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
