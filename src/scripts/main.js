@@ -626,6 +626,7 @@ export function updateBackground() {
 /// REGION TOOLTIPS ///
 
 let tooltipsEnabled = true;
+let descriptionBoxesEnabled = true;
 let hoveredRegionName = null;
 
 // DISABLE TOOLTIPS //
@@ -640,6 +641,13 @@ export function disableTooltips(check) {
     if (pointerInsideRenderer) {
       pointerNeedsTooltipUpdate = true;
     }
+  }
+}
+
+export function disableDescriptionBoxes(check) {
+  descriptionBoxesEnabled = !check;
+  if (!descriptionBoxesEnabled) {
+    hideRegionInfoPanel();
   }
 }
 
@@ -917,6 +925,11 @@ function renderInfoList(values, emptyMessage, citations) {
 
 function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
   if (!infoPanel) return;
+
+  if (!descriptionBoxesEnabled) {
+    hideRegionInfoPanel();
+    return;
+  }
 
   const name = regionInfo?.name ?? regionId;
   const description = regionInfo?.description?.trim();
