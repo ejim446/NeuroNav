@@ -756,6 +756,73 @@ function processTooltipRaycast() {
 }
 
 const infoPanel = document.getElementById("region-info-panel");
+const INFO_PANEL_MIN_WIDTH_REM = 22;
+const INFO_PANEL_MAX_WIDTH_REM = 36;
+const INFO_PANEL_HORIZONTAL_MARGIN_REM = 3; // 1.5rem offset on each side
+let infoPanelResizeScheduled = false;
+
+function setInfoPanelWidth(widthInRem) {
+  if (!infoPanel) return;
+  infoPanel.style.setProperty("--region-info-panel-width", `${widthInRem}rem`);
+}
+
+function adjustInfoPanelWidth() {
+  if (!infoPanel || !infoPanel.classList.contains("visible")) {
+    return;
+  }
+
+  const rootFontSize = Number.parseFloat(
+    window.getComputedStyle(document.documentElement).fontSize,
+  );
+  const effectiveRootFontSize = Number.isFinite(rootFontSize) ? rootFontSize : 16;
+
+  const availableWidthPx =
+    window.innerWidth - INFO_PANEL_HORIZONTAL_MARGIN_REM * effectiveRootFontSize;
+  const limitedWidthPx = Number.isFinite(availableWidthPx)
+    ? Math.max(availableWidthPx, 0)
+    : INFO_PANEL_MIN_WIDTH_REM * effectiveRootFontSize;
+  const availableWidthRem = limitedWidthPx / effectiveRootFontSize;
+
+  const maxWidthRem = Math.min(INFO_PANEL_MAX_WIDTH_REM, availableWidthRem);
+  let targetWidthRem = Math.min(INFO_PANEL_MIN_WIDTH_REM, maxWidthRem);
+
+  if (!Number.isFinite(targetWidthRem) || targetWidthRem <= 0) {
+    targetWidthRem = Math.min(INFO_PANEL_MIN_WIDTH_REM, INFO_PANEL_MAX_WIDTH_REM);
+  }
+
+  setInfoPanelWidth(targetWidthRem);
+
+  const hasOverflow = () => infoPanel.scrollHeight - infoPanel.clientHeight > 1;
+
+  if (!hasOverflow()) {
+    return;
+  }
+
+  const maxIterations = 20;
+  let iterations = 0;
+
+  while (hasOverflow() && targetWidthRem < maxWidthRem && iterations < maxIterations) {
+    iterations += 1;
+    targetWidthRem = Math.min(targetWidthRem + 1, maxWidthRem);
+    setInfoPanelWidth(targetWidthRem);
+  }
+}
+
+function scheduleInfoPanelWidthAdjustment() {
+  if (
+    !infoPanel ||
+    infoPanelResizeScheduled ||
+    !infoPanel.classList.contains("visible")
+  ) {
+    return;
+  }
+
+  infoPanelResizeScheduled = true;
+  window.requestAnimationFrame(() => {
+    infoPanelResizeScheduled = false;
+    adjustInfoPanelWidth();
+  });
+}
 
 function escapeHtml(value) {
   if (value == null) {
@@ -901,8 +968,10 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
     ${groupsSection}
   `;
 
+  infoPanel.style.removeProperty("--region-info-panel-width");
   infoPanel.classList.add("visible");
   infoPanel.setAttribute("aria-hidden", "false");
+  scheduleInfoPanelWidthAdjustment();
 }
 
 function hideRegionInfoPanel() {
@@ -911,11 +980,13 @@ function hideRegionInfoPanel() {
   infoPanel.classList.remove("visible");
   infoPanel.setAttribute("aria-hidden", "true");
   infoPanel.innerHTML = "";
+  infoPanel.style.removeProperty("--region-info-panel-width");
 }
 
 if (infoPanel) {
   infoPanel.addEventListener("click", (event) => event.stopPropagation());
   hideRegionInfoPanel();
+  window.addEventListener("resize", scheduleInfoPanelWidthAdjustment);
 }
 
 // Event listeners
