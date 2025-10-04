@@ -187,7 +187,9 @@
   ],
   "groups": [
     "Basal Ganglia",
-    "Striatum"
+    "Striatum",
+    "Telencephalon",
+    "Cerebrum"
   ],
   "description": "The anterior, bulbous portion of the caudate nucleus, located adjacent to the lateral ventricle. It is primarily involved in goal-directed action selection, working memory, and cognitive components of motor control [1][2].",
   "aliases": [
@@ -219,7 +221,9 @@
   ],
   "groups": [
     "Basal Ganglia",
-    "Striatum"
+    "Striatum",
+    "Telencephalon",
+    "Cerebrum"
   ],
   "description": "The elongated central segment of the caudate nucleus, curving along the lateral ventricle’s body. It contributes to cognitive–motor coordination and saccadic eye movement control [1][2].",
   "aliases": [
@@ -251,7 +255,9 @@
   ],
   "groups": [
     "Basal Ganglia",
-    "Striatum"
+    "Striatum",
+    "Telencephalon",
+    "Cerebrum"
   ],
   "description": "The posterior tapering segment of the caudate nucleus that arches into the temporal lobe, adjacent to the amygdala. It connects striatal circuitry with visual and limbic areas [1][2].",
   "aliases": [
@@ -275,105 +281,132 @@
 "9": {
   "name": "Putamen",
   "keywords": [
+    "Putamen",
+    "Basal ganglia",
+    "Dorsal striatum",
+    "Motor control",
+    "Habit learning",
+    "Sensorimotor integration"
+  ],
+  "groups": [
+    "Basal ganglia",
+    "Striatum",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "The putamen is the lateral portion of the dorsal striatum, located adjacent to the globus pallidus and separated from the caudate nucleus by the internal capsule. It forms the larger lateral component of the lentiform nucleus and shares a nearly identical cytoarchitecture with the caudate, consisting predominantly of medium spiny GABAergic projection neurons (~95%). These neurons are organized into neurochemical compartments (striosomes and matrix) and are modulated by dense dopaminergic input from the substantia nigra. The putamen is essential to cortico-basal ganglia loops, integrating cortical inputs and influencing motor and cognitive outputs via downstream basal ganglia pathways [1][2][3].",
+  "aliases": [
+    "Lentiform nucleus (with globus pallidus)"
+  ],
+  "functions": [
+    "Regulates initiation and execution of voluntary movements [1][2]",
+    "Supports procedural and habit learning through reinforcement-based plasticity [2][3]",
+    "Integrates somatosensory feedback for real-time motor adjustments [2]",
+    "Contributes to cognitive and reward-related processes, including language, decision-making, and addiction [2][3]"
+  ],
+  "connections": [
+    "Receives topographically organized excitatory inputs from primary motor, somatosensory, and premotor cortices [1][2]",
+    "Dopaminergic input from substantia nigra pars compacta modulates learning and plasticity [2]",
+    "Projects to globus pallidus (internal and external segments) and substantia nigra pars reticulata via direct and indirect GABAergic pathways [1][2]",
+    "Connected with thalamic motor nuclei (e.g. VA/VL), completing cortico-striato-thalamo-cortical loops [2]",
+    "Receives inputs from intralaminar thalamic nuclei (e.g. centromedian) and serotonergic brainstem sources [2]"
+  ],
+  "embryonic_origin": "Telencephalon [2]",
+  "citations": [
+    "https://www.ncbi.nlm.nih.gov/books/NBK542170/",
+    "https://nba.uth.tmc.edu/neuroscience/m/s3/chapter04.html",
+    "https://www.frontiersin.org/articles/10.3389/fnsys.2019.00028/full"
+  ]
+},
+"10": {
+  "name": "Nucleus Accumbens",
+  "keywords": [
+    "Reward",
+    "Motivation",
+    "Incentive Salience",
+    "Ventral Striatum",
+    "Limbic-Motor Interface"
+  ],
+  "groups": [
+    "Basal Ganglia",
+    "Ventral Striatum",
+    "Telencephalon",
+    "Cerebrum"
+  ],
+  "description": "The nucleus accumbens (NAc) is a ventral striatal structure located at the junction of the caudate and putamen, anterior to the internal capsule and adjacent to the septal area. It is subdivided into a limbic-connected shell and a motor-related core, and plays a central role in reward processing, motivation, and reinforcement learning [1].",
+  "aliases": [
+    "NAc",
+    "Accumbens Nucleus",
+    "Ventral Striatum",
+    "Nucleus Accumbens Septi"
+  ],
+  "functions": [
+    "Assigns motivational salience to cues and promotes goal-directed behavior [1]",
+    "Processes pleasure, reward, and reinforcement learning [2]",
+    "Participates in aversion, action-outcome evaluation, and habit formation [1]"
+  ],
+  "connections": [
+    "Receives glutamatergic inputs from medial prefrontal cortex, orbitofrontal cortex, hippocampus, and basolateral amygdala [1]",
+    "Receives dopaminergic input from the ventral tegmental area (VTA) via the mesolimbic pathway [1]",
+    "Projects to the ventral pallidum and mediodorsal thalamus, influencing prefrontal cortex [1]",
+    "Sends outputs to the hypothalamus, amygdala, VTA, and brainstem regions including the pedunculopontine tegmentum [1]"
+  ],
+  "embryonic_origin": "Telencephalon [3]",
+  "citations": [
+    "https://www.kenhub.com/en/library/anatomy/nucleus-accumbens-en",
+    "https://www.frontiersin.org/articles/10.3389/fnbeh.2024.1420028/full",
+    "https://www.nature.com/articles/srep12258"
+  ]
+},
+"11": {
+  "name": "External Segment of Globus Pallidus",
+  "keywords": [
     "Basal Ganglia",
     "Striatum"
   ],
   "groups": [
     "Basal Ganglia"
   ],
-  "description": "Large dorsolateral striatal nucleus crucial for motor skill learning and sensorimotor integration.",
+  "description": "Lateral pallidal segment that implements the indirect basal ganglia pathway to suppress competing motor programs.",
   "aliases": [
-    "Putamen Nucleus",
-    "Dorsolateral Striatum"
+    "Globus Pallidus Externus",
+    "GPe"
   ],
   "functions": [
-    "Modulates execution of voluntary movements and habit formation.",
-    "Integrates somatosensory, motor, and premotor cortical inputs for action selection."
+    "Shapes movement by relaying inhibitory signals within the indirect basal ganglia circuit.",
+    "Regulates rhythmic activity important for gait and posture."
   ],
   "connections": [
-    "Receives dense corticostriatal projections from primary motor, premotor, and somatosensory cortices.",
-    "Outputs via direct and indirect pathways to globus pallidus and substantia nigra."
+    "Receives GABAergic input from striatal medium spiny neurons of the indirect pathway.",
+    "Projects to subthalamic nucleus, globus pallidus internus, and substantia nigra pars reticulata."
   ],
   "embryonic_origin": "Telencephalon"
 },
-  "10": {
-    "name": "Nucleus Accumbens",
-    "keywords": [
-      "Basal Ganglia",
-      "Reward Circuit",
-      "Striatum",
-      "Ventral Striatum"
-    ],
-    "groups": [
-      "Basal Ganglia"
-    ],
-    "description": "Ventral striatal complex with core and shell subregions integrating cortical, limbic, and dopaminergic inputs to shape reward, motivation, and action selection.",
-    "embryonic_origin": "Telencephalon",
-    "aliases": [
-      "NAc",
-      "Ventral Striatum",
-      "Accumbens Nucleus"
-    ],
-    "functions": [
-      "Computes motivational salience and invigorates goal-directed behavior.",
-      "Integrates dopaminergic prediction-error signals from VTA with cortical/hippocampal inputs.",
-      "Participates in reinforcement learning, habit formation, and extinction."
-    ],
-    "connections": [
-      "Receives glutamatergic inputs from medial prefrontal cortex, orbitofrontal cortex, amygdala, and hippocampus.",
-      "Receives dopaminergic input from ventral tegmental area (mesolimbic pathway).",
-      "Projects GABAergic outputs to ventral pallidum and via thalamus to frontal cortex."
-    ]
-  },
-  "11": {
-    "name": "External Segment of Globus Pallidus",
-    "keywords": [
-      "Basal Ganglia",
-      "Striatum"
-    ],
-    "groups": [
-      "Basal Ganglia"
-    ],
-    "description": "Lateral pallidal segment that implements the indirect basal ganglia pathway to suppress competing motor programs.",
-    "aliases": [
-      "Globus Pallidus Externus",
-      "GPe"
-    ],
-    "functions": [
-      "Shapes movement by relaying inhibitory signals within the indirect basal ganglia circuit.",
-      "Regulates rhythmic activity important for gait and posture."
-    ],
-    "connections": [
-      "Receives GABAergic input from striatal medium spiny neurons of the indirect pathway.",
-      "Projects to subthalamic nucleus, globus pallidus internus, and substantia nigra pars reticulata."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
-  "12": {
-    "name": "Internal Segment of Globus Pallidus",
-    "keywords": [
-      "Basal Ganglia",
-      "Striatum"
-    ],
-    "groups": [
-      "Basal Ganglia"
-    ],
-    "description": "Medial output nucleus of the basal ganglia that gates thalamocortical drive to premotor and motor areas.",
-    "aliases": [
-      "Globus Pallidus Internus",
-      "GPi",
-      "Medial Globus Pallidus"
-    ],
-    "functions": [
-      "Provides tonic inhibitory control over motor thalamus to regulate movement initiation.",
-      "Encodes movement parameters for learned motor sequences."
-    ],
-    "connections": [
-      "Receives direct pathway input from striatum and excitatory drive from subthalamic nucleus.",
-      "Projects via the ansa lenticularis and lenticular fasciculus to ventral anterior and ventrolateral thalamic nuclei."
-    ],
-    "embryonic_origin": "Telencephalon"
-  },
+"12": {
+  "name": "Internal Segment of Globus Pallidus",
+  "keywords": [
+    "Basal Ganglia",
+    "Striatum"
+  ],
+  "groups": [
+    "Basal Ganglia"
+  ],
+  "description": "Medial output nucleus of the basal ganglia that gates thalamocortical drive to premotor and motor areas.",
+  "aliases": [
+    "Globus Pallidus Internus",
+    "GPi",
+    "Medial Globus Pallidus"
+  ],
+  "functions": [
+    "Provides tonic inhibitory control over motor thalamus to regulate movement initiation.",
+    "Encodes movement parameters for learned motor sequences."
+  ],
+  "connections": [
+    "Receives direct pathway input from striatum and excitatory drive from subthalamic nucleus.",
+    "Projects via the ansa lenticularis and lenticular fasciculus to ventral anterior and ventrolateral thalamic nuclei."
+  ],
+  "embryonic_origin": "Telencephalon"
+},
   "13": {
     "name": "Claustrum",
     "keywords": [
