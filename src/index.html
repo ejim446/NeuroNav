@@ -145,16 +145,35 @@
               return;
             }
 
-            const handleTransitionEnd = () => {
+            if (splashScreen.classList.contains("splash-hidden")) {
+              return;
+            }
+
+            let fallbackTimeout;
+
+            const cleanup = () => {
               splashScreen.removeEventListener(
                 "transitionend",
                 handleTransitionEnd,
               );
+              window.clearTimeout(fallbackTimeout);
               splashScreen.remove();
             };
 
+            const handleTransitionEnd = (event) => {
+              if (event.target !== splashScreen || event.propertyName !== "opacity") {
+                return;
+              }
+
+              cleanup();
+            };
+
+            fallbackTimeout = window.setTimeout(cleanup, 1000);
             splashScreen.addEventListener("transitionend", handleTransitionEnd);
-            splashScreen.classList.add("splash-hidden");
+            splashScreen.classList.add("splash-hiding");
+            window.requestAnimationFrame(() => {
+              splashScreen.classList.add("splash-hidden");
+            });
           };
 
           const prefersReducedMotion = window.matchMedia(
