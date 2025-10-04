@@ -757,11 +757,47 @@ function processTooltipRaycast() {
 
 const infoPanel = document.getElementById("region-info-panel");
 
-const REGION_INFO_PANEL_WIDTH = {
-  minRem: 18,
+const REGION_INFO_PANEL_WIDTH_DEFAULTS = {
+  minRem: 24,
   maxRem: 32,
   stepRem: 1,
 };
+
+function parseRemValue(value, fallbackRem) {
+  if (typeof value !== "string") {
+    return fallbackRem;
+  }
+
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    return fallbackRem;
+  }
+
+  const parsed = Number.parseFloat(trimmedValue);
+
+  return Number.isFinite(parsed) ? parsed : fallbackRem;
+}
+
+function getRegionInfoPanelWidthSettings() {
+  const rootStyle = getComputedStyle(document.documentElement);
+
+  const minRem = parseRemValue(
+    rootStyle.getPropertyValue("--region-info-panel-min-width"),
+    REGION_INFO_PANEL_WIDTH_DEFAULTS.minRem,
+  );
+
+  const maxRem = parseRemValue(
+    rootStyle.getPropertyValue("--region-info-panel-max-width"),
+    REGION_INFO_PANEL_WIDTH_DEFAULTS.maxRem,
+  );
+
+  return {
+    minRem,
+    maxRem: Math.max(minRem, maxRem),
+    stepRem: REGION_INFO_PANEL_WIDTH_DEFAULTS.stepRem,
+  };
+}
 
 function resetRegionInfoPanelWidth(panel) {
   if (!panel) return;
@@ -772,7 +808,7 @@ function resetRegionInfoPanelWidth(panel) {
 function adjustRegionInfoPanelWidth(panel) {
   if (!panel) return;
 
-  const { minRem, maxRem, stepRem } = REGION_INFO_PANEL_WIDTH;
+  const { minRem, maxRem, stepRem } = getRegionInfoPanelWidthSettings();
   const rootFontSize = Number.parseFloat(
     getComputedStyle(document.documentElement).fontSize,
   );
