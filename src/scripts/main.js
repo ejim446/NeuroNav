@@ -181,24 +181,25 @@ function createOutline(mesh, regionName) {
 // FADE IN EFFECT //
 
 function fadeObject(object, fadeType) {
-
-  // Define startTime upon function call
-
   const startTime = performance.now();
-
-
-
-  // Fade in duration in ms
-
   const duration = 100;
-
-
-
-  // Get material to fade and corresponding outline
-
   const material = object.material;
+  if (!material) {
+    return;
+  }
 
   const outline = scene.getObjectByName(`${object.name}Outline`);
+
+  function enableFadeState() {
+    material.transparent = true;
+    material.depthWrite = false;
+  }
+
+  function restoreOpaqueState(finalOpacity) {
+    material.opacity = finalOpacity;
+    material.transparent = false;
+    material.depthWrite = true;
+  }
 
 
 
@@ -219,6 +220,7 @@ function fadeObject(object, fadeType) {
 
 
   function fadeInMaterial() {
+    enableFadeState();
     const progress = getProgress();
 
     // Show outline and set opacity to normalized [0, 1] progress
@@ -227,10 +229,12 @@ function fadeObject(object, fadeType) {
     material.opacity = progress;
 
 
-    if (progress == 1 && outlinesEnabled) {
-
-      outline.material.visible = true;
-
+    if (progress === 1) {
+      restoreOpaqueState(1);
+      if (outlinesEnabled && outline?.material) {
+        outline.material.visible = true;
+      }
+      return;
     }
 
     if (progress < 1) {
@@ -245,12 +249,15 @@ function fadeObject(object, fadeType) {
 
   function fadeOutMaterial() {
 
+    enableFadeState();
     const progress = getProgress();
 
 
 
     // Hide outline and set opacity to inverse of progress
-    outline.material.visible = false;
+    if (outline?.material) {
+      outline.material.visible = false;
+    }
     material.opacity = 1 - progress;
 
     // Update visibility upon zero opacity to avoid artifacts
@@ -264,6 +271,8 @@ function fadeObject(object, fadeType) {
 
       requestAnimationFrame(fadeOutMaterial); // Fade in until progress == 1
 
+    } else {
+      restoreOpaqueState(0);
     }
 
   }
@@ -365,7 +374,7 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
         // Create a material with the selected color
         const material = new THREE.MeshBasicMaterial({
           color: colors[colorSelection],
-          transparent: true,
+          transparent: false,
           opacity: 1,
         });
 
