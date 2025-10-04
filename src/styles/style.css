@@ -121,7 +121,7 @@ canvas {
 }
 
 :root {
-        font-size: var(--font-size);
+	font-size: var(--font-size);
 	font-family: var(--font-family);
 	letter-spacing: var(--letter-spacing-primary);
 	font-weight: var(--font-weight);
@@ -190,14 +190,10 @@ canvas {
 #title {
         display: inline-flex;
         align-items: center;
-        filter: drop-shadow(0 0 0.15rem lightblue);
-}
-
-#title span {
-        color: var(--font-color);
+		color: var(--font-color);
         font-size: var(--font-size-title);
         font-weight: bold;
-        letter-spacing: 0.35rem;
+		letter-spacing: var(--letter-spacing-secondary);
 }
 
 .nav-atlas {
