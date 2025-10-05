@@ -509,12 +509,7 @@ canvas {
         border-bottom-left-radius: var(--border-radius);
         overflow-y: auto;
         min-height: 0;
-        padding-block: 0.5rem;
-        padding-inline-start: var(--outliner-horizontal-padding);
-        padding-inline-end: calc(
-                var(--outliner-horizontal-padding) +
-                        var(--selection-scrollbar-width, 0px)
-        );
+        padding: 0;
         /* scrollbar-width: thin; */
         scrollbar-color: #007bdb #1e1e25;
         scrollbar-gutter: stable;
@@ -524,6 +519,8 @@ canvas {
         list-style-type: none;
         margin: 0;
         padding: 0;
+        display: grid;
+        row-gap: 0;
 }
 
 .selection-element {
@@ -533,11 +530,26 @@ canvas {
         column-gap: var(--outliner-column-gap);
         align-items: center;
         padding-block: 0.35rem;
-        border-radius: var(--border-radius);
+        padding-inline-start: var(--outliner-horizontal-padding);
+        padding-inline-end: calc(
+                var(--outliner-horizontal-padding) +
+                        var(--selection-scrollbar-width, 0px)
+        );
+        border-radius: 0;
 }
 
 .selection-element:hover {
         background-color: var(--grey-primary);
+}
+
+.selection-element:first-child {
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+}
+
+.selection-element:last-child {
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
 }
 
 .selection-element:active {
