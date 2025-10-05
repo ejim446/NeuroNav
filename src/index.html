@@ -47,6 +47,7 @@
           </svg>
           <input type="text" id="search-bar" />
         </div>
+        <p id="search-suggestion" class="search-suggestion" aria-live="polite"></p>
       </div>
       <div class="item nav-showall-btn">
         <button onclick="showSelected()" id="showall-btn">Show Selected</button>
@@ -347,6 +348,7 @@
         .then((response) => response.json())
         .then((regions) => {
           handleRegions(regions);
+          startSearchSuggestions(regions);
         })
         .catch((error) => {});
 
@@ -471,6 +473,62 @@
 
           defaultColorIndex = (defaultColorIndex + 1) % colorOptions.length;
         }
+      }
+
+      function startSearchSuggestions(regions) {
+        const suggestionElement = document.querySelector("#search-suggestion");
+        if (!suggestionElement) {
+          return;
+        }
+
+        const keywordSet = new Set();
+        Object.values(regions).forEach((region) => {
+          (region?.keywords ?? []).forEach((keyword) => {
+            if (typeof keyword === "string") {
+              const trimmed = keyword.trim();
+              if (trimmed) {
+                keywordSet.add(trimmed);
+              }
+            }
+          });
+        });
+
+        if (!keywordSet.size) {
+          return;
+        }
+
+        const suggestions = shuffleArray(Array.from(keywordSet)).map(
+          (keyword) => `Try searching "${keyword}"...`,
+        );
+
+        suggestionElement.textContent = suggestions[0];
+        suggestionElement.classList.add("visible");
+
+        if (suggestions.length === 1) {
+          return;
+        }
+
+        let suggestionIndex = 1;
+        const fadeDuration = 600;
+        const displayDuration = 4400;
+
+        setInterval(() => {
+          suggestionElement.classList.remove("visible");
+          setTimeout(() => {
+            suggestionElement.textContent = suggestions[suggestionIndex];
+            suggestionElement.classList.add("visible");
+            suggestionIndex = (suggestionIndex + 1) % suggestions.length;
+          }, fadeDuration);
+        }, displayDuration);
+      }
+
+      function shuffleArray(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
       }
     </script>
     <script type="module">

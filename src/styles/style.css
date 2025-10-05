@@ -334,14 +334,15 @@ canvas {
 }
 
 .nav-search {
-	align-self: center;
-	grid-row: 3 / 4;
-	grid-column: 1 / 9;
-	display: flex;
-	justify-content: space-between;
-	align-content: center;
-	transition: opacity 200ms ease;
-	opacity: 0;
+        align-self: center;
+        grid-row: 3 / 4;
+        grid-column: 1 / 9;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        transition: opacity 200ms ease;
+        opacity: 0;
 }
 
 .search-box {
@@ -371,8 +372,22 @@ canvas {
 	outline: none;
 	font-size: 18px;
 	margin-left: 35px;
-	color: var(--white);
-	background-color: #313743;
+        color: var(--white);
+        background-color: #313743;
+}
+
+.search-suggestion {
+        margin: 0 10px 10px;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.75);
+        opacity: 0;
+        transition: opacity 600ms ease;
+        min-height: 1.2rem;
+        pointer-events: none;
+}
+
+.search-suggestion.visible {
+        opacity: 1;
 }
 
 .nav-showall-btn {
