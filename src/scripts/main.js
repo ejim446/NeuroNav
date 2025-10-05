@@ -756,6 +756,7 @@ function processTooltipRaycast() {
 }
 
 const infoPanel = document.getElementById("region-info-panel");
+let descriptionBoxesEnabled = true;
 
 const REGION_INFO_PANEL_WIDTH_DEFAULTS = {
   minRem: 24,
@@ -916,6 +917,11 @@ function renderInfoList(values, emptyMessage, citations) {
 }
 
 function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
+  if (!descriptionBoxesEnabled) {
+    hideRegionInfoPanel();
+    return;
+  }
+
   if (!infoPanel) return;
 
   const name = regionInfo?.name ?? regionId;
@@ -997,6 +1003,14 @@ function hideRegionInfoPanel() {
   resetRegionInfoPanelWidth(infoPanel);
 }
 
+export function setDescriptionBoxesDisabled(disabled) {
+  descriptionBoxesEnabled = !disabled;
+
+  if (disabled) {
+    hideRegionInfoPanel();
+  }
+}
+
 if (infoPanel) {
   infoPanel.addEventListener("click", (event) => event.stopPropagation());
   hideRegionInfoPanel();
@@ -1053,7 +1067,11 @@ function onClick(event) {
         : "Midline";
     const regionInfo = regions && regions[regionId];
 
-    showRegionInfoPanel(regionId, hemisphere, regionInfo);
+    if (descriptionBoxesEnabled) {
+      showRegionInfoPanel(regionId, hemisphere, regionInfo);
+    } else {
+      hideRegionInfoPanel();
+    }
 
     if (tooltipsEnabled) {
       showTooltip({ x: event.clientX, y: event.clientY }, object);
