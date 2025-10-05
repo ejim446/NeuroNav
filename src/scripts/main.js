@@ -1067,13 +1067,19 @@ function onClick(event) {
         : "Midline";
     const regionInfo = regions && regions[regionId];
 
-    showRegionInfoPanel(regionId, hemisphere, regionInfo);
-
     if (tooltipsEnabled) {
       showTooltip({ x: event.clientX, y: event.clientY }, object);
     } else {
       hideTooltip();
     }
+
+    if (!descriptionBoxesEnabled) {
+      hideRegionInfoPanel();
+      event.stopPropagation();
+      return;
+    }
+
+    showRegionInfoPanel(regionId, hemisphere, regionInfo);
 
     event.stopPropagation();
   } else {
