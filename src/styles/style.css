@@ -337,22 +337,23 @@ canvas {
 .nav-search {
         align-self: center;
         grid-row: 3 / 4;
-        grid-column: 1 / 9;
+        grid-column: 1 / 11;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        gap: 0.75rem;
+        padding: 10px;
         transition: opacity 200ms ease;
         opacity: 0;
 }
 
 .search-box {
-        width: 29rem;
+        flex: 1;
+        min-width: 0;
         height: 2.5rem;
         background: #313743;
         border-radius: var(--border-radius);
         display: flex;
         align-items: center;
-        margin: 10px;
         position: relative;
 }
 
@@ -388,7 +389,7 @@ canvas {
 
 #search-bar {
         flex: 1;
-        width: 20rem;
+        min-width: 0;
         height: 2rem;
         border: none;
         outline: none;
@@ -401,60 +402,41 @@ canvas {
         z-index: 1;
 }
 
-.nav-showall-btn {
-	grid-row: 3 / 4;
-	grid-column: 7 / 9;
-	justify-self: center;
-	align-self: center;
-	transition: opacity 200ms ease;
-	opacity: 1;
+.nav-search-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 2.5rem;
+        padding: 0 1.5rem;
+        background-color: #313743;
+        color: var(--white);
+        border: none;
+        border-radius: var(--border-radius);
+        font-weight: bold;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: background 200ms ease;
+        cursor: pointer;
+}
+
+.nav-showall-btn:hover,
+.nav-clear-btn:hover {
+        background: var(--grey-secondary);
+}
+
+.nav-showall-btn:active,
+.nav-clear-btn:active {
+        background: var(--grey-primary);
 }
 
 #showall-btn {
-	background-color: #313743;
-	color: var(--white);
-	border: none;
-	border-radius: 0px;
-	height: 2.5rem;
-	width: 9.5rem;
-	font-weight: bold;
-}
-
-#showall-btn:hover {
-	background: var(--grey-secondary);
-}
-
-#showall-btn:active {
-	background: var(--grey-primary);
-}
-
-.nav-clear-btn {
-	grid-row: 3 / 4;
-	grid-column: 9 / 11;
-	justify-self: center;
-	align-self: center;
-	transition: opacity 200ms ease;
-	opacity: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
 }
 
 #clear-btn {
-	background-color: #313743;
-	color: var(--white);
-	border: none;
-	border-radius: 0px;
-	border-top-right-radius: var(--border-radius);
-	border-bottom-right-radius: var(--border-radius);
-	height: 2.5rem;
-	width: 5rem;
-	font-weight: bold;
-}
-
-#clear-btn:hover {
-	background: var(--grey-secondary);
-}
-
-#clear-btn:active {
-	background: var(--grey-primary);
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
 }
 
 .nav-outliner {
