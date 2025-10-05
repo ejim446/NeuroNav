@@ -412,24 +412,32 @@
         }
 
         applyRootHidden = function (shouldHide, options = {}) {
-          if (shouldHide !== isRootHidden) {
-            hideRootModuleFn();
-            isRootHidden = shouldHide;
+          const nextHidden = Boolean(shouldHide);
+          hideRootModuleFn(nextHidden);
+
+          if (nextHidden === isRootHidden) {
+            return;
           }
 
+          isRootHidden = nextHidden;
+
           if (!options.skipPersist) {
-            persistViewportSettings({ rootHidden: shouldHide });
+            persistViewportSettings({ rootHidden: nextHidden });
           }
         };
 
         applyOutlinesHidden = function (shouldHide, options = {}) {
-          if (shouldHide !== outlinesAreHidden) {
-            updateOutlinesModuleFn(!shouldHide);
-            outlinesAreHidden = shouldHide;
+          const nextHidden = Boolean(shouldHide);
+          updateOutlinesModuleFn(!nextHidden);
+
+          if (nextHidden === outlinesAreHidden) {
+            return;
           }
 
+          outlinesAreHidden = nextHidden;
+
           if (!options.skipPersist) {
-            persistViewportSettings({ outlinesHidden: shouldHide });
+            persistViewportSettings({ outlinesHidden: nextHidden });
           }
         };
 
@@ -448,25 +456,33 @@
         };
 
         applyOverlaysDisabled = function (shouldDisable, options = {}) {
-          if (shouldDisable !== overlaysDisabled) {
-            disableTooltipsModuleFn(!shouldDisable);
-            overlaysDisabled = shouldDisable;
+          const nextDisabled = Boolean(shouldDisable);
+          disableTooltipsModuleFn(!nextDisabled);
+
+          if (nextDisabled === overlaysDisabled) {
+            return;
           }
 
+          overlaysDisabled = nextDisabled;
+
           if (!options.skipPersist) {
-            persistViewportSettings({ overlaysDisabled: shouldDisable });
+            persistViewportSettings({ overlaysDisabled: nextDisabled });
           }
         };
 
         applyDescriptionBoxesDisabled = function (shouldDisable, options = {}) {
-          if (shouldDisable !== descriptionBoxesDisabled) {
-            setDescriptionBoxesDisabledModuleFn(shouldDisable);
-            descriptionBoxesDisabled = shouldDisable;
+          const nextDisabled = Boolean(shouldDisable);
+          setDescriptionBoxesDisabledModuleFn(nextDisabled);
+
+          if (nextDisabled === descriptionBoxesDisabled) {
+            return;
           }
+
+          descriptionBoxesDisabled = nextDisabled;
 
           if (!options.skipPersist) {
             persistViewportSettings({
-              descriptionBoxesDisabled: shouldDisable,
+              descriptionBoxesDisabled: nextDisabled,
             });
           }
         };
