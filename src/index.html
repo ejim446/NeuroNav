@@ -114,6 +114,18 @@
                 class="checkbox-button"
               ></label>
             </div>
+            <p id="description-boxes-text" class="settings-text">
+              Disable Description Boxes
+            </p>
+            <div class="description-boxes-checkbox-container">
+              <input id="description-boxes-checkbox" type="checkbox" />
+              <label
+                onclick="toggleDescriptionBoxes()"
+                for="description-boxes-checkbox"
+                id="description-boxes-label"
+                class="checkbox-button"
+              ></label>
+            </div>
           </div>
         </div>
       </div>
@@ -568,6 +580,31 @@
         disableTooltips(checkbox.checked);
       }
 
+      function toggleDescriptionBoxes() {
+        const checkbox = document.getElementById(
+          "description-boxes-checkbox",
+        );
+        if (!checkbox) {
+          return;
+        }
+
+        requestAnimationFrame(() => {
+          setDescriptionBoxesDisabled(checkbox.checked);
+        });
+      }
+
+      const descriptionBoxesCheckbox = document.getElementById(
+        "description-boxes-checkbox",
+      );
+
+      if (descriptionBoxesCheckbox) {
+        descriptionBoxesCheckbox.addEventListener("change", () => {
+          setDescriptionBoxesDisabled(descriptionBoxesCheckbox.checked);
+        });
+
+        setDescriptionBoxesDisabled(descriptionBoxesCheckbox.checked);
+      }
+
       const eyeOpenIconSVG = `
         <path class="cls-1" d="M43.13,18.58c0-.11,0-.23,0-.34,0-.02,0-.04,0-.07,0-.11-.01-.22-.02-.33,0-.02,0-.04,0-.05-.01-.1-.02-.2-.04-.3,0-.01,0-.03,0-.04-.02-.11-.04-.21-.06-.32,0-.02,0-.05-.01-.07-.02-.11-.05-.21-.07-.31,0,0,0-.02,0-.03-.02-.1-.05-.19-.08-.28,0-.02-.01-.05-.02-.07-.03-.1-.06-.19-.1-.29,0-.02-.02-.05-.03-.07-.03-.08-.06-.16-.1-.25,0-.02-.02-.04-.02-.06-.04-.09-.08-.18-.12-.27-.01-.03-.03-.06-.04-.09-.04-.08-.08-.16-.13-.25h0c-.65-1.21-1.63-2.22-2.82-2.9,0,0,0,0,0,0-.04-.02-.07-.04-.11-.06-.02-.01-.05-.03-.07-.04-.09-.05-.18-.09-.27-.14-.03-.01-.05-.02-.08-.04-.08-.04-.15-.07-.23-.1-.02,0-.04-.02-.06-.03-.09-.04-.19-.08-.28-.11-.03,0-.05-.02-.08-.03-.09-.03-.17-.06-.26-.09-.02,0-.03-.01-.05-.02-.1-.03-.2-.06-.3-.09-.03,0-.05-.01-.08-.02-.09-.02-.19-.05-.28-.07-.01,0-.02,0-.04,0-.11-.02-.21-.04-.32-.06-.03,0-.05,0-.08-.01-.1-.02-.21-.03-.31-.04,0,0-.01,0-.02,0-.11-.01-.22-.02-.33-.03-.03,0-.05,0-.08,0-.11,0-.22,0-.34,0h0c-2.5,0-4.72,1.25-6.04,3.16-.02.03-.04.05-.06.08-.01.02-.03.04-.04.06-.77,1.16-1.22,2.55-1.22,4.05,0,.13,0,.25,0,.38.02.47.09.93.2,1.37.52,2.12,1.95,3.87,3.85,4.83.04.02.07.04.11.05.03.01.06.03.09.04.94.44,1.99.68,3.1.68h0c3.55,0,6.52-2.52,7.21-5.87.07-.36.12-.73.14-1.1,0-.13,0-.25,0-.38Z"/>
         <path class="cls-1" d="M70.11,15.1l-1.5-1.5c-4.43-4.43-9.6-7.87-15.36-10.2-5.56-2.26-11.44-3.4-17.47-3.4s-11.91,1.14-17.47,3.4c-5.76,2.34-10.93,5.77-15.36,10.2l-1.5,1.5c-1.92,1.92-1.92,5.05,0,6.97l1.5,1.5c4.43,4.43,9.6,7.87,15.36,10.2,5.56,2.26,11.44,3.4,17.47,3.4s11.91-1.14,17.47-3.4c5.76-2.34,10.93-5.77,15.36-10.2l1.5-1.5c1.92-1.92,1.92-5.05,0-6.97ZM35.78,32.75c-3.79,0-7.34-1.47-10.02-4.15-2.68-2.68-4.15-6.24-4.15-10.02,0-7.81,6.36-14.17,14.17-14.17s14.17,6.36,14.17,14.17-6.36,14.17-14.17,14.17Z"/>
@@ -587,6 +624,7 @@
       window.toggleOutlines = toggleOutlines;
       window.toggleDarkMode = toggleDarkMode;
       window.disableOverlays = disableOverlays;
+      window.toggleDescriptionBoxes = toggleDescriptionBoxes;
     </script>
   </body>
 </html>
