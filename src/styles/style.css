@@ -127,6 +127,7 @@ canvas {
 
         --region-info-panel-min-width: 24rem;
         --region-info-panel-max-width: 32rem;
+        --selection-scrollbar-width: 0px;
 }
 
 #splash-screen {
@@ -468,6 +469,8 @@ canvas {
         background-color: #22252e;
         grid-template-rows: repeat(10, 1fr);
         grid-template-columns: repeat(6, 1fr);
+        box-sizing: border-box;
+        padding-inline-end: var(--selection-scrollbar-width, 0px);
 }
 
 .banner-text {
@@ -502,14 +505,15 @@ canvas {
 }
 
 .selection-container {
-	grid-row: 2 / 11;
-	grid-column: 1 / 11;
-	background-color: #434b5b;
-	border-bottom-right-radius: var(--border-radius);
-	border-bottom-left-radius: var(--border-radius);
-	overflow-y: scroll;
-	/* scrollbar-width: thin; */
-	scrollbar-color: #007bdb #1e1e25;
+        grid-row: 2 / 11;
+        grid-column: 1 / 11;
+        background-color: #434b5b;
+        border-bottom-right-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+        overflow-y: scroll;
+        /* scrollbar-width: thin; */
+        scrollbar-color: #007bdb #1e1e25;
+        scrollbar-gutter: stable;
 }
 
 .selection-list {

@@ -101,6 +101,26 @@ function animate() {
 
 animate();
 
+function updateSelectionScrollbarWidth() {
+  const probe = document.createElement("div");
+  probe.style.position = "absolute";
+  probe.style.visibility = "hidden";
+  probe.style.pointerEvents = "none";
+  probe.style.width = "100px";
+  probe.style.height = "100px";
+  probe.style.overflow = "scroll";
+  document.body.appendChild(probe);
+  const scrollbarWidth = Math.max(0, probe.offsetWidth - probe.clientWidth);
+  document.body.removeChild(probe);
+  document.documentElement.style.setProperty(
+    "--selection-scrollbar-width",
+    `${scrollbarWidth}px`,
+  );
+}
+
+updateSelectionScrollbarWidth();
+window.addEventListener("resize", updateSelectionScrollbarWidth);
+
 // OUTLINE EFFECT //
 
 // Flag for toggling outlines
