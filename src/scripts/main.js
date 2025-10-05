@@ -54,6 +54,8 @@ controls.maxDistance = 5;
 // Ensure models are always centered while panning
 controls.maxTargetRadius = 0.5;
 
+let cameraAnimationState = null;
+
 const raycaster = new THREE.Raycaster();
 raycaster.firstHitOnly = true;
 const pointer = new THREE.Vector2();
@@ -62,6 +64,40 @@ let pointerInsideRenderer = false;
 let pointerNeedsTooltipUpdate = false;
 const raycastTargets = [];
 let raycastTargetsDirty = true;
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function animateCameraTo(position, target, duration = 800) {
+  cameraAnimationState = {
+    startTime: performance.now(),
+    duration,
+    fromPosition: camera.position.clone(),
+    toPosition: position.clone(),
+    fromTarget: controls.target.clone(),
+    toTarget: target.clone(),
+  };
+}
+
+function updateCameraAnimation() {
+  if (!cameraAnimationState) {
+    return;
+  }
+
+  const { startTime, duration, fromPosition, toPosition, fromTarget, toTarget } =
+    cameraAnimationState;
+  const elapsed = performance.now() - startTime;
+  const progress = Math.min(1, elapsed / duration);
+  const easedProgress = easeOutCubic(progress);
+
+  camera.position.lerpVectors(fromPosition, toPosition, easedProgress);
+  controls.target.lerpVectors(fromTarget, toTarget, easedProgress);
+
+  if (progress >= 1) {
+    cameraAnimationState = null;
+  }
+}
 
 function markRaycastTargetsDirty() {
   raycastTargetsDirty = true;
@@ -90,6 +126,7 @@ window.addEventListener("resize", () => {
 
 function animate() {
   requestAnimationFrame(animate);
+  updateCameraAnimation();
   controls.update();
 
   if (pointerNeedsTooltipUpdate) {
@@ -302,6 +339,7 @@ gltfLoader.setDRACOLoader(draco);
 const loadedRegions = new Set();
 const visibleRegions = new Set();
 const regionMeshMap = new Map();
+const regionFocusData = new Map();
 
 function addVisibleRegion(regionName) {
   if (!visibleRegions.has(regionName)) {
@@ -314,6 +352,87 @@ function removeVisibleRegion(regionName) {
   if (visibleRegions.delete(regionName)) {
     markRaycastTargetsDirty();
   }
+}
+
+function computeRegionFocusData(meshes) {
+  if (!Array.isArray(meshes) || !meshes.length) {
+    return null;
+  }
+
+  const boundingBox = new THREE.Box3();
+  const meshBoundingBox = new THREE.Box3();
+  let hasValidBounds = false;
+
+  meshes.forEach((mesh) => {
+    if (!mesh) return;
+
+    meshBoundingBox.setFromObject(mesh);
+    if (meshBoundingBox.isEmpty()) {
+      return;
+    }
+
+    if (!hasValidBounds) {
+      boundingBox.copy(meshBoundingBox);
+      hasValidBounds = true;
+    } else {
+      boundingBox.union(meshBoundingBox);
+    }
+  });
+
+  if (!hasValidBounds || boundingBox.isEmpty()) {
+    return null;
+  }
+
+  const center = new THREE.Vector3();
+  boundingBox.getCenter(center);
+
+  const size = new THREE.Vector3();
+  boundingBox.getSize(size);
+  const radius = size.length() / 2;
+
+  return { center, radius };
+}
+
+function storeRegionFocusData(regionName, meshes) {
+  scene.updateMatrixWorld(true);
+  const focusData = computeRegionFocusData(meshes);
+  if (focusData) {
+    regionFocusData.set(regionName, focusData);
+  }
+}
+
+function getCameraDistanceForRadius(radius) {
+  const safeRadius = Math.max(radius, 0.01);
+  const fov = THREE.MathUtils.degToRad(camera.fov);
+  const fitHeightDistance = safeRadius / Math.sin(fov / 2);
+  const fitWidthDistance = fitHeightDistance / camera.aspect;
+  const distance = Math.max(fitHeightDistance, fitWidthDistance) * 1.2;
+  const minDistance = Math.max(controls.minDistance, safeRadius * 1.5);
+  return THREE.MathUtils.clamp(distance, minDistance, controls.maxDistance);
+}
+
+function focusCameraOnRegion(regionName) {
+  const focusData = regionFocusData.get(regionName);
+  if (!focusData) {
+    return;
+  }
+
+  const { center, radius } = focusData;
+  const direction = new THREE.Vector3().subVectors(
+    camera.position,
+    controls.target,
+  );
+
+  if (direction.lengthSq() === 0) {
+    direction.set(0, 0, -1);
+  }
+
+  direction.normalize();
+
+  const distance = getCameraDistanceForRadius(radius);
+  const newPosition = direction.clone().multiplyScalar(distance).add(center);
+
+  animateCameraTo(newPosition, center, 900);
 }
 
 const _addRoot = async () => {
@@ -403,6 +522,8 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
 
         // Add the loaded model to the scene
         scene.add(gltf.scene);
+        scene.updateMatrixWorld(true);
+        storeRegionFocusData(regionName, meshes);
         // Mark the region as loaded and visible
         loadedRegions.add(regionName);
         addVisibleRegion(regionName);
@@ -423,6 +544,10 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
     meshes.forEach((mesh) => {
       fadeObject(mesh, "in");
     });
+    if (!regionFocusData.has(regionName)) {
+      scene.updateMatrixWorld(true);
+      storeRegionFocusData(regionName, meshes);
+    }
     addVisibleRegion(regionName);
     if (tooltipsEnabled && pointerInsideRenderer) {
       pointerNeedsTooltipUpdate = true;
@@ -1068,6 +1193,7 @@ function onClick(event) {
     const regionInfo = regions && regions[regionId];
 
     showRegionInfoPanel(regionId, hemisphere, regionInfo);
+    focusCameraOnRegion(object.name);
 
     if (tooltipsEnabled) {
       showTooltip({ x: event.clientX, y: event.clientY }, object);
