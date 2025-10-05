@@ -47,6 +47,7 @@
           </svg>
           <input type="text" id="search-bar" />
         </div>
+        <p class="search-suggestion" aria-live="polite"></p>
       </div>
       <div class="item nav-showall-btn">
         <button onclick="showSelected()" id="showall-btn">Show Selected</button>
@@ -364,6 +365,7 @@
 
         const selectionList = document.querySelector(".selection-list");
         let defaultColorIndex = 0;
+        const keywordAccumulator = new Map();
 
         for (const key in regions) {
           const region = regions[key];
@@ -377,10 +379,26 @@
               ? [region.aliases]
               : [];
 
+          const regionKeywords = Array.isArray(region.keywords)
+            ? region.keywords
+            : typeof region.keywords === "string"
+              ? [region.keywords]
+              : [];
+
+          regionKeywords
+            .map((keyword) => (typeof keyword === "string" ? keyword.trim() : ""))
+            .filter(Boolean)
+            .forEach((keyword) => {
+              const keyName = keyword.toLowerCase();
+              if (!keywordAccumulator.has(keyName)) {
+                keywordAccumulator.set(keyName, keyword);
+              }
+            });
+
           const searchTerms = [
             region.name,
             ...aliasTerms,
-            ...(region.keywords ?? []),
+            ...regionKeywords,
             ...(region.groups ?? []),
             region.description ?? "",
           ]
@@ -471,6 +489,11 @@
 
           defaultColorIndex = (defaultColorIndex + 1) % colorOptions.length;
         }
+
+        const initializeSuggestions = window.initializeSearchSuggestions;
+        if (typeof initializeSuggestions === "function") {
+          initializeSuggestions(Array.from(keywordAccumulator.values()));
+        }
       }
     </script>
     <script type="module">
@@ -498,6 +521,77 @@
       }
 
       const searchBar = document.querySelector("#search-bar");
+      const searchSuggestion = document.querySelector(".search-suggestion");
+      let keywordSuggestions = [];
+      let suggestionIndex = 0;
+      let suggestionTimeoutId;
+      let suggestionFadeTimeoutId;
+      const SUGGESTION_DISPLAY_DURATION = 5000;
+      const SUGGESTION_FADE_DURATION = 600;
+
+      function stopSuggestionCycle() {
+        clearTimeout(suggestionTimeoutId);
+        clearTimeout(suggestionFadeTimeoutId);
+        if (searchSuggestion) {
+          searchSuggestion.classList.remove("visible");
+        }
+      }
+
+      function showNextSuggestion() {
+        if (!searchSuggestion || keywordSuggestions.length === 0) {
+          return;
+        }
+
+        const nextSuggestion = keywordSuggestions[suggestionIndex];
+        suggestionIndex = (suggestionIndex + 1) % keywordSuggestions.length;
+
+        searchSuggestion.textContent = `Try searching "${nextSuggestion}"…`;
+        requestAnimationFrame(() => {
+          searchSuggestion.classList.add("visible");
+        });
+
+        suggestionTimeoutId = setTimeout(() => {
+          searchSuggestion.classList.remove("visible");
+          suggestionFadeTimeoutId = setTimeout(
+            showNextSuggestion,
+            SUGGESTION_FADE_DURATION,
+          );
+        }, SUGGESTION_DISPLAY_DURATION);
+      }
+
+      function startSuggestionCycle() {
+        stopSuggestionCycle();
+        if (!searchSuggestion || keywordSuggestions.length === 0) {
+          return;
+        }
+        if (searchBar.value.trim() !== "") {
+          return;
+        }
+        showNextSuggestion();
+      }
+
+      function initializeSearchSuggestions(suggestions = []) {
+        keywordSuggestions = suggestions;
+        suggestionIndex = 0;
+        if (keywordSuggestions.length === 0) {
+          stopSuggestionCycle();
+          return;
+        }
+        startSuggestionCycle();
+      }
+
+      window.initializeSearchSuggestions = initializeSearchSuggestions;
+
+      function handleSearchInput() {
+        filterItemsBySearch();
+        if (searchBar.value.trim() === "") {
+          startSuggestionCycle();
+        } else {
+          stopSuggestionCycle();
+        }
+      }
+
+      searchBar.addEventListener("input", handleSearchInput);
       searchBar.addEventListener("keyup", filterItemsBySearch);
 
       // SHOW CURRENT REGIONS //
