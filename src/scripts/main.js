@@ -48,6 +48,8 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enableZoom = true;
 
+controls.addEventListener("start", cancelCameraAnimation);
+
 // Controls maximum and minimum zoom distance
 controls.minDistance = 1;
 controls.maxDistance = 5;
@@ -96,8 +98,14 @@ const FOCUS_PITCH_OFFSETS = [0, -10, 10, -20, 20, -30, 30].map(
   THREE.MathUtils.degToRad,
 );
 
-function easeOutCubic(t) {
-  return 1 - Math.pow(1 - t, 3);
+function easeInOutCubic(t) {
+  return t < 0.5
+    ? 4 * t * t * t
+    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function cancelCameraAnimation() {
+  cameraAnimationState = null;
 }
 
 function animateCameraTo(position, target, duration = 800) {
@@ -120,13 +128,13 @@ function updateCameraAnimation() {
     cameraAnimationState;
   const elapsed = performance.now() - startTime;
   const progress = Math.min(1, elapsed / duration);
-  const easedProgress = easeOutCubic(progress);
+  const easedProgress = easeInOutCubic(progress);
 
   camera.position.lerpVectors(fromPosition, toPosition, easedProgress);
   controls.target.lerpVectors(fromTarget, toTarget, easedProgress);
 
   if (progress >= 1) {
-    cameraAnimationState = null;
+    cancelCameraAnimation();
   }
 }
 
@@ -598,7 +606,7 @@ function focusCameraOnRegion(regionName) {
         .clone()
         .addScaledVector(cameraOffsetScratch.normalize(), desiredDistance);
 
-  animateCameraTo(newPosition, center, 900);
+  animateCameraTo(newPosition, center, 1100);
   lastFocusedRegion = regionName;
 }
 
