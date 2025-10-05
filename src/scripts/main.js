@@ -70,7 +70,11 @@ const focusTempBox = new THREE.Box3();
 const focusTarget = new THREE.Vector3();
 const focusSize = new THREE.Vector3();
 const focusDirection = new THREE.Vector3();
+const focusRight = new THREE.Vector3();
+const focusRotationQuaternion = new THREE.Quaternion();
 const regionFocusDistances = new Map();
+const regionViewOffsets = new Map();
+const WORLD_UP = new THREE.Vector3(0, 1, 0);
 
 function markRaycastTargetsDirty() {
   raycastTargetsDirty = true;
@@ -1096,6 +1100,24 @@ function getIntersectedRegionFromPointer(pointerVector) {
   return null;
 }
 
+function getRegionViewOffset(regionName) {
+  let offset = regionViewOffsets.get(regionName);
+  if (!offset) {
+    let hash = 0;
+    for (let i = 0; i < regionName.length; i++) {
+      hash = (hash * 31 + regionName.charCodeAt(i)) >>> 0;
+    }
+
+    const yaw = ((hash & 0xff) / 255 - 0.5) * 0.3;
+    const pitch = (((hash >> 8) & 0xff) / 255 - 0.5) * 0.12;
+
+    offset = { yaw, pitch };
+    regionViewOffsets.set(regionName, offset);
+  }
+
+  return offset;
+}
+
 function focusCameraOnRegion(regionName, fallbackObject) {
   const meshes = regionMeshMap.get(regionName);
   const candidates = meshes && meshes.length ? meshes : fallbackObject ? [fallbackObject] : [];
@@ -1134,22 +1156,35 @@ function focusCameraOnRegion(regionName, fallbackObject) {
   }
   focusDirection.divideScalar(directionLength);
 
-  const minDistance = controls.minDistance + 0.1;
-  const maxDistance = controls.maxDistance * 0.9;
-  const baseDistance = THREE.MathUtils.clamp(
-    Math.max(boundingRadius * 2.5, minDistance),
-    minDistance,
-    maxDistance,
-  );
+  const { yaw, pitch } = getRegionViewOffset(regionName);
+
+  if (yaw !== 0) {
+    focusRotationQuaternion.setFromAxisAngle(WORLD_UP, yaw);
+    focusDirection.applyQuaternion(focusRotationQuaternion);
+  }
+
+  focusRight.crossVectors(focusDirection, WORLD_UP);
+  if (focusRight.lengthSq() > 1e-6 && pitch !== 0) {
+    focusRight.normalize();
+    focusRotationQuaternion.setFromAxisAngle(focusRight, pitch);
+    focusDirection.applyQuaternion(focusRotationQuaternion);
+  }
+
+  focusDirection.normalize();
+
+  const minDistance = controls.minDistance + 0.2;
+  const maxDistance = controls.maxDistance * 0.92;
+  let baseDistance = boundingRadius * 3.4 + 0.2;
+  const verticalPadding = Math.max(focusSize.y * 0.5, boundingRadius * 0.35);
+  baseDistance += verticalPadding * 0.4;
+  baseDistance = THREE.MathUtils.clamp(Math.max(baseDistance, minDistance), minDistance, maxDistance);
 
   let targetDistance = regionFocusDistances.get(regionName);
   if (typeof targetDistance !== "number") {
     targetDistance = baseDistance;
   } else {
+    targetDistance = Math.max(targetDistance, baseDistance);
     targetDistance = THREE.MathUtils.clamp(targetDistance, minDistance, maxDistance);
-    if (targetDistance < baseDistance) {
-      targetDistance = baseDistance;
-    }
   }
 
   regionFocusDistances.set(regionName, targetDistance);
