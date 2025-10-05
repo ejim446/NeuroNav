@@ -353,7 +353,10 @@ canvas {
         min-width: 0;
         height: 2.5rem;
         background: #313743;
-        border-radius: var(--border-radius);
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
         display: flex;
         align-items: center;
         position: relative;
@@ -403,6 +406,7 @@ canvas {
         position: relative;
         z-index: 1;
         border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
 }
 
 .nav-search-action {
@@ -414,10 +418,10 @@ canvas {
         background-color: #313743;
         color: var(--white);
         border: none;
-        border-radius-top-left: var(--border-radius);
-        border-radius-bottom-left: var(--border-radius);
-        border-radius-top-right: 0;
-        border-radius-bottom-right: 0;
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
         font-weight: bold;
         white-space: nowrap;
         flex-shrink: 0;
@@ -446,7 +450,7 @@ canvas {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-top-right-radius: var(--border-radius);
-        border-top-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
 }
 
 .nav-outliner {
