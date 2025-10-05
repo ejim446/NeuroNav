@@ -75,6 +75,10 @@ const focusRotationQuaternion = new THREE.Quaternion();
 const regionFocusDistances = new Map();
 const regionViewOffsets = new Map();
 const WORLD_UP = new THREE.Vector3(0, 1, 0);
+const brainRootMidlineNormal = new THREE.Vector3(1, 0, 0);
+const brainRootMidlinePoint = new THREE.Vector3();
+let brainRootMidlineReady = false;
+const tempVector3 = new THREE.Vector3();
 
 function markRaycastTargetsDirty() {
   raycastTargetsDirty = true;
@@ -387,6 +391,16 @@ const _addRoot = async () => {
       });
 
       scene.add(gltf.scene);
+      gltf.scene.updateMatrixWorld(true);
+      const rootBoundingBox = new THREE.Box3().setFromObject(gltf.scene);
+      if (!rootBoundingBox.isEmpty()) {
+        rootBoundingBox.getCenter(brainRootMidlinePoint);
+        if (brainRootMidlineNormal.lengthSq() === 0) {
+          brainRootMidlineNormal.set(1, 0, 0);
+        }
+        brainRootMidlineNormal.normalize();
+        brainRootMidlineReady = true;
+      }
     },
   );
 };
@@ -1118,6 +1132,62 @@ function getRegionViewOffset(regionName) {
   return offset;
 }
 
+function getSignedDistanceFromBrainMidline(point) {
+  if (!brainRootMidlineReady) {
+    return 0;
+  }
+
+  tempVector3.copy(point).sub(brainRootMidlinePoint);
+  return tempVector3.dot(brainRootMidlineNormal);
+}
+
+function computeHemisphereYawAdjustment(regionName, focusPoint, fromPosition) {
+  if (!brainRootMidlineReady) {
+    return 0;
+  }
+
+  const suffix = regionName.slice(-1);
+  let hemisphereHint = 0;
+  if (suffix === "L") {
+    hemisphereHint = -1;
+  } else if (suffix === "R") {
+    hemisphereHint = 1;
+  }
+
+  const regionDistance = getSignedDistanceFromBrainMidline(focusPoint);
+  let regionSign = 0;
+  if (regionDistance > 1e-4) {
+    regionSign = 1;
+  } else if (regionDistance < -1e-4) {
+    regionSign = -1;
+  } else {
+    regionSign = hemisphereHint;
+  }
+
+  if (regionSign === 0) {
+    return 0;
+  }
+
+  const cameraDistance = getSignedDistanceFromBrainMidline(fromPosition);
+  let cameraSign = 0;
+  if (cameraDistance > 1e-4) {
+    cameraSign = 1;
+  } else if (cameraDistance < -1e-4) {
+    cameraSign = -1;
+  }
+
+  if (cameraSign === 0) {
+    return regionSign * 0.22;
+  }
+
+  const sameHemisphere = cameraSign === regionSign;
+  if (sameHemisphere) {
+    return -regionSign * 0.16;
+  }
+
+  return regionSign * 0.3;
+}
+
 function focusCameraOnRegion(regionName, fallbackObject) {
   const meshes = regionMeshMap.get(regionName);
   const candidates = meshes && meshes.length ? meshes : fallbackObject ? [fallbackObject] : [];
@@ -1156,7 +1226,11 @@ function focusCameraOnRegion(regionName, fallbackObject) {
   }
   focusDirection.divideScalar(directionLength);
 
-  const { yaw, pitch } = getRegionViewOffset(regionName);
+  const offset = getRegionViewOffset(regionName);
+  let yaw = offset.yaw;
+  const pitch = offset.pitch;
+  yaw += computeHemisphereYawAdjustment(regionName, focusTarget, fromPosition);
+  yaw = THREE.MathUtils.clamp(yaw, -0.55, 0.55);
 
   if (yaw !== 0) {
     focusRotationQuaternion.setFromAxisAngle(WORLD_UP, yaw);
