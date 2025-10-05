@@ -54,17 +54,90 @@ controls.maxDistance = 5;
 // Ensure models are always centered while panning
 controls.maxTargetRadius = 0.5;
 
+let cameraAnimationState = null;
+let lastFocusedRegion = null;
+
 const raycaster = new THREE.Raycaster();
 raycaster.firstHitOnly = true;
+const focusRaycaster = new THREE.Raycaster();
+focusRaycaster.firstHitOnly = true;
 const pointer = new THREE.Vector2();
 const pointerClientPosition = { x: 0, y: 0 };
 let pointerInsideRenderer = false;
 let pointerNeedsTooltipUpdate = false;
 const raycastTargets = [];
 let raycastTargetsDirty = true;
+const focusDirection = new THREE.Vector3();
+const cameraOffsetScratch = new THREE.Vector3();
+const focusCandidateOffset = new THREE.Vector3();
+const focusCandidatePosition = new THREE.Vector3();
+const baseSphericalScratch = new THREE.Spherical();
+const candidateSphericalScratch = new THREE.Spherical();
+const FOCUS_POLAR_EPSILON = THREE.MathUtils.degToRad(5);
+const FOCUS_YAW_OFFSETS = [
+  0,
+  15,
+  -15,
+  30,
+  -30,
+  45,
+  -45,
+  60,
+  -60,
+  90,
+  -90,
+  120,
+  -120,
+  150,
+  -150,
+  180,
+].map(THREE.MathUtils.degToRad);
+const FOCUS_PITCH_OFFSETS = [0, -10, 10, -20, 20, -30, 30].map(
+  THREE.MathUtils.degToRad,
+);
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function animateCameraTo(position, target, duration = 800) {
+  cameraAnimationState = {
+    startTime: performance.now(),
+    duration,
+    fromPosition: camera.position.clone(),
+    toPosition: position.clone(),
+    fromTarget: controls.target.clone(),
+    toTarget: target.clone(),
+  };
+}
+
+function updateCameraAnimation() {
+  if (!cameraAnimationState) {
+    return;
+  }
+
+  const { startTime, duration, fromPosition, toPosition, fromTarget, toTarget } =
+    cameraAnimationState;
+  const elapsed = performance.now() - startTime;
+  const progress = Math.min(1, elapsed / duration);
+  const easedProgress = easeOutCubic(progress);
+
+  camera.position.lerpVectors(fromPosition, toPosition, easedProgress);
+  controls.target.lerpVectors(fromTarget, toTarget, easedProgress);
+
+  if (progress >= 1) {
+    cameraAnimationState = null;
+  }
+}
 
 function markRaycastTargetsDirty() {
   raycastTargetsDirty = true;
+}
+
+function ensureRaycastTargetsCurrent() {
+  if (raycastTargetsDirty) {
+    rebuildRaycastTargets();
+  }
 }
 
 function rebuildRaycastTargets() {
@@ -90,6 +163,7 @@ window.addEventListener("resize", () => {
 
 function animate() {
   requestAnimationFrame(animate);
+  updateCameraAnimation();
   controls.update();
 
   if (pointerNeedsTooltipUpdate) {
@@ -302,6 +376,7 @@ gltfLoader.setDRACOLoader(draco);
 const loadedRegions = new Set();
 const visibleRegions = new Set();
 const regionMeshMap = new Map();
+const regionFocusData = new Map();
 
 function addVisibleRegion(regionName) {
   if (!visibleRegions.has(regionName)) {
@@ -314,6 +389,217 @@ function removeVisibleRegion(regionName) {
   if (visibleRegions.delete(regionName)) {
     markRaycastTargetsDirty();
   }
+}
+
+function computeRegionFocusData(meshes) {
+  if (!Array.isArray(meshes) || !meshes.length) {
+    return null;
+  }
+
+  const boundingBox = new THREE.Box3();
+  const meshBoundingBox = new THREE.Box3();
+  let hasValidBounds = false;
+
+  meshes.forEach((mesh) => {
+    if (!mesh) return;
+
+    meshBoundingBox.setFromObject(mesh);
+    if (meshBoundingBox.isEmpty()) {
+      return;
+    }
+
+    if (!hasValidBounds) {
+      boundingBox.copy(meshBoundingBox);
+      hasValidBounds = true;
+    } else {
+      boundingBox.union(meshBoundingBox);
+    }
+  });
+
+  if (!hasValidBounds || boundingBox.isEmpty()) {
+    return null;
+  }
+
+  const center = new THREE.Vector3();
+  boundingBox.getCenter(center);
+
+  const size = new THREE.Vector3();
+  boundingBox.getSize(size);
+  const radius = size.length() / 2;
+
+  return { center, radius };
+}
+
+function storeRegionFocusData(regionName, meshes) {
+  scene.updateMatrixWorld(true);
+  const focusData = computeRegionFocusData(meshes);
+  if (focusData) {
+    regionFocusData.set(regionName, focusData);
+  }
+}
+
+function getCameraDistanceForRadius(radius) {
+  const safeRadius = Math.max(radius, 1);
+  const fov = THREE.MathUtils.degToRad(camera.fov);
+  const fitHeightDistance = safeRadius / Math.sin(fov / 2);
+  const fitWidthDistance = fitHeightDistance / camera.aspect;
+  const distance = Math.max(fitHeightDistance, fitWidthDistance) * 1.2;
+  const minDistance = Math.max(controls.minDistance, safeRadius * 1.5);
+  return THREE.MathUtils.clamp(distance, minDistance, controls.maxDistance);
+}
+
+function clampPolarAngle(angle) {
+  return THREE.MathUtils.clamp(angle, FOCUS_POLAR_EPSILON, Math.PI - FOCUS_POLAR_EPSILON);
+}
+
+function testRegionOcclusion(position, target, regionName) {
+  focusDirection.subVectors(target, position);
+  const distance = focusDirection.length();
+
+  if (distance <= 1e-3) {
+    return { blocked: false, distance };
+  }
+
+  focusDirection.normalize();
+  focusRaycaster.set(position, focusDirection);
+  focusRaycaster.near = 0;
+  focusRaycaster.far = distance;
+
+  const intersections = focusRaycaster.intersectObjects(raycastTargets, true);
+
+  for (let i = 0; i < intersections.length; i += 1) {
+    const intersection = intersections[i];
+    if (intersection.object.name === regionName) {
+      return { blocked: false, distance: intersection.distance };
+    }
+
+    return { blocked: true, distance: intersection.distance };
+  }
+
+  return { blocked: false, distance };
+}
+
+function buildDistanceMultipliers(baseDistance) {
+  const multipliers = [1];
+  const candidates = [1.15, 1.35, 1.6];
+
+  candidates.forEach((candidate) => {
+    if (baseDistance * candidate <= controls.maxDistance + 1e-4) {
+      multipliers.push(candidate);
+    }
+  });
+
+  if (baseDistance < controls.maxDistance) {
+    const maxMultiplier = controls.maxDistance / baseDistance;
+    if (maxMultiplier > 1.01) {
+      multipliers.push(maxMultiplier);
+    }
+  }
+
+  return multipliers;
+}
+
+function findUnobstructedCameraPlacement(center, desiredDistance, baseSpherical, regionName) {
+  ensureRaycastTargetsCurrent();
+
+  const multipliers = buildDistanceMultipliers(desiredDistance);
+  let bestFallback = null;
+
+  for (let m = 0; m < multipliers.length; m += 1) {
+    const multiplier = multipliers[m];
+    const radius = THREE.MathUtils.clamp(
+      desiredDistance * multiplier,
+      controls.minDistance,
+      controls.maxDistance,
+    );
+
+    for (let y = 0; y < FOCUS_YAW_OFFSETS.length; y += 1) {
+      const yawOffset = FOCUS_YAW_OFFSETS[y];
+      const theta = baseSpherical.theta + yawOffset;
+
+      for (let p = 0; p < FOCUS_PITCH_OFFSETS.length; p += 1) {
+        const pitchOffset = FOCUS_PITCH_OFFSETS[p];
+        const phi = clampPolarAngle(baseSpherical.phi + pitchOffset);
+
+        candidateSphericalScratch.radius = radius;
+        candidateSphericalScratch.theta = theta;
+        candidateSphericalScratch.phi = phi;
+
+        focusCandidateOffset.setFromSpherical(candidateSphericalScratch);
+        focusCandidatePosition.copy(center).add(focusCandidateOffset);
+
+        const occlusion = testRegionOcclusion(
+          focusCandidatePosition,
+          center,
+          regionName,
+        );
+
+        if (!occlusion.blocked) {
+          return {
+            position: focusCandidatePosition.clone(),
+          };
+        }
+
+        if (!bestFallback || occlusion.distance > bestFallback.distance) {
+          bestFallback = {
+            distance: occlusion.distance,
+            position: focusCandidatePosition.clone(),
+          };
+        }
+      }
+    }
+  }
+
+  return bestFallback;
+}
+
+function focusCameraOnRegion(regionName) {
+  if (regionName === lastFocusedRegion) {
+    return;
+  }
+
+  ensureRaycastTargetsCurrent();
+  const focusData = regionFocusData.get(regionName);
+  if (!focusData) {
+    return;
+  }
+
+  const { center, radius } = focusData;
+  cameraOffsetScratch.subVectors(camera.position, controls.target);
+  let currentDistance = cameraOffsetScratch.length();
+
+  if (currentDistance <= 1e-4) {
+    cameraOffsetScratch.set(0, 0, -1).multiplyScalar(controls.minDistance + 1);
+    currentDistance = cameraOffsetScratch.length();
+  }
+
+  baseSphericalScratch.setFromVector3(cameraOffsetScratch);
+  baseSphericalScratch.phi = clampPolarAngle(baseSphericalScratch.phi);
+
+  const minDistanceForRegion = getCameraDistanceForRadius(radius);
+
+  let desiredDistance = Math.max(currentDistance, minDistanceForRegion);
+  desiredDistance = THREE.MathUtils.clamp(
+    desiredDistance,
+    controls.minDistance,
+    controls.maxDistance,
+  );
+
+  const placement = findUnobstructedCameraPlacement(
+    center,
+    desiredDistance,
+    baseSphericalScratch,
+    regionName,
+  );
+
+  const newPosition = placement
+    ? placement.position
+    : center
+        .clone()
+        .addScaledVector(cameraOffsetScratch.normalize(), desiredDistance);
+
+  animateCameraTo(newPosition, center, 900);
+  lastFocusedRegion = regionName;
 }
 
 const _addRoot = async () => {
@@ -403,6 +689,8 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
 
         // Add the loaded model to the scene
         scene.add(gltf.scene);
+        scene.updateMatrixWorld(true);
+        storeRegionFocusData(regionName, meshes);
         // Mark the region as loaded and visible
         loadedRegions.add(regionName);
         addVisibleRegion(regionName);
@@ -423,6 +711,10 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
     meshes.forEach((mesh) => {
       fadeObject(mesh, "in");
     });
+    if (!regionFocusData.has(regionName)) {
+      scene.updateMatrixWorld(true);
+      storeRegionFocusData(regionName, meshes);
+    }
     addVisibleRegion(regionName);
     if (tooltipsEnabled && pointerInsideRenderer) {
       pointerNeedsTooltipUpdate = true;
@@ -1068,6 +1360,7 @@ function onClick(event) {
     const regionInfo = regions && regions[regionId];
 
     showRegionInfoPanel(regionId, hemisphere, regionInfo);
+    focusCameraOnRegion(object.name);
 
     if (tooltipsEnabled) {
       showTooltip({ x: event.clientX, y: event.clientY }, object);
