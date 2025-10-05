@@ -333,15 +333,14 @@ canvas {
 	stroke: var(--white);
 }
 
+
 .nav-search {
         align-self: center;
         grid-row: 3 / 4;
         grid-column: 1 / 9;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 0.35rem;
+        justify-content: space-between;
+        align-items: center;
         transition: opacity 200ms ease;
         opacity: 0;
 }
@@ -354,15 +353,24 @@ canvas {
         display: flex;
         align-items: center;
         margin: 10px;
+        position: relative;
 }
 
 .search-suggestion {
-        margin-left: 12px;
-        font-size: 0.85rem;
+        position: absolute;
+        top: 50%;
+        left: 2.75rem;
+        right: 1rem;
+        transform: translateY(-50%);
+        font-size: 0.9rem;
         color: rgba(255, 255, 255, 0.75);
         transition: opacity 600ms ease-in-out;
         opacity: 0;
         pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        z-index: 0;
 }
 
 .search-suggestion.visible {
@@ -379,15 +387,18 @@ canvas {
 }
 
 #search-bar {
-	flex: 1;
-	width: 20rem;
-	height: 2rem;
-	border: none;
-	outline: none;
-	font-size: 18px;
-	margin-left: 35px;
-	color: var(--white);
-	background-color: #313743;
+        flex: 1;
+        width: 20rem;
+        height: 2rem;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        margin-left: 35px;
+        color: var(--white);
+        background-color: transparent;
+        caret-color: var(--white);
+        position: relative;
+        z-index: 1;
 }
 
 .nav-showall-btn {
