@@ -70,6 +70,7 @@ const focusTempBox = new THREE.Box3();
 const focusTarget = new THREE.Vector3();
 const focusSize = new THREE.Vector3();
 const focusDirection = new THREE.Vector3();
+const regionFocusDistances = new Map();
 
 function markRaycastTargetsDirty() {
   raycastTargetsDirty = true;
@@ -1125,30 +1126,60 @@ function focusCameraOnRegion(regionName, fallbackObject) {
   const fromPosition = camera.position.clone();
   const fromTarget = controls.target.clone();
 
-  focusDirection.subVectors(camera.position, controls.target);
-  let currentDistance = focusDirection.length();
-  if (currentDistance === 0) {
+  focusDirection.subVectors(fromPosition, fromTarget);
+  let directionLength = focusDirection.length();
+  if (directionLength === 0) {
     focusDirection.set(0, 0, 1);
-    currentDistance = 1;
+    directionLength = 1;
   }
-  focusDirection.normalize();
+  focusDirection.divideScalar(directionLength);
 
   const minDistance = controls.minDistance + 0.1;
   const maxDistance = controls.maxDistance * 0.9;
-  const minForRegion = Math.max(boundingRadius * 2.5, minDistance);
-  let targetDistance = Math.min(currentDistance * 0.7, maxDistance);
-  targetDistance = Math.max(targetDistance, minForRegion);
-  targetDistance = THREE.MathUtils.clamp(targetDistance, minDistance, maxDistance);
+  const baseDistance = THREE.MathUtils.clamp(
+    Math.max(boundingRadius * 2.5, minDistance),
+    minDistance,
+    maxDistance,
+  );
 
-  const toPosition = focusTarget
-    .clone()
-    .add(focusDirection.multiplyScalar(targetDistance));
+  let targetDistance = regionFocusDistances.get(regionName);
+  if (typeof targetDistance !== "number") {
+    targetDistance = baseDistance;
+  } else {
+    targetDistance = THREE.MathUtils.clamp(targetDistance, minDistance, maxDistance);
+    if (targetDistance < baseDistance) {
+      targetDistance = baseDistance;
+    }
+  }
+
+  regionFocusDistances.set(regionName, targetDistance);
+
+  const desiredOffset = focusDirection.clone().multiplyScalar(targetDistance);
+  const currentOffset = fromPosition.clone().sub(fromTarget);
+  const desiredPosition = focusTarget.clone().add(desiredOffset);
+
+  const alreadyFocused =
+    cameraAnimation === null &&
+    fromTarget.distanceToSquared(focusTarget) < 1e-6 &&
+    currentOffset.distanceToSquared(desiredOffset) < 1e-6;
+
+  if (alreadyFocused) {
+    return;
+  }
+
+  if (
+    cameraAnimation &&
+    cameraAnimation.toTarget.distanceToSquared(focusTarget) < 1e-6 &&
+    cameraAnimation.toPosition.distanceToSquared(desiredPosition) < 1e-6
+  ) {
+    return;
+  }
 
   cameraAnimation = {
     start: performance.now(),
     duration: CAMERA_ANIMATION_DURATION,
     fromPosition,
-    toPosition,
+    toPosition: desiredPosition,
     fromTarget,
     toTarget: focusTarget.clone(),
   };
