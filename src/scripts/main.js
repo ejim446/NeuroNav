@@ -402,7 +402,7 @@ function storeRegionFocusData(regionName, meshes) {
 }
 
 function getCameraDistanceForRadius(radius) {
-  const safeRadius = Math.max(radius, 0.01);
+  const safeRadius = Math.max(radius, 1);
   const fov = THREE.MathUtils.degToRad(camera.fov);
   const fitHeightDistance = safeRadius / Math.sin(fov / 2);
   const fitWidthDistance = fitHeightDistance / camera.aspect;
@@ -418,19 +418,31 @@ function focusCameraOnRegion(regionName) {
   }
 
   const { center, radius } = focusData;
-  const direction = new THREE.Vector3().subVectors(
+  const currentOffset = new THREE.Vector3().subVectors(
     camera.position,
     controls.target,
   );
+  const currentDistance = currentOffset.length();
+  const minDistanceForRegion = getCameraDistanceForRadius(radius);
+
+  let desiredDistance = Math.max(currentDistance, minDistanceForRegion);
+  desiredDistance = THREE.MathUtils.clamp(
+    desiredDistance,
+    controls.minDistance,
+    controls.maxDistance,
+  );
+
+  let direction = new THREE.Vector3().subVectors(camera.position, center);
 
   if (direction.lengthSq() === 0) {
-    direction.set(0, 0, -1);
+    direction = currentOffset.lengthSq()
+      ? currentOffset.clone()
+      : new THREE.Vector3(0, 0, -1);
   }
 
   direction.normalize();
 
-  const distance = getCameraDistanceForRadius(radius);
-  const newPosition = direction.clone().multiplyScalar(distance).add(center);
+  const newPosition = center.clone().addScaledVector(direction, desiredDistance);
 
   animateCameraTo(newPosition, center, 900);
 }
