@@ -532,20 +532,27 @@
         });
       }
 
+
       const searchBar = document.querySelector("#search-bar");
       const searchSuggestion = document.querySelector(".search-suggestion");
       let keywordSuggestions = [];
       let suggestionIndex = 0;
       let suggestionTimeoutId;
       let suggestionFadeTimeoutId;
+      let suggestionAnimationFrameId;
       const SUGGESTION_DISPLAY_DURATION = 5000;
       const SUGGESTION_FADE_DURATION = 600;
 
       function stopSuggestionCycle() {
         clearTimeout(suggestionTimeoutId);
         clearTimeout(suggestionFadeTimeoutId);
+        if (suggestionAnimationFrameId) {
+          cancelAnimationFrame(suggestionAnimationFrameId);
+          suggestionAnimationFrameId = undefined;
+        }
         if (searchSuggestion) {
           searchSuggestion.classList.remove("visible");
+          searchSuggestion.textContent = "";
         }
       }
 
@@ -558,7 +565,12 @@
         suggestionIndex = (suggestionIndex + 1) % keywordSuggestions.length;
 
         searchSuggestion.textContent = `Try searching "${nextSuggestion}"…`;
-        requestAnimationFrame(() => {
+        suggestionAnimationFrameId = requestAnimationFrame(() => {
+          suggestionAnimationFrameId = undefined;
+          if (searchBar.value.trim() !== "") {
+            searchSuggestion.textContent = "";
+            return;
+          }
           searchSuggestion.classList.add("visible");
         });
 
