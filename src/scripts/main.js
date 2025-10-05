@@ -55,6 +55,7 @@ controls.maxDistance = 5;
 controls.maxTargetRadius = 0.5;
 
 let cameraAnimationState = null;
+let lastFocusedRegion = null;
 
 const raycaster = new THREE.Raycaster();
 raycaster.firstHitOnly = true;
@@ -412,6 +413,10 @@ function getCameraDistanceForRadius(radius) {
 }
 
 function focusCameraOnRegion(regionName) {
+  if (regionName === lastFocusedRegion) {
+    return;
+  }
+
   const focusData = regionFocusData.get(regionName);
   if (!focusData) {
     return;
@@ -445,6 +450,7 @@ function focusCameraOnRegion(regionName) {
   const newPosition = center.clone().addScaledVector(direction, desiredDistance);
 
   animateCameraTo(newPosition, center, 900);
+  lastFocusedRegion = regionName;
 }
 
 const _addRoot = async () => {
