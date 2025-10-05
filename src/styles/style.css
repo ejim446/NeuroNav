@@ -121,6 +121,8 @@ canvas {
 
         --border-radius: 5px;
 
+        --nav-section-inline-padding: 0.625rem;
+
         --icon-fill: #22252e;
 
         --region-info-panel-min-width: 24rem;
@@ -340,8 +342,8 @@ canvas {
         grid-column: 1 / 11;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 0;
+        gap: 0rem;
+        padding: 0 var(--nav-section-inline-padding);
         transition: opacity 200ms ease;
         opacity: 0;
 }
@@ -400,6 +402,7 @@ canvas {
         caret-color: var(--white);
         position: relative;
         z-index: 1;
+        border-top-right-radius: 0;
 }
 
 .nav-search-action {
@@ -411,7 +414,10 @@ canvas {
         background-color: #313743;
         color: var(--white);
         border: none;
-        border-radius: var(--border-radius);
+        border-radius-top-left: var(--border-radius);
+        border-radius-bottom-left: var(--border-radius);
+        border-radius-top-right: 0;
+        border-radius-bottom-right: 0;
         font-weight: bold;
         white-space: nowrap;
         flex-shrink: 0;
@@ -432,11 +438,15 @@ canvas {
 #showall-btn {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
 }
 
 #clear-btn {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+        border-top-right-radius: var(--border-radius);
+        border-top-left-radius: var(--border-radius);
 }
 
 .nav-outliner {
@@ -447,13 +457,13 @@ canvas {
 }
 
 .outliner-banner {
-	display: grid;
-	margin: 10px;
-	border-radius: var(--border-radius);
-	height: 90%;
-	background-color: #22252e;
-	grid-template-rows: repeat(10, 1fr);
-	grid-template-columns: repeat(6, 1fr);
+        display: grid;
+        margin: var(--nav-section-inline-padding);
+        border-radius: var(--border-radius);
+        height: 90%;
+        background-color: #22252e;
+        grid-template-rows: repeat(10, 1fr);
+        grid-template-columns: repeat(6, 1fr);
 }
 
 .banner-text {
@@ -627,7 +637,7 @@ canvas {
 
 .settings-banner {
         display: grid;
-        margin: 10px;
+        margin: var(--nav-section-inline-padding);
         border-radius: var(--border-radius);
         height: 90%;
         background-color: #22252e;
