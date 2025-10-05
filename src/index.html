@@ -606,6 +606,27 @@
       searchBar.addEventListener("input", handleSearchInput);
       searchBar.addEventListener("keyup", filterItemsBySearch);
 
+      function resetSearchBar() {
+        if (!searchBar) {
+          return;
+        }
+
+        if (searchBar.value === "") {
+          return;
+        }
+
+        searchBar.value = "";
+        handleSearchInput();
+      }
+
+      window.addEventListener("pagehide", resetSearchBar);
+      window.addEventListener("beforeunload", resetSearchBar);
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+          resetSearchBar();
+        }
+      });
+
       // SHOW CURRENT REGIONS //
 
       function showSelected() {
