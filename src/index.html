@@ -307,231 +307,277 @@
 
       let darkMode = false;
       let navOpen = false;
-      let isRootHidden = false;
-      let outlinesAreEnabled = true;
-      let overlaysDisabled = false;
+      let isRootHidden = rootCheckbox ? rootCheckbox.checked : false;
+      let outlinesAreHidden = outlinesCheckbox ? outlinesCheckbox.checked : false;
+      let overlaysDisabled = overlaysCheckbox ? overlaysCheckbox.checked : false;
       let descriptionBoxesDisabled = descriptionBoxesCheckbox
         ? descriptionBoxesCheckbox.checked
         : false;
       let viewportSettingsInitialized = false;
 
-      const VIEWPORT_SETTINGS_STORAGE_KEY = "neuronav-viewport-settings";
+      let applyRootHidden = () => {};
+      let applyOutlinesHidden = () => {};
+      let applyDarkModeSetting = () => {};
+      let applyOverlaysDisabled = () => {};
+      let applyDescriptionBoxesDisabled = () => {};
+      let handleDescriptionBoxesChange = () => {};
 
-      function readViewportSettings() {
-        if (typeof localStorage === "undefined") {
-          return {};
-        }
+      (async () => {
+        let hideRootModuleFn;
+        let updateOutlinesModuleFn;
+        let updateBackgroundModuleFn;
+        let disableTooltipsModuleFn;
+        let setDescriptionBoxesDisabledModuleFn;
 
         try {
-          const storedValue = localStorage.getItem(
-            VIEWPORT_SETTINGS_STORAGE_KEY,
-          );
+          ({
+            hideRoot: hideRootModuleFn,
+            updateOutlines: updateOutlinesModuleFn,
+            updateBackground: updateBackgroundModuleFn,
+            disableTooltips: disableTooltipsModuleFn,
+            setDescriptionBoxesDisabled: setDescriptionBoxesDisabledModuleFn,
+          } = await import("/scripts/main.js"));
+        } catch (error) {
+          console.error("Failed to load viewport controls", error);
+          return;
+        }
 
-          if (!storedValue) {
+        const VIEWPORT_SETTINGS_STORAGE_KEY = "neuronav-viewport-settings";
+
+        function readViewportSettings() {
+          if (typeof localStorage === "undefined") {
             return {};
           }
 
-          const parsedValue = JSON.parse(storedValue);
-          return parsedValue && typeof parsedValue === "object"
-            ? parsedValue
-            : {};
-        } catch (error) {
-          console.error("Failed to read saved viewport settings", error);
-          return {};
-        }
-      }
+          try {
+            const storedValue = localStorage.getItem(
+              VIEWPORT_SETTINGS_STORAGE_KEY,
+            );
 
-      let viewportSettings = readViewportSettings();
+            if (!storedValue) {
+              return {};
+            }
 
-      function persistViewportSettings(updates) {
-        viewportSettings = { ...viewportSettings, ...updates };
-
-        if (typeof localStorage === "undefined") {
-          return;
-        }
-
-        try {
-          localStorage.setItem(
-            VIEWPORT_SETTINGS_STORAGE_KEY,
-            JSON.stringify(viewportSettings),
-          );
-        } catch (error) {
-          console.error("Failed to save viewport settings", error);
-        }
-      }
-
-      function applyRootHidden(shouldHide, options = {}) {
-        if (shouldHide !== isRootHidden) {
-          hideRoot();
-          isRootHidden = shouldHide;
+            const parsedValue = JSON.parse(storedValue);
+            return parsedValue && typeof parsedValue === "object"
+              ? parsedValue
+              : {};
+          } catch (error) {
+            console.error("Failed to read saved viewport settings", error);
+            return {};
+          }
         }
 
-        if (!options.skipPersist) {
-          persistViewportSettings({ rootHidden: shouldHide });
-        }
-      }
+        let viewportSettings = readViewportSettings();
 
-      function applyOutlinesEnabled(shouldEnable, options = {}) {
-        if (shouldEnable !== outlinesAreEnabled) {
-          updateOutlines(shouldEnable);
-          outlinesAreEnabled = shouldEnable;
-        }
-
-        if (!options.skipPersist) {
-          persistViewportSettings({ outlinesEnabled: shouldEnable });
-        }
-      }
-
-      function applyDarkModeSetting(shouldUseDarkMode, options = {}) {
-        if (shouldUseDarkMode !== darkMode) {
-          darkMode = updateBackground();
-        } else {
-          darkMode = shouldUseDarkMode;
-        }
-
-        updateArrowFill();
-
-        if (!options.skipPersist) {
-          persistViewportSettings({ darkMode: shouldUseDarkMode });
-        }
-      }
-
-      function applyOverlaysDisabled(shouldDisable, options = {}) {
-        if (shouldDisable !== overlaysDisabled) {
-          disableTooltips(!shouldDisable);
-          overlaysDisabled = shouldDisable;
-        }
-
-        if (!options.skipPersist) {
-          persistViewportSettings({ overlaysDisabled: shouldDisable });
-        }
-      }
-
-      function applyDescriptionBoxesDisabled(shouldDisable, options = {}) {
-        if (shouldDisable !== descriptionBoxesDisabled) {
-          setDescriptionBoxesDisabled(shouldDisable);
-          descriptionBoxesDisabled = shouldDisable;
-        }
-
-        if (!options.skipPersist) {
-          persistViewportSettings({
-            descriptionBoxesDisabled: shouldDisable,
-          });
-        }
-      }
-
-      function handleDescriptionBoxesChange() {
-        if (!descriptionBoxesCheckbox) {
-          return;
-        }
-
-        applyDescriptionBoxesDisabled(descriptionBoxesCheckbox.checked);
-      }
-
-      function initializeViewportSettings() {
-        if (viewportSettingsInitialized) {
-          return;
-        }
-
-        let savedRootHidden = false;
-        if (rootCheckbox) {
-          savedRootHidden =
-            typeof viewportSettings.rootHidden === "boolean"
-              ? viewportSettings.rootHidden
-              : rootCheckbox.checked;
-          rootCheckbox.checked = savedRootHidden;
-        }
-
-        let savedOutlinesEnabled = true;
-        if (outlinesCheckbox) {
-          savedOutlinesEnabled =
+        if (viewportSettings && typeof viewportSettings === "object") {
+          if (
+            typeof viewportSettings.outlinesHidden !== "boolean" &&
             typeof viewportSettings.outlinesEnabled === "boolean"
-              ? viewportSettings.outlinesEnabled
-              : true;
-          outlinesCheckbox.checked = savedOutlinesEnabled;
+          ) {
+            viewportSettings.outlinesHidden = !viewportSettings.outlinesEnabled;
+          }
+          delete viewportSettings.outlinesEnabled;
+        } else {
+          viewportSettings = {};
         }
 
-        let savedDarkMode = false;
-        if (darkmodeCheckbox) {
-          savedDarkMode =
-            typeof viewportSettings.darkMode === "boolean"
-              ? viewportSettings.darkMode
-              : darkmodeCheckbox.checked;
-          darkmodeCheckbox.checked = savedDarkMode;
-        }
+        function persistViewportSettings(updates) {
+          viewportSettings = { ...viewportSettings, ...updates };
 
-        let savedOverlaysDisabled = false;
-        if (overlaysCheckbox) {
-          savedOverlaysDisabled =
-            typeof viewportSettings.overlaysDisabled === "boolean"
-              ? viewportSettings.overlaysDisabled
-              : overlaysCheckbox.checked;
-          overlaysCheckbox.checked = savedOverlaysDisabled;
-        }
+          if (typeof updates.outlinesHidden === "boolean") {
+            delete viewportSettings.outlinesEnabled;
+          }
 
-        let savedDescriptionBoxesDisabled = false;
-        if (descriptionBoxesCheckbox) {
-          savedDescriptionBoxesDisabled =
-            typeof viewportSettings.descriptionBoxesDisabled === "boolean"
-              ? viewportSettings.descriptionBoxesDisabled
-              : descriptionBoxesCheckbox.checked;
-          descriptionBoxesCheckbox.checked = savedDescriptionBoxesDisabled;
-        }
+          if (typeof localStorage === "undefined") {
+            return;
+          }
 
-        const dependenciesReady =
-          typeof hideRoot === "function" &&
-          typeof updateOutlines === "function" &&
-          typeof updateBackground === "function" &&
-          typeof disableTooltips === "function" &&
-          typeof setDescriptionBoxesDisabled === "function";
-
-        if (!dependenciesReady) {
-          window.addEventListener("load", initializeViewportSettings, {
-            once: true,
-          });
-          return;
-        }
-
-        viewportSettingsInitialized = true;
-
-        if (rootCheckbox) {
-          applyRootHidden(savedRootHidden, { skipPersist: true });
-          rootCheckbox.addEventListener("change", () => {
-            applyRootHidden(rootCheckbox.checked);
-          });
-        }
-
-        if (outlinesCheckbox) {
-          applyOutlinesEnabled(savedOutlinesEnabled, { skipPersist: true });
-          outlinesCheckbox.addEventListener("change", () => {
-            applyOutlinesEnabled(outlinesCheckbox.checked);
-          });
-        }
-
-        if (darkmodeCheckbox) {
-          applyDarkModeSetting(savedDarkMode, { skipPersist: true });
-          darkmodeCheckbox.addEventListener("change", () => {
-            applyDarkModeSetting(darkmodeCheckbox.checked);
-          });
-        }
-
-        if (overlaysCheckbox) {
-          applyOverlaysDisabled(savedOverlaysDisabled, { skipPersist: true });
-          overlaysCheckbox.addEventListener("change", () => {
-            applyOverlaysDisabled(overlaysCheckbox.checked);
-          });
-        }
-
-        if (descriptionBoxesCheckbox) {
-          applyDescriptionBoxesDisabled(savedDescriptionBoxesDisabled, {
-            skipPersist: true,
-          });
-          descriptionBoxesCheckbox.addEventListener(
-            "change",
-            handleDescriptionBoxesChange,
+          const cleanedSettings = Object.fromEntries(
+            Object.entries(viewportSettings).filter(
+              ([, value]) => value !== undefined,
+            ),
           );
+
+          try {
+            localStorage.setItem(
+              VIEWPORT_SETTINGS_STORAGE_KEY,
+              JSON.stringify(cleanedSettings),
+            );
+          } catch (error) {
+            console.error("Failed to save viewport settings", error);
+          }
+
+          viewportSettings = cleanedSettings;
         }
-      }
+
+        applyRootHidden = function (shouldHide, options = {}) {
+          if (shouldHide !== isRootHidden) {
+            hideRootModuleFn();
+            isRootHidden = shouldHide;
+          }
+
+          if (!options.skipPersist) {
+            persistViewportSettings({ rootHidden: shouldHide });
+          }
+        };
+
+        applyOutlinesHidden = function (shouldHide, options = {}) {
+          if (shouldHide !== outlinesAreHidden) {
+            updateOutlinesModuleFn(!shouldHide);
+            outlinesAreHidden = shouldHide;
+          }
+
+          if (!options.skipPersist) {
+            persistViewportSettings({ outlinesHidden: shouldHide });
+          }
+        };
+
+        applyDarkModeSetting = function (shouldUseDarkMode, options = {}) {
+          if (shouldUseDarkMode !== darkMode) {
+            darkMode = updateBackgroundModuleFn();
+          } else {
+            darkMode = shouldUseDarkMode;
+          }
+
+          updateArrowFill();
+
+          if (!options.skipPersist) {
+            persistViewportSettings({ darkMode: shouldUseDarkMode });
+          }
+        };
+
+        applyOverlaysDisabled = function (shouldDisable, options = {}) {
+          if (shouldDisable !== overlaysDisabled) {
+            disableTooltipsModuleFn(!shouldDisable);
+            overlaysDisabled = shouldDisable;
+          }
+
+          if (!options.skipPersist) {
+            persistViewportSettings({ overlaysDisabled: shouldDisable });
+          }
+        };
+
+        applyDescriptionBoxesDisabled = function (shouldDisable, options = {}) {
+          if (shouldDisable !== descriptionBoxesDisabled) {
+            setDescriptionBoxesDisabledModuleFn(shouldDisable);
+            descriptionBoxesDisabled = shouldDisable;
+          }
+
+          if (!options.skipPersist) {
+            persistViewportSettings({
+              descriptionBoxesDisabled: shouldDisable,
+            });
+          }
+        };
+
+        handleDescriptionBoxesChange = function () {
+          if (!descriptionBoxesCheckbox) {
+            return;
+          }
+
+          applyDescriptionBoxesDisabled(descriptionBoxesCheckbox.checked);
+        };
+
+        function initializeViewportSettings() {
+          if (viewportSettingsInitialized) {
+            return;
+          }
+
+          let savedRootHidden = rootCheckbox ? rootCheckbox.checked : false;
+          if (rootCheckbox) {
+            if (typeof viewportSettings.rootHidden === "boolean") {
+              savedRootHidden = viewportSettings.rootHidden;
+            }
+            rootCheckbox.checked = savedRootHidden;
+          }
+
+          let savedOutlinesHidden = outlinesCheckbox
+            ? outlinesCheckbox.checked
+            : false;
+          if (outlinesCheckbox) {
+            if (typeof viewportSettings.outlinesHidden === "boolean") {
+              savedOutlinesHidden = viewportSettings.outlinesHidden;
+            }
+            outlinesCheckbox.checked = savedOutlinesHidden;
+          }
+
+          let savedDarkMode = darkmodeCheckbox
+            ? darkmodeCheckbox.checked
+            : false;
+          if (darkmodeCheckbox) {
+            if (typeof viewportSettings.darkMode === "boolean") {
+              savedDarkMode = viewportSettings.darkMode;
+            }
+            darkmodeCheckbox.checked = savedDarkMode;
+          }
+
+          let savedOverlaysDisabled = overlaysCheckbox
+            ? overlaysCheckbox.checked
+            : false;
+          if (overlaysCheckbox) {
+            if (typeof viewportSettings.overlaysDisabled === "boolean") {
+              savedOverlaysDisabled = viewportSettings.overlaysDisabled;
+            }
+            overlaysCheckbox.checked = savedOverlaysDisabled;
+          }
+
+          let savedDescriptionBoxesDisabled = descriptionBoxesCheckbox
+            ? descriptionBoxesCheckbox.checked
+            : false;
+          if (descriptionBoxesCheckbox) {
+            if (
+              typeof viewportSettings.descriptionBoxesDisabled === "boolean"
+            ) {
+              savedDescriptionBoxesDisabled =
+                viewportSettings.descriptionBoxesDisabled;
+            }
+            descriptionBoxesCheckbox.checked = savedDescriptionBoxesDisabled;
+          }
+
+          viewportSettingsInitialized = true;
+
+          if (rootCheckbox) {
+            applyRootHidden(savedRootHidden, { skipPersist: true });
+            rootCheckbox.addEventListener("change", () => {
+              applyRootHidden(rootCheckbox.checked);
+            });
+          }
+
+          if (outlinesCheckbox) {
+            applyOutlinesHidden(savedOutlinesHidden, { skipPersist: true });
+            outlinesCheckbox.addEventListener("change", () => {
+              applyOutlinesHidden(outlinesCheckbox.checked);
+            });
+          }
+
+          if (darkmodeCheckbox) {
+            applyDarkModeSetting(savedDarkMode, { skipPersist: true });
+            darkmodeCheckbox.addEventListener("change", () => {
+              applyDarkModeSetting(darkmodeCheckbox.checked);
+            });
+          }
+
+          if (overlaysCheckbox) {
+            applyOverlaysDisabled(savedOverlaysDisabled, { skipPersist: true });
+            overlaysCheckbox.addEventListener("change", () => {
+              applyOverlaysDisabled(overlaysCheckbox.checked);
+            });
+          }
+
+          if (descriptionBoxesCheckbox) {
+            applyDescriptionBoxesDisabled(savedDescriptionBoxesDisabled, {
+              skipPersist: true,
+            });
+            descriptionBoxesCheckbox.addEventListener(
+              "change",
+              handleDescriptionBoxesChange,
+            );
+          }
+        }
+
+        initializeViewportSettings();
+      })();
 
       function toggleSidebar() {
         const isOpen = !navOpen;
@@ -563,7 +609,6 @@
         }
       }
 
-      initializeViewportSettings();
     </script>
     <script type="module">
       import { updateHemisphere, updateColor } from "/scripts/main.js";
@@ -723,16 +768,7 @@
       }
     </script>
     <script type="module">
-      import {
-        updateBackground,
-        updateOutlines,
-        loadRegion,
-        hideRegion,
-        hideAll,
-        hideRoot,
-        disableTooltips,
-        setDescriptionBoxesDisabled,
-      } from "/scripts/main.js";
+      import { loadRegion, hideRegion, hideAll } from "/scripts/main.js";
 
       // SEARCH FUNCTION //
 
@@ -902,7 +938,6 @@
 
       function hideRootMesh() {
         if (!rootCheckbox) {
-          hideRoot();
           return;
         }
 
@@ -916,7 +951,7 @@
           return;
         }
 
-        applyOutlinesEnabled(outlinesCheckbox.checked);
+        applyOutlinesHidden(outlinesCheckbox.checked);
       }
 
       // TOGGLE BACKGROUND //
