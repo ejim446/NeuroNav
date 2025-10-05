@@ -756,6 +756,7 @@ function processTooltipRaycast() {
 }
 
 const infoPanel = document.getElementById("region-info-panel");
+let descriptionBoxesEnabled = true;
 
 const REGION_INFO_PANEL_WIDTH_DEFAULTS = {
   minRem: 24,
@@ -916,6 +917,11 @@ function renderInfoList(values, emptyMessage, citations) {
 }
 
 function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
+  if (!descriptionBoxesEnabled) {
+    hideRegionInfoPanel();
+    return;
+  }
+
   if (!infoPanel) return;
 
   const name = regionInfo?.name ?? regionId;
@@ -995,6 +1001,14 @@ function hideRegionInfoPanel() {
   infoPanel.setAttribute("aria-hidden", "true");
   infoPanel.innerHTML = "";
   resetRegionInfoPanelWidth(infoPanel);
+}
+
+export function setDescriptionBoxesDisabled(disabled) {
+  descriptionBoxesEnabled = !disabled;
+
+  if (disabled) {
+    hideRegionInfoPanel();
+  }
 }
 
 if (infoPanel) {
