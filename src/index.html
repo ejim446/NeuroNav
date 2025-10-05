@@ -45,14 +45,27 @@
               d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
             />
           </svg>
-          <input type="text" id="search-bar" />
+          <input type="text" id="search-bar" aria-describedby="search-suggestion" />
+          <span
+            id="search-suggestion"
+            class="search-suggestion"
+            aria-live="polite"
+          ></span>
         </div>
-      </div>
-      <div class="item nav-showall-btn">
-        <button onclick="showSelected()" id="showall-btn">Show Selected</button>
-      </div>
-      <div class="item nav-clear-btn">
-        <button onclick="clearAll()" id="clear-btn">Clear All</button>
+        <button
+          onclick="showSelected()"
+          id="showall-btn"
+          class="nav-search-action nav-showall-btn"
+        >
+          Show Selected
+        </button>
+        <button
+          onclick="clearAll()"
+          id="clear-btn"
+          class="nav-search-action nav-clear-btn"
+        >
+          Clear All
+        </button>
       </div>
       <div class="item nav-outliner">
         <div class="outliner-banner">
@@ -364,6 +377,7 @@
 
         const selectionList = document.querySelector(".selection-list");
         let defaultColorIndex = 0;
+        const keywordAccumulator = new Map();
 
         for (const key in regions) {
           const region = regions[key];
@@ -377,10 +391,26 @@
               ? [region.aliases]
               : [];
 
+          const regionKeywords = Array.isArray(region.keywords)
+            ? region.keywords
+            : typeof region.keywords === "string"
+              ? [region.keywords]
+              : [];
+
+          regionKeywords
+            .map((keyword) => (typeof keyword === "string" ? keyword.trim() : ""))
+            .filter(Boolean)
+            .forEach((keyword) => {
+              const keyName = keyword.toLowerCase();
+              if (!keywordAccumulator.has(keyName)) {
+                keywordAccumulator.set(keyName, keyword);
+              }
+            });
+
           const searchTerms = [
             region.name,
             ...aliasTerms,
-            ...(region.keywords ?? []),
+            ...regionKeywords,
             ...(region.groups ?? []),
             region.description ?? "",
           ]
@@ -471,6 +501,11 @@
 
           defaultColorIndex = (defaultColorIndex + 1) % colorOptions.length;
         }
+
+        const initializeSuggestions = window.initializeSearchSuggestions;
+        if (typeof initializeSuggestions === "function") {
+          initializeSuggestions(Array.from(keywordAccumulator.values()));
+        }
       }
     </script>
     <script type="module">
@@ -498,6 +533,77 @@
       }
 
       const searchBar = document.querySelector("#search-bar");
+      const searchSuggestion = document.querySelector(".search-suggestion");
+      let keywordSuggestions = [];
+      let suggestionIndex = 0;
+      let suggestionTimeoutId;
+      let suggestionFadeTimeoutId;
+      const SUGGESTION_DISPLAY_DURATION = 5000;
+      const SUGGESTION_FADE_DURATION = 600;
+
+      function stopSuggestionCycle() {
+        clearTimeout(suggestionTimeoutId);
+        clearTimeout(suggestionFadeTimeoutId);
+        if (searchSuggestion) {
+          searchSuggestion.classList.remove("visible");
+        }
+      }
+
+      function showNextSuggestion() {
+        if (!searchSuggestion || keywordSuggestions.length === 0) {
+          return;
+        }
+
+        const nextSuggestion = keywordSuggestions[suggestionIndex];
+        suggestionIndex = (suggestionIndex + 1) % keywordSuggestions.length;
+
+        searchSuggestion.textContent = `Try searching "${nextSuggestion}"…`;
+        requestAnimationFrame(() => {
+          searchSuggestion.classList.add("visible");
+        });
+
+        suggestionTimeoutId = setTimeout(() => {
+          searchSuggestion.classList.remove("visible");
+          suggestionFadeTimeoutId = setTimeout(
+            showNextSuggestion,
+            SUGGESTION_FADE_DURATION,
+          );
+        }, SUGGESTION_DISPLAY_DURATION);
+      }
+
+      function startSuggestionCycle() {
+        stopSuggestionCycle();
+        if (!searchSuggestion || keywordSuggestions.length === 0) {
+          return;
+        }
+        if (searchBar.value.trim() !== "") {
+          return;
+        }
+        showNextSuggestion();
+      }
+
+      function initializeSearchSuggestions(suggestions = []) {
+        keywordSuggestions = suggestions;
+        suggestionIndex = 0;
+        if (keywordSuggestions.length === 0) {
+          stopSuggestionCycle();
+          return;
+        }
+        startSuggestionCycle();
+      }
+
+      window.initializeSearchSuggestions = initializeSearchSuggestions;
+
+      function handleSearchInput() {
+        filterItemsBySearch();
+        if (searchBar.value.trim() === "") {
+          startSuggestionCycle();
+        } else {
+          stopSuggestionCycle();
+        }
+      }
+
+      searchBar.addEventListener("input", handleSearchInput);
       searchBar.addEventListener("keyup", filterItemsBySearch);
 
       // SHOW CURRENT REGIONS //
