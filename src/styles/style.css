@@ -121,6 +121,8 @@ canvas {
 
         --border-radius: 5px;
 
+        --nav-section-inline-padding: 0.625rem;
+
         --icon-fill: #22252e;
 
         --region-info-panel-min-width: 24rem;
@@ -341,7 +343,7 @@ canvas {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        padding: 0;
+        padding: 0 var(--nav-section-inline-padding);
         transition: opacity 200ms ease;
         opacity: 0;
 }
@@ -447,13 +449,13 @@ canvas {
 }
 
 .outliner-banner {
-	display: grid;
-	margin: 10px;
-	border-radius: var(--border-radius);
-	height: 90%;
-	background-color: #22252e;
-	grid-template-rows: repeat(10, 1fr);
-	grid-template-columns: repeat(6, 1fr);
+        display: grid;
+        margin: var(--nav-section-inline-padding);
+        border-radius: var(--border-radius);
+        height: 90%;
+        background-color: #22252e;
+        grid-template-rows: repeat(10, 1fr);
+        grid-template-columns: repeat(6, 1fr);
 }
 
 .banner-text {
@@ -627,7 +629,7 @@ canvas {
 
 .settings-banner {
         display: grid;
-        margin: 10px;
+        margin: var(--nav-section-inline-padding);
         border-radius: var(--border-radius);
         height: 90%;
         background-color: #22252e;
