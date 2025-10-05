@@ -63,6 +63,14 @@ let pointerNeedsTooltipUpdate = false;
 const raycastTargets = [];
 let raycastTargetsDirty = true;
 
+let cameraAnimation = null;
+const CAMERA_ANIMATION_DURATION = 1200;
+const focusBoundingBox = new THREE.Box3();
+const focusTempBox = new THREE.Box3();
+const focusTarget = new THREE.Vector3();
+const focusSize = new THREE.Vector3();
+const focusDirection = new THREE.Vector3();
+
 function markRaycastTargetsDirty() {
   raycastTargetsDirty = true;
 }
@@ -90,7 +98,33 @@ window.addEventListener("resize", () => {
 
 function animate() {
   requestAnimationFrame(animate);
-  controls.update();
+
+  if (cameraAnimation) {
+    const now = performance.now();
+    const elapsed = now - cameraAnimation.start;
+    const t = Math.min(elapsed / cameraAnimation.duration, 1);
+    const eased = easeInOutQuad(t);
+
+    camera.position.lerpVectors(
+      cameraAnimation.fromPosition,
+      cameraAnimation.toPosition,
+      eased,
+    );
+    controls.target.lerpVectors(
+      cameraAnimation.fromTarget,
+      cameraAnimation.toTarget,
+      eased,
+    );
+    controls.update();
+
+    if (t >= 1) {
+      camera.position.copy(cameraAnimation.toPosition);
+      controls.target.copy(cameraAnimation.toTarget);
+      cameraAnimation = null;
+    }
+  } else {
+    controls.update();
+  }
 
   if (pointerNeedsTooltipUpdate) {
     processTooltipRaycast();
@@ -100,6 +134,12 @@ function animate() {
 }
 
 animate();
+
+function easeInOutQuad(t) {
+  return t < 0.5
+    ? 2 * t * t
+    : 1 - Math.pow(-2 * t + 2, 2) / 2;
+}
 
 // OUTLINE EFFECT //
 
@@ -1055,6 +1095,65 @@ function getIntersectedRegionFromPointer(pointerVector) {
   return null;
 }
 
+function focusCameraOnRegion(regionName, fallbackObject) {
+  const meshes = regionMeshMap.get(regionName);
+  const candidates = meshes && meshes.length ? meshes : fallbackObject ? [fallbackObject] : [];
+
+  let hasBounds = false;
+
+  for (let i = 0; i < candidates.length; i++) {
+    const mesh = candidates[i];
+    mesh.updateWorldMatrix(true, true);
+    focusTempBox.setFromObject(mesh);
+
+    if (!hasBounds) {
+      focusBoundingBox.copy(focusTempBox);
+      hasBounds = true;
+    } else {
+      focusBoundingBox.union(focusTempBox);
+    }
+  }
+
+  if (!hasBounds) {
+    return;
+  }
+
+  focusBoundingBox.getCenter(focusTarget);
+  focusBoundingBox.getSize(focusSize);
+  const boundingRadius = focusSize.length() * 0.5;
+
+  const fromPosition = camera.position.clone();
+  const fromTarget = controls.target.clone();
+
+  focusDirection.subVectors(camera.position, controls.target);
+  let currentDistance = focusDirection.length();
+  if (currentDistance === 0) {
+    focusDirection.set(0, 0, 1);
+    currentDistance = 1;
+  }
+  focusDirection.normalize();
+
+  const minDistance = controls.minDistance + 0.1;
+  const maxDistance = controls.maxDistance * 0.9;
+  const minForRegion = Math.max(boundingRadius * 2.5, minDistance);
+  let targetDistance = Math.min(currentDistance * 0.7, maxDistance);
+  targetDistance = Math.max(targetDistance, minForRegion);
+  targetDistance = THREE.MathUtils.clamp(targetDistance, minDistance, maxDistance);
+
+  const toPosition = focusTarget
+    .clone()
+    .add(focusDirection.multiplyScalar(targetDistance));
+
+  cameraAnimation = {
+    start: performance.now(),
+    duration: CAMERA_ANIMATION_DURATION,
+    fromPosition,
+    toPosition,
+    fromTarget,
+    toTarget: focusTarget.clone(),
+  };
+}
+
 function onClick(event) {
   const object = getIntersectedRegion(event);
 
@@ -1068,6 +1167,7 @@ function onClick(event) {
     const regionInfo = regions && regions[regionId];
 
     showRegionInfoPanel(regionId, hemisphere, regionInfo);
+    focusCameraOnRegion(object.name, object);
 
     if (tooltipsEnabled) {
       showTooltip({ x: event.clientX, y: event.clientY }, object);
