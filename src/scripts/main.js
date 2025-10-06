@@ -830,13 +830,25 @@ function clearFocusedRegion(regionName) {
 }
 
 const _addRoot = async () => {
-  // Define transparent root material
-  const material = new THREE.MeshBasicMaterial({
+  const surfaceMaterial = new THREE.MeshBasicMaterial({
     color: 0xd3d3d3,
-    // Setting depthWrite to false disables occlusion of brain regions by the root mesh
-    depthWrite: false,
     transparent: true,
     opacity: 0.15,
+    depthWrite: false,
+    depthTest: true,
+    side: THREE.DoubleSide,
+  });
+
+  // Render an invisible copy of the shell that only writes to the depth buffer.
+  // This gives us a solid depth pre-pass so regions that touch the root
+  // surface are still clipped correctly even when their opacity is reduced and
+  // the visible root material does not write depth.
+  const occluderMaterial = new THREE.MeshBasicMaterial({
+    colorWrite: false,
+    depthWrite: true,
+    depthTest: true,
+    transparent: false,
+    side: THREE.DoubleSide,
   });
 
   // Load the GLB file
@@ -845,13 +857,27 @@ const _addRoot = async () => {
     "/models/root.glb",
 
     function (gltf) {
+      const meshes = [];
+
       gltf.scene.traverse((child) => {
-        if (child.isMesh) {
-          child.material = material;
-          if (child.geometry?.isBufferGeometry) {
-            child.geometry.computeBoundsTree();
-          }
+        if (!child.isMesh) {
+          return;
         }
+
+        meshes.push(child);
+        child.material = surfaceMaterial;
+
+        if (child.geometry?.isBufferGeometry) {
+          child.geometry.computeBoundsTree();
+        }
+      });
+
+      meshes.forEach((mesh) => {
+        const occluder = mesh.clone(false);
+        occluder.material = occluderMaterial;
+        occluder.renderOrder = (mesh.renderOrder || 0) - 1;
+        occluder.raycast = () => {};
+        mesh.parent?.add(occluder);
       });
 
       scene.add(gltf.scene);
