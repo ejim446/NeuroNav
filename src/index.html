@@ -150,7 +150,11 @@
         </svg>
         <div id="info-tooltip" class="info-tooltip" role="tooltip"></div>
       </div>
-      <div id="camera-icon-container" class="utility-icon-container" aria-hidden="true">
+      <div
+        id="camera-icon-container"
+        class="utility-icon-container camera-icon-container--light"
+        aria-hidden="true"
+      >
         <img
           id="camera-icon"
           src="/camera-black.svg"
@@ -226,6 +230,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const cameraIconContainer = document.getElementById("camera-icon-container");
       const cameraIconElement = document.getElementById("camera-icon");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
@@ -933,13 +938,22 @@
       }
 
       function updateCameraIconAppearance(useDarkBackground) {
-        if (!cameraIconElement) {
+        if (!cameraIconElement || !cameraIconContainer) {
           return;
         }
 
         const nextSrc = useDarkBackground
           ? "/camera-white.svg"
           : "/camera-black.svg";
+
+        cameraIconContainer.classList.toggle(
+          "camera-icon-container--dark",
+          Boolean(useDarkBackground),
+        );
+        cameraIconContainer.classList.toggle(
+          "camera-icon-container--light",
+          !useDarkBackground,
+        );
 
         if (cameraIconElement.getAttribute("src") !== nextSrc) {
           cameraIconElement.setAttribute("src", nextSrc);
