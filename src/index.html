@@ -302,6 +302,11 @@
       let darkMode = false;
       let navOpen = false;
 
+      document.documentElement.style.setProperty(
+        "--navbar-width",
+        `${NAVBAR_COLLAPSED_WIDTH_REM}rem`,
+      );
+
       Object.defineProperty(window, "__neuronavDarkMode__", {
         configurable: true,
         get() {
@@ -327,6 +332,10 @@
         const arrowRotation = isOpen ? "rotate(-180deg)" : "rotate(0deg)";
 
         navbar.style.width = sidebarWidth;
+        document.documentElement.style.setProperty(
+          "--navbar-width",
+          sidebarWidth,
+        );
         navbar.style.backgroundColor = backgroundColor;
         navArrow.style.transform = arrowRotation;
         updateArrowFill();

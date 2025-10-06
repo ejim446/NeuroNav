@@ -97,10 +97,10 @@ canvas {
 }
 
 :root {
-	font-size: var(--font-size);
-	font-family: var(--font-family);
-	letter-spacing: var(--letter-spacing-primary);
-	font-weight: var(--font-weight);
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+        letter-spacing: var(--letter-spacing-primary);
+        font-weight: var(--font-weight);
 
 	--font-size: 14px;
 	--font-size-title: 50px;
@@ -127,6 +127,9 @@ canvas {
 
         --region-info-panel-min-width: 24rem;
         --region-info-panel-max-width: 32rem;
+
+        --navbar-collapsed-width: 6rem;
+        --navbar-expanded-width: 35.5rem;
 }
 
 #splash-screen {
@@ -230,11 +233,11 @@ canvas {
 }
 
 .navbar {
-	width: 6rem;
-	height: 100vh;
-	position: fixed;
-	top: 0;
-	right: 0;
+        width: var(--navbar-width, var(--navbar-collapsed-width));
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0;
 	display: grid;
 	grid-template-rows: repeat(16, 50px);
 	grid-template-columns: repeat(11, 50px);
@@ -842,7 +845,9 @@ input:checked + .checkbox-button:before {
 .control-hints {
         position: fixed;
         bottom: 1rem;
-        left: 50%;
+        left: calc(
+                (100vw - var(--navbar-width, var(--navbar-collapsed-width))) / 2
+        );
         transform: translateX(-50%);
         display: inline-flex;
         align-items: center;
@@ -854,6 +859,9 @@ input:checked + .checkbox-button:before {
         pointer-events: none;
         z-index: 4;
         text-align: center;
+        max-width: calc(
+                100vw - var(--navbar-width, var(--navbar-collapsed-width)) - 2rem
+        );
 }
 
 .control-hints strong {
