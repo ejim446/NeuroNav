@@ -830,10 +830,16 @@ const _addRoot = async () => {
   // Define transparent root material
   const material = new THREE.MeshBasicMaterial({
     color: 0xd3d3d3,
-    // Setting depthWrite to false disables occlusion of brain regions by the root mesh
-    depthWrite: false,
     transparent: true,
     opacity: 0.15,
+    depthWrite: true,
+    depthTest: true,
+    polygonOffset: true,
+    // A slight negative factor nudges the root mesh toward the camera so that it
+    // consistently renders in front of bordering regions without altering the
+    // actual model transforms.
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -1,
   });
 
   // Load the GLB file
