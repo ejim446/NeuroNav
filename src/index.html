@@ -835,7 +835,7 @@
         const hide = Boolean(shouldHide);
 
         if (hide !== rootHiddenState) {
-          hideRoot();
+          hideRoot(hide);
         }
 
         rootHiddenState = hide;

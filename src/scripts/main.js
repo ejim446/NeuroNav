@@ -829,38 +829,6 @@ function clearFocusedRegion(regionName) {
   }
 }
 
-const _addRoot = async () => {
-  // Define transparent root material
-  const material = new THREE.MeshBasicMaterial({
-    color: 0xd3d3d3,
-    // Setting depthWrite to false disables occlusion of brain regions by the root mesh
-    depthWrite: false,
-    transparent: true,
-    opacity: 0.15,
-  });
-
-  // Load the GLB file
-  gltfLoader.load(
-    // "/models/root.glb",
-    "/models/root.glb",
-
-    function (gltf) {
-      gltf.scene.traverse((child) => {
-        if (child.isMesh) {
-          child.material = material;
-          if (child.geometry?.isBufferGeometry) {
-            child.geometry.computeBoundsTree();
-          }
-        }
-      });
-
-      scene.add(gltf.scene);
-    },
-  );
-};
-
-_addRoot();
-
 /// REGION SELECTIONS ///
 
 // DEFINE AVAILABLE COLORS //
@@ -1077,26 +1045,66 @@ export function updateHemisphere(regionID, hemisphereSelection, selectedColor) {
 // HIDE ROOT //
 
 let rootVisible = true; // DEFAULT
+const rootMeshes = [];
 
-export function hideRoot() {
-  // Helper function to set visibility of the root object
-  const setVisible = (visible) => {
-    // Traverse all objects in the scene
-    scene.traverse(function (object) {
-      // Check if the object is a mesh and named "root"
-      if (object instanceof THREE.Mesh && object.name === "root") {
-        // Set the visibility of the root object's material
-        object.material.visible = visible;
-      }
-    });
-  };
+function applyRootVisibility() {
+  const shouldBeVisible = rootVisible;
 
-  // Toggle the global rootVisible state
-  rootVisible = !rootVisible;
-
-  // Apply the new visibility state to the root object
-  setVisible(rootVisible);
+  for (const mesh of rootMeshes) {
+    if (mesh?.material) {
+      mesh.material.visible = shouldBeVisible;
+    }
+  }
 }
+
+export function hideRoot(shouldHide) {
+  if (typeof shouldHide === "boolean") {
+    rootVisible = !shouldHide;
+  } else {
+    rootVisible = !rootVisible;
+  }
+
+  applyRootVisibility();
+}
+
+const _addRoot = async () => {
+  // Define transparent root material
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xd3d3d3,
+    // Setting depthWrite to false disables occlusion of brain regions by the root mesh
+    depthWrite: false,
+    transparent: true,
+    opacity: 0.15,
+    visible: rootVisible,
+  });
+
+  // Load the GLB file
+  gltfLoader.load(
+    // "/models/root.glb",
+    "/models/root.glb",
+
+    function (gltf) {
+      rootMeshes.length = 0;
+      gltf.scene.traverse((child) => {
+        if (child.isMesh) {
+          child.material = material;
+          if (child.geometry?.isBufferGeometry) {
+            child.geometry.computeBoundsTree();
+          }
+          if (child.name === "root") {
+            rootMeshes.push(child);
+          }
+        }
+      });
+
+      scene.add(gltf.scene);
+
+      applyRootVisibility();
+    },
+  );
+};
+
+_addRoot();
 
 // TOGGLE REGION OUTLINES //
 
