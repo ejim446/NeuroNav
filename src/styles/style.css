@@ -773,13 +773,11 @@ input:checked + .checkbox-button:before {
 
 #utility-icon-bar {
         position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 1.5rem;
+        left: 1%;
+        bottom: 2%;
 
         display: flex;
-        justify-content: flex-end;
-        padding: 0 1.5rem;
+        justify-content: flex-start;
 
         pointer-events: none;
         z-index: 5;
@@ -794,7 +792,6 @@ input:checked + .checkbox-button:before {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-left: auto;
 
         outline: none;
         pointer-events: auto;
@@ -807,11 +804,11 @@ input:checked + .checkbox-button:before {
 
 .info-tooltip {
         position: absolute;
-        right: 0;
-        bottom: calc(100% + 0.5rem);
+        top: -0.25rem;
+        left: 150%;
         z-index: 99;
-        transform: scale(0);
-        transform-origin: bottom right;
+        transform: translateX(-8%) translateY(-100%) scale(0);
+        transform-origin: bottom left;
         transition: 150ms transform;
         background: var(--grey-tertiary);
         color: var(--white);
@@ -828,12 +825,12 @@ input:checked + .checkbox-button:before {
 #info-icon-container:hover .info-tooltip,
 #info-icon-container:focus .info-tooltip,
 #info-icon-container:focus-within .info-tooltip {
-        transform: scale(1);
+        transform: translateX(-8%) translateY(-100%) scale(1);
         pointer-events: auto;
 }
 
 .info-tooltip.visible {
-        transform: scale(1);
+        transform: translateX(-8%) translateY(-100%) scale(1);
         pointer-events: auto;
 }
 
