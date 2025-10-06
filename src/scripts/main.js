@@ -57,13 +57,15 @@ controls.maxDistance = 5;
 controls.maxTargetRadius = 1;
 
 let cameraAnimationState = null;
-let lastFocusedRegion = null;
+let focusedRegionName = null;
 let sidebarAdditionalWidthRem = 0;
 const SIDEBAR_PAN_DURATION = 1000;
+const SIDEBAR_PAN_CENTER_RADIUS = 3; // Distance from origin below which sidebar pan is suppressed
 const sidebarPanOffset = new THREE.Vector3();
 let sidebarBaseCameraPosition = null;
 let sidebarBaseTarget = null;
 let sidebarIsOpen = false;
+let sidebarPanSuppressed = false;
 const cameraForwardScratch = new THREE.Vector3();
 const cameraRightScratch = new THREE.Vector3();
 
@@ -188,14 +190,25 @@ function getSidebarPanDistance(additionalWidthRem = 0) {
   return panDistance;
 }
 
+function isCameraNearSceneCenter() {
+  return camera.position.length() <= SIDEBAR_PAN_CENTER_RADIUS;
+}
+
+function hasFocusedRegion() {
+  return typeof focusedRegionName === "string" && focusedRegionName.length > 0;
+}
+
 function panCameraForSidebar(
   additionalWidthRem = sidebarAdditionalWidthRem,
   options = {},
 ) {
   const { open: explicitlyOpen } = options;
 
+  let isOpeningSidebar = false;
+
   if (typeof explicitlyOpen === "boolean") {
     if (explicitlyOpen && !sidebarIsOpen) {
+      isOpeningSidebar = true;
       sidebarBaseCameraPosition = camera.position.clone();
       sidebarBaseTarget = controls.target.clone();
     }
@@ -203,10 +216,16 @@ function panCameraForSidebar(
     sidebarIsOpen = explicitlyOpen;
 
     if (!sidebarIsOpen) {
+      const shouldSuppressPan =
+        isCameraNearSceneCenter() || hasFocusedRegion();
+      const hadSidebarOffset = sidebarPanOffset.lengthSq() > 1e-8;
+      const hasBaseTargets = sidebarBaseCameraPosition && sidebarBaseTarget;
+
+      sidebarPanSuppressed = shouldSuppressPan;
       sidebarAdditionalWidthRem = 0;
       sidebarPanOffset.set(0, 0, 0);
 
-      if (sidebarBaseCameraPosition && sidebarBaseTarget) {
+      if (!shouldSuppressPan && hadSidebarOffset && hasBaseTargets) {
         animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, {
           duration: SIDEBAR_PAN_DURATION,
           easing: easeInOutSine,
@@ -228,6 +247,17 @@ function panCameraForSidebar(
   if (!sidebarBaseCameraPosition || !sidebarBaseTarget) {
     sidebarBaseCameraPosition = camera.position.clone();
     sidebarBaseTarget = controls.target.clone();
+  }
+
+  if (isOpeningSidebar || sidebarPanSuppressed) {
+    const shouldSuppressPan =
+      isCameraNearSceneCenter() || hasFocusedRegion();
+
+    sidebarPanSuppressed = shouldSuppressPan;
+
+    if (shouldSuppressPan) {
+      return;
+    }
   }
 
   const desiredPanDistance = getSidebarPanDistance(sidebarAdditionalWidthRem);
@@ -738,7 +768,7 @@ function findUnobstructedCameraPlacement(center, desiredDistance, baseSpherical,
 }
 
 function focusCameraOnRegion(regionName) {
-  if (regionName === lastFocusedRegion) {
+  if (regionName === focusedRegionName) {
     return;
   }
 
@@ -783,7 +813,17 @@ function focusCameraOnRegion(regionName) {
         .addScaledVector(cameraOffsetScratch.normalize(), desiredDistance);
 
   animateCameraTo(newPosition, center, 1100);
-  lastFocusedRegion = regionName;
+  focusedRegionName = regionName;
+}
+
+function clearFocusedRegion(regionName) {
+  if (!focusedRegionName) {
+    return;
+  }
+
+  if (!regionName || focusedRegionName === regionName) {
+    focusedRegionName = null;
+  }
 }
 
 const _addRoot = async () => {
@@ -932,6 +972,7 @@ export function hideRegion(regionID, hemisphereSelection) {
 
       meshes.forEach((mesh) => fadeObject(mesh, "out"));
       removeVisibleRegion(regionName);
+      clearFocusedRegion(regionName);
     });
   } else {
     // If only one hemisphere is selected
@@ -943,6 +984,7 @@ export function hideRegion(regionID, hemisphereSelection) {
     if (meshes) {
       meshes.forEach((mesh) => fadeObject(mesh, "out"));
       removeVisibleRegion(regionName);
+      clearFocusedRegion(regionName);
     }
   }
 
@@ -962,10 +1004,12 @@ export function hideAll() {
 
     meshes.forEach((mesh) => fadeObject(mesh, "out"));
     removeVisibleRegion(regionName);
+    clearFocusedRegion(regionName);
   });
 
   hideTooltip();
   pointerNeedsTooltipUpdate = false;
+  clearFocusedRegion();
 }
 
 // UPDATE COLORS //
@@ -1473,6 +1517,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
 function hideRegionInfoPanel() {
   if (!infoPanel) return;
 
+  clearFocusedRegion();
   infoPanel.classList.remove("visible");
   infoPanel.setAttribute("aria-hidden", "true");
   infoPanel.innerHTML = "";
