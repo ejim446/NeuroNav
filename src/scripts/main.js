@@ -60,7 +60,7 @@ let cameraAnimationState = null;
 let focusedRegionName = null;
 let sidebarAdditionalWidthRem = 0;
 const SIDEBAR_PAN_DURATION = 1000;
-const SIDEBAR_PAN_CENTER_RADIUS = 1.5; // Distance from origin below which sidebar pan is suppressed
+const SIDEBAR_PAN_CENTER_RADIUS = 3; // Distance from origin below which sidebar pan is suppressed
 const sidebarPanOffset = new THREE.Vector3();
 let sidebarBaseCameraPosition = null;
 let sidebarBaseTarget = null;
@@ -216,11 +216,16 @@ function panCameraForSidebar(
     sidebarIsOpen = explicitlyOpen;
 
     if (!sidebarIsOpen) {
+      const shouldSuppressPan =
+        isCameraNearSceneCenter() || hasFocusedRegion();
+      const hadSidebarOffset = sidebarPanOffset.lengthSq() > 1e-8;
+      const hasBaseTargets = sidebarBaseCameraPosition && sidebarBaseTarget;
+
+      sidebarPanSuppressed = shouldSuppressPan;
       sidebarAdditionalWidthRem = 0;
       sidebarPanOffset.set(0, 0, 0);
-      sidebarPanSuppressed = false;
 
-      if (sidebarBaseCameraPosition && sidebarBaseTarget) {
+      if (!shouldSuppressPan && hadSidebarOffset && hasBaseTargets) {
         animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, {
           duration: SIDEBAR_PAN_DURATION,
           easing: easeInOutSine,
