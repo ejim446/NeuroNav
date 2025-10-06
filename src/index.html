@@ -85,11 +85,7 @@
             <p id="show-root-text" class="settings-text">Hide Root</p>
             <div class="root-checkbox-container">
               <input id="root-checkbox" type="checkbox" />
-              <label
-                onclick="hideRootMesh()"
-                for="root-checkbox"
-                class="checkbox-button"
-              ></label>
+              <label for="root-checkbox" class="checkbox-button"></label>
             </div>
             <p id="show-region-outlines-text" class="settings-text">
               Hide Region Outlines
@@ -97,7 +93,6 @@
             <div class="outlines-checkbox-container">
               <input id="outlines-checkbox" type="checkbox" />
               <label
-                onclick="toggleOutlines()"
                 for="outlines-checkbox"
                 id="outlines-label"
                 class="checkbox-button"
@@ -109,7 +104,6 @@
             <div class="darkmode-checkbox-container">
               <input id="darkmode-checkbox" type="checkbox" />
               <label
-                onclick="toggleDarkMode()"
                 for="darkmode-checkbox"
                 id="darkmode-label"
                 class="checkbox-button"
@@ -121,7 +115,6 @@
             <div class="overlays-checkbox-container">
               <input id="overlays-checkbox" type="checkbox" />
               <label
-                onclick="disableOverlays()"
                 for="overlays-checkbox"
                 id="overlays-label"
                 class="checkbox-button"
@@ -133,7 +126,6 @@
             <div class="description-boxes-checkbox-container">
               <input id="description-boxes-checkbox" type="checkbox" />
               <label
-                onclick="toggleDescriptionBoxes(event)"
                 for="description-boxes-checkbox"
                 id="description-boxes-label"
                 class="checkbox-button"
@@ -295,14 +287,6 @@
 
       /// NAVIGATION BAR ///
 
-      const rootCheckbox = document.getElementById("root-checkbox");
-      const rootLabel = document.getElementById("root-label");
-      const darkmodeCheckbox = document.getElementById("darkmode-checkbox");
-      const darkmodeLabel = document.getElementById("darkmode-label");
-      const outlinesCheckbox = document.getElementById("outlines-checkbox");
-      const outlinesLabel = document.getElementById("outlines-label");
-      const overlaysCheckbox = document.getElementById("overlays-checkbox");
-      const overlaysLabel = document.getElementById("overlays-label");
       const navbar = document.querySelector(".navbar");
       const navArrow = document.querySelector(".nav-arrow");
       const arrowSvg = document.querySelector("#arrow");
@@ -312,22 +296,23 @@
       const outliner = document.querySelector(".nav-outliner");
       const settings = document.querySelector(".nav-settings");
       const showAllButton = document.querySelector(".nav-showall-btn");
-      const descriptionBoxesCheckbox = document.getElementById(
-        "description-boxes-checkbox",
-      );
-
       const NAVBAR_EXPANDED_WIDTH_REM = 35.5;
       const NAVBAR_COLLAPSED_WIDTH_REM = 6;
 
       let darkMode = false;
       let navOpen = false;
 
-      function setInitialState() {
-        rootCheckbox.checked = rootCheckbox.classList.contains("off");
-        darkmodeCheckbox.checked = darkmodeLabel.classList.contains("off");
-        outlinesCheckbox.checked = outlinesLabel.classList.contains("off");
-        overlaysCheckbox.checked = outlinesLabel.classList.contains("off");
-      }
+      Object.defineProperty(window, "__neuronavDarkMode__", {
+        configurable: true,
+        get() {
+          return darkMode;
+        },
+        set(value) {
+          darkMode = Boolean(value);
+        },
+      });
+
+      window.__neuronavDarkMode__ = darkMode;
 
       function toggleSidebar() {
         const isOpen = !navOpen;
@@ -371,7 +356,6 @@
         }
       }
 
-      setInitialState();
     </script>
     <script type="module">
       import { updateHemisphere, updateColor } from "/scripts/main.js";
@@ -718,41 +702,262 @@
 
       /// SETTINGS ///
 
-      // HIDE ROOT //
+      const rootCheckbox = document.getElementById("root-checkbox");
+      const outlinesCheckbox = document.getElementById("outlines-checkbox");
+      const darkmodeCheckbox = document.getElementById("darkmode-checkbox");
+      const overlaysCheckbox = document.getElementById("overlays-checkbox");
+      const descriptionBoxesCheckbox = document.getElementById(
+        "description-boxes-checkbox",
+      );
 
-      function hideRootMesh() {
-        hideRoot();
+      const viewportSettingsStorageKey = "neuronav.viewportSettings";
+
+      const viewportSettingsDefaults = {
+        hideRoot: false,
+        hideRegionOutlines: false,
+        darkBackground: false,
+        disableNameOverlays: false,
+        disableDescriptionBoxes: false,
+      };
+
+      function getViewportSettingsStorage() {
+        try {
+          if (typeof window === "undefined" || !("localStorage" in window)) {
+            return null;
+          }
+
+          return window.localStorage;
+        } catch (error) {
+          return null;
+        }
       }
 
-      // TOGGLE OUTLINES //
+      function loadViewportSettingsFromStorage() {
+        const storage = getViewportSettingsStorage();
+        if (!storage) {
+          return {};
+        }
 
-      function toggleOutlines() {
-        const outlinesEnabled = outlinesCheckbox.checked;
-        updateOutlines(outlinesEnabled);
+        try {
+          const storedValue = storage.getItem(viewportSettingsStorageKey);
+          if (!storedValue) {
+            return {};
+          }
+
+          const parsed = JSON.parse(storedValue);
+          return typeof parsed === "object" && parsed !== null ? parsed : {};
+        } catch (error) {
+          return {};
+        }
       }
 
-      // TOGGLE BACKGROUND //
+      function saveViewportSettingsToStorage(settings) {
+        const storage = getViewportSettingsStorage();
+        if (!storage) {
+          return;
+        }
 
-      function toggleDarkMode() {
-        darkMode = updateBackground();
+        try {
+          storage.setItem(viewportSettingsStorageKey, JSON.stringify(settings));
+        } catch (error) {
+          // Ignore storage write failures (e.g., quota exceeded).
+        }
+      }
+
+      function normalizeBoolean(value, fallback = false) {
+        if (typeof value === "boolean") {
+          return value;
+        }
+
+        if (typeof value === "string") {
+          const normalized = value.trim().toLowerCase();
+          if (normalized === "true") {
+            return true;
+          }
+          if (normalized === "false") {
+            return false;
+          }
+        }
+
+        return fallback;
+      }
+
+      let viewportSettings = { ...viewportSettingsDefaults };
+
+      function refreshViewportSettingsFromStorage() {
+        const storedSettings = loadViewportSettingsFromStorage();
+
+        viewportSettings = {
+          hideRoot: normalizeBoolean(
+            storedSettings.hideRoot,
+            viewportSettingsDefaults.hideRoot,
+          ),
+          hideRegionOutlines: normalizeBoolean(
+            storedSettings.hideRegionOutlines,
+            viewportSettingsDefaults.hideRegionOutlines,
+          ),
+          darkBackground: normalizeBoolean(
+            storedSettings.darkBackground,
+            viewportSettingsDefaults.darkBackground,
+          ),
+          disableNameOverlays: normalizeBoolean(
+            storedSettings.disableNameOverlays,
+            viewportSettingsDefaults.disableNameOverlays,
+          ),
+          disableDescriptionBoxes: normalizeBoolean(
+            storedSettings.disableDescriptionBoxes,
+            viewportSettingsDefaults.disableDescriptionBoxes,
+          ),
+        };
+      }
+
+      refreshViewportSettingsFromStorage();
+
+      function getDarkModeState() {
+        return window.__neuronavDarkMode__ ?? false;
+      }
+
+      function setDarkModeState(value) {
+        window.__neuronavDarkMode__ = Boolean(value);
+        return window.__neuronavDarkMode__;
+      }
+
+      function updateViewportSettings(partialSettings, options = {}) {
+        viewportSettings = { ...viewportSettings, ...partialSettings };
+        if (!options.skipSave) {
+          saveViewportSettingsToStorage(viewportSettings);
+        }
+      }
+
+      let rootHiddenState = false;
+
+      function applyRootSetting(shouldHide, options = {}) {
+        const hide = Boolean(shouldHide);
+
+        if (hide !== rootHiddenState) {
+          hideRoot();
+        }
+
+        rootHiddenState = hide;
+        updateViewportSettings({ hideRoot: hide }, options);
+      }
+
+      function applyOutlinesSetting(shouldHide, options = {}) {
+        const hide = Boolean(shouldHide);
+        updateOutlines(!hide);
+        updateViewportSettings({ hideRegionOutlines: hide }, options);
+      }
+
+      function applyDarkModeSetting(enableDark, options = {}) {
+        const shouldUseDarkBackground = Boolean(enableDark);
+        const currentDarkMode = getDarkModeState();
+
+        if (shouldUseDarkBackground !== currentDarkMode) {
+          const updatedDarkMode = updateBackground();
+          setDarkModeState(updatedDarkMode);
+        } else {
+          setDarkModeState(shouldUseDarkBackground);
+        }
+
         updateArrowFill();
+        updateViewportSettings(
+          { darkBackground: shouldUseDarkBackground },
+          options,
+        );
       }
 
-      // DISABLE NAME OVERLAYS //
+      function applyOverlaysSetting(shouldDisable, options = {}) {
+        const disable = Boolean(shouldDisable);
+        disableTooltips(!disable);
+        updateViewportSettings({ disableNameOverlays: disable }, options);
+      }
 
-      function disableOverlays() {
-        var checkbox = document.getElementById("overlays-checkbox");
-        disableTooltips(checkbox.checked);
+      function applyDescriptionBoxesSetting(shouldDisable, options = {}) {
+        const disable = Boolean(shouldDisable);
+        setDescriptionBoxesDisabled(disable);
+        updateViewportSettings({ disableDescriptionBoxes: disable }, options);
+      }
+
+      function initializeViewportSettingsFromStorage() {
+        if (rootCheckbox) {
+          rootCheckbox.checked = viewportSettings.hideRoot;
+          applyRootSetting(rootCheckbox.checked, { skipSave: true });
+        } else {
+          applyRootSetting(viewportSettings.hideRoot, { skipSave: true });
+        }
+
+        if (outlinesCheckbox) {
+          outlinesCheckbox.checked = viewportSettings.hideRegionOutlines;
+          applyOutlinesSetting(outlinesCheckbox.checked, { skipSave: true });
+        } else {
+          applyOutlinesSetting(viewportSettings.hideRegionOutlines, {
+            skipSave: true,
+          });
+        }
+
+        if (darkmodeCheckbox) {
+          darkmodeCheckbox.checked = viewportSettings.darkBackground;
+          applyDarkModeSetting(darkmodeCheckbox.checked, { skipSave: true });
+        } else {
+          applyDarkModeSetting(viewportSettings.darkBackground, {
+            skipSave: true,
+          });
+        }
+
+        if (overlaysCheckbox) {
+          overlaysCheckbox.checked = viewportSettings.disableNameOverlays;
+          applyOverlaysSetting(overlaysCheckbox.checked, { skipSave: true });
+        } else {
+          applyOverlaysSetting(viewportSettings.disableNameOverlays, {
+            skipSave: true,
+          });
+        }
+
+        if (descriptionBoxesCheckbox) {
+          descriptionBoxesCheckbox.checked =
+            viewportSettings.disableDescriptionBoxes;
+          applyDescriptionBoxesSetting(descriptionBoxesCheckbox.checked, {
+            skipSave: true,
+          });
+        } else {
+          applyDescriptionBoxesSetting(
+            viewportSettings.disableDescriptionBoxes,
+            { skipSave: true },
+          );
+        }
+      }
+
+      if (rootCheckbox) {
+        rootCheckbox.addEventListener("change", () => {
+          applyRootSetting(rootCheckbox.checked);
+        });
+      }
+
+      if (outlinesCheckbox) {
+        outlinesCheckbox.addEventListener("change", () => {
+          applyOutlinesSetting(outlinesCheckbox.checked);
+        });
+      }
+
+      if (darkmodeCheckbox) {
+        darkmodeCheckbox.addEventListener("change", () => {
+          applyDarkModeSetting(darkmodeCheckbox.checked);
+        });
+      }
+
+      if (overlaysCheckbox) {
+        overlaysCheckbox.addEventListener("change", () => {
+          applyOverlaysSetting(overlaysCheckbox.checked);
+        });
       }
 
       if (descriptionBoxesCheckbox) {
-        const syncDescriptionBoxes = () => {
-          setDescriptionBoxesDisabled(descriptionBoxesCheckbox.checked);
-        };
-
-        syncDescriptionBoxes();
-        descriptionBoxesCheckbox.addEventListener("change", syncDescriptionBoxes);
+        descriptionBoxesCheckbox.addEventListener("change", () => {
+          applyDescriptionBoxesSetting(descriptionBoxesCheckbox.checked);
+        });
       }
+
+      initializeViewportSettingsFromStorage();
 
       function toggleDescriptionBoxes(event) {
         if (!descriptionBoxesCheckbox) {
@@ -784,10 +989,6 @@
       window.toggleView = toggleView;
       window.showSelected = showSelected;
       window.clearAll = clearAll;
-      window.hideRootMesh = hideRootMesh;
-      window.toggleOutlines = toggleOutlines;
-      window.toggleDarkMode = toggleDarkMode;
-      window.disableOverlays = disableOverlays;
       window.toggleDescriptionBoxes = toggleDescriptionBoxes;
     </script>
   </body>
