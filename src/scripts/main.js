@@ -179,7 +179,13 @@ function getSidebarPanDistance(additionalWidthRem = 0) {
     2 * distanceToTarget * Math.tan(verticalFov / 2);
   const visibleWidthAtDistance = visibleHeightAtDistance * camera.aspect;
 
-  return visibleWidthAtDistance * screenFraction;
+  const panDistance = visibleWidthAtDistance * screenFraction;
+
+  if (typeof controls?.maxTargetRadius === "number") {
+    return Math.min(controls.maxTargetRadius, panDistance);
+  }
+
+  return panDistance;
 }
 
 function panCameraForSidebar(
