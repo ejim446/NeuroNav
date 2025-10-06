@@ -25,7 +25,9 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000,
 );
-camera.position.set(0, 0, -4);
+const DEFAULT_CAMERA_POSITION = new THREE.Vector3(0, 0, -4);
+const DEFAULT_CAMERA_TARGET = new THREE.Vector3(0, 0, 0);
+camera.position.copy(DEFAULT_CAMERA_POSITION);
 camera.lookAt(scene.position);
 
 // LIGHTING //
@@ -55,6 +57,8 @@ controls.minDistance = 1;
 controls.maxDistance = 5;
 // Ensure models are always centered while panning
 controls.maxTargetRadius = 1;
+controls.target.copy(DEFAULT_CAMERA_TARGET);
+controls.update();
 
 let cameraAnimationState = null;
 let focusedRegionName = null;
@@ -148,6 +152,26 @@ function animateCameraTo(position, target, options = {}) {
     fromTarget: controls.target.clone(),
     toTarget: target.clone(),
   };
+}
+
+function resetCameraToDefault(options = {}) {
+  const resolvedOptions =
+    typeof options === "number" ? { duration: options } : options || {};
+
+  const {
+    duration = 900,
+    easing = easeInOutSine,
+  } = resolvedOptions;
+
+  sidebarPanOffset.set(0, 0, 0);
+  sidebarPanSuppressed = false;
+  sidebarBaseCameraPosition = null;
+  sidebarBaseTarget = null;
+
+  animateCameraTo(DEFAULT_CAMERA_POSITION, DEFAULT_CAMERA_TARGET, {
+    duration,
+    easing,
+  });
 }
 
 function getSidebarPanDistance(additionalWidthRem = 0) {
@@ -357,6 +381,14 @@ window.addEventListener("resize", () => {
     panCameraForSidebar();
   }
 });
+
+const cameraResetButton = document.getElementById("camera-icon-container");
+
+if (cameraResetButton) {
+  cameraResetButton.addEventListener("click", () => {
+    resetCameraToDefault();
+  });
+}
 
 window.addEventListener("neuronav:sidebar-toggle", (event) => {
   const detail = event?.detail;
