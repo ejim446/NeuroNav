@@ -316,6 +316,9 @@
         "description-boxes-checkbox",
       );
 
+      const NAVBAR_EXPANDED_WIDTH_REM = 35.5;
+      const NAVBAR_COLLAPSED_WIDTH_REM = 6;
+
       let darkMode = false;
       let navOpen = false;
 
@@ -329,7 +332,9 @@
       function toggleSidebar() {
         const isOpen = !navOpen;
         navOpen = isOpen;
-        const sidebarWidth = isOpen ? "35.5rem" : "6rem";
+        const sidebarWidth = `${
+          isOpen ? NAVBAR_EXPANDED_WIDTH_REM : NAVBAR_COLLAPSED_WIDTH_REM
+        }rem`;
         const sidebarOpacity = isOpen ? 1 : 0;
         const backgroundColor = isOpen
           ? "rgb(30, 30, 37, 1)"
@@ -346,6 +351,16 @@
         showAllButton.style.opacity = sidebarOpacity;
         outliner.style.opacity = sidebarOpacity;
         settings.style.opacity = sidebarOpacity;
+
+        window.dispatchEvent(
+          new CustomEvent("neuronav:sidebar-toggle", {
+            detail: {
+              open: isOpen,
+              expandedWidthRem: NAVBAR_EXPANDED_WIDTH_REM,
+              collapsedWidthRem: NAVBAR_COLLAPSED_WIDTH_REM,
+            },
+          }),
+        );
       }
 
       function updateArrowFill() {
