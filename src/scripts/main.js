@@ -58,6 +58,13 @@ controls.maxTargetRadius = 1;
 
 let cameraAnimationState = null;
 let lastFocusedRegion = null;
+let sidebarAdditionalWidthRem = 0;
+const sidebarPanOffset = new THREE.Vector3();
+let sidebarBaseCameraPosition = null;
+let sidebarBaseTarget = null;
+let sidebarIsOpen = false;
+const cameraForwardScratch = new THREE.Vector3();
+const cameraRightScratch = new THREE.Vector3();
 
 const raycaster = new THREE.Raycaster();
 raycaster.firstHitOnly = true;
@@ -119,6 +126,113 @@ function animateCameraTo(position, target, duration = 800) {
   };
 }
 
+function getSidebarPanDistance(additionalWidthRem = 0) {
+  if (additionalWidthRem <= 0) {
+    return 0;
+  }
+
+  const rootFontSize = parseFloat(
+    getComputedStyle(document.documentElement).fontSize || "16",
+  );
+  const additionalWidthPx = additionalWidthRem * rootFontSize;
+  const viewportWidth = window.innerWidth;
+
+  if (!viewportWidth || additionalWidthPx <= 0) {
+    return 0;
+  }
+
+  const screenFraction = THREE.MathUtils.clamp(
+    additionalWidthPx / viewportWidth,
+    0,
+    1,
+  );
+
+  const distanceToTarget = camera.position.distanceTo(controls.target);
+  if (!distanceToTarget) {
+    return 0;
+  }
+
+  const verticalFov = THREE.MathUtils.degToRad(camera.fov);
+  const visibleHeightAtDistance =
+    2 * distanceToTarget * Math.tan(verticalFov / 2);
+  const visibleWidthAtDistance = visibleHeightAtDistance * camera.aspect;
+
+  return visibleWidthAtDistance * screenFraction;
+}
+
+function panCameraForSidebar(
+  additionalWidthRem = sidebarAdditionalWidthRem,
+  options = {},
+) {
+  const { open: explicitlyOpen } = options;
+
+  if (typeof explicitlyOpen === "boolean") {
+    if (explicitlyOpen && !sidebarIsOpen) {
+      sidebarBaseCameraPosition = camera.position.clone();
+      sidebarBaseTarget = controls.target.clone();
+    }
+
+    sidebarIsOpen = explicitlyOpen;
+
+    if (!sidebarIsOpen) {
+      sidebarAdditionalWidthRem = 0;
+      sidebarPanOffset.set(0, 0, 0);
+
+      if (sidebarBaseCameraPosition && sidebarBaseTarget) {
+        animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, 600);
+      }
+
+      sidebarBaseCameraPosition = null;
+      sidebarBaseTarget = null;
+      return;
+    }
+  }
+
+  sidebarAdditionalWidthRem = Math.max(0, additionalWidthRem || 0);
+
+  if (!sidebarIsOpen) {
+    return;
+  }
+
+  if (!sidebarBaseCameraPosition || !sidebarBaseTarget) {
+    sidebarBaseCameraPosition = camera.position.clone();
+    sidebarBaseTarget = controls.target.clone();
+  }
+
+  const desiredPanDistance = getSidebarPanDistance(sidebarAdditionalWidthRem);
+
+  if (desiredPanDistance <= 0) {
+    if (sidebarPanOffset.lengthSq() > 1e-8) {
+      sidebarPanOffset.set(0, 0, 0);
+      animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, 600);
+    }
+    return;
+  }
+
+  cameraForwardScratch
+    .subVectors(sidebarBaseTarget, sidebarBaseCameraPosition)
+    .normalize();
+  if (!cameraForwardScratch.lengthSq()) {
+    camera.getWorldDirection(cameraForwardScratch);
+  }
+
+  const targetOffset = cameraRightScratch
+    .crossVectors(cameraForwardScratch, camera.up)
+    .normalize()
+    .multiplyScalar(desiredPanDistance);
+
+  if (targetOffset.distanceToSquared(sidebarPanOffset) <= 1e-10) {
+    return;
+  }
+
+  sidebarPanOffset.copy(targetOffset);
+
+  const newCameraPosition = sidebarBaseCameraPosition.clone().add(targetOffset);
+  const newTarget = sidebarBaseTarget.clone().add(targetOffset);
+
+  animateCameraTo(newCameraPosition, newTarget, 600);
+}
+
 function updateCameraAnimation() {
   if (!cameraAnimationState) {
     return;
@@ -165,6 +279,24 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
+  if (sidebarIsOpen) {
+    panCameraForSidebar();
+  }
+});
+
+window.addEventListener("neuronav:sidebar-toggle", (event) => {
+  const detail = event?.detail;
+  if (!detail || typeof detail.open !== "boolean") {
+    return;
+  }
+
+  const expandedWidthRem = Number(detail.expandedWidthRem) || 0;
+  const collapsedWidthRem = Number(detail.collapsedWidthRem) || 0;
+  const additionalWidthRem = detail.open
+    ? Math.max(0, expandedWidthRem - collapsedWidthRem)
+    : 0;
+
+  panCameraForSidebar(additionalWidthRem, { open: detail.open });
 });
 
 // ANIMATION LOOP //
