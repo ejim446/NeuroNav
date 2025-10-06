@@ -771,18 +771,30 @@ input:checked + .checkbox-button:before {
 	display: flex;
 }
 
-#info-icon-container {
-        position: absolute;
-        bottom: 2%;
+#utility-icon-bar {
+        position: fixed;
         left: 1%;
+        bottom: 2%;
+
+        display: flex;
+        justify-content: flex-start;
+
+        pointer-events: none;
+        z-index: 5;
+}
+
+#info-icon-container {
+        position: relative;
 
         width: 30px;
         height: 30px;
 
-        display: flex;
-        justify-content: center;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
+
         outline: none;
+        pointer-events: auto;
 }
 
 #info-icon-container:focus {
