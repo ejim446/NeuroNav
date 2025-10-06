@@ -275,9 +275,60 @@
 
       let tooltipHideTimeout;
 
+      const TOOLTIP_VIEWPORT_PADDING = 16;
+
+      function adjustInfoTooltipPosition() {
+        if (!infoTooltip || !infoIconContainer) {
+          return;
+        }
+
+        infoTooltip.style.removeProperty("--tooltip-shift-x");
+
+        if (!infoTooltip.classList.contains("visible")) {
+          return;
+        }
+
+        const tooltipWidth = infoTooltip.offsetWidth;
+        const iconRect = infoIconContainer.getBoundingClientRect();
+        const tooltipStyle = window.getComputedStyle(infoTooltip);
+
+        let gap = parseFloat(tooltipStyle.left) - infoIconContainer.offsetWidth;
+
+        if (!Number.isFinite(gap)) {
+          const rootFontSize = parseFloat(
+            window.getComputedStyle(document.documentElement).fontSize || "16",
+          );
+          gap = 0.75 * (Number.isFinite(rootFontSize) ? rootFontSize : 16);
+        }
+
+        const defaultLeft = iconRect.right + gap;
+        const defaultRight = defaultLeft + tooltipWidth;
+
+        let shiftX = 0;
+
+        const overflowRight =
+          window.innerWidth - TOOLTIP_VIEWPORT_PADDING - defaultRight;
+
+        if (overflowRight < 0) {
+          shiftX = overflowRight;
+        }
+
+        const adjustedLeft = defaultLeft + shiftX;
+        const overflowLeft = TOOLTIP_VIEWPORT_PADDING - adjustedLeft;
+
+        if (overflowLeft > 0) {
+          shiftX += overflowLeft;
+        }
+
+        if (Math.abs(shiftX) > 0.5) {
+          infoTooltip.style.setProperty("--tooltip-shift-x", `${shiftX}px`);
+        }
+      }
+
       function showInfoTooltip() {
         clearTimeout(tooltipHideTimeout);
         infoTooltip.classList.add("visible");
+        window.requestAnimationFrame(adjustInfoTooltipPosition);
       }
 
       function hideInfoTooltip() {
@@ -285,6 +336,7 @@
         tooltipHideTimeout = setTimeout(() => {
           if (!infoIconContainer.matches(":focus-within")) {
             infoTooltip.classList.remove("visible");
+            infoTooltip.style.removeProperty("--tooltip-shift-x");
           }
         }, 50);
       }
@@ -295,6 +347,12 @@
       infoIconContainer.addEventListener("focusout", hideInfoTooltip);
       infoTooltip.addEventListener("mouseenter", showInfoTooltip);
       infoTooltip.addEventListener("mouseleave", hideInfoTooltip);
+
+      window.addEventListener("resize", () => {
+        if (infoTooltip.classList.contains("visible")) {
+          adjustInfoTooltipPosition();
+        }
+      });
 
       /// NAVIGATION BAR ///
 
