@@ -913,6 +913,7 @@ input:checked + .checkbox-button:before {
 
         display: block;
         object-fit: contain;
+		user-select: none;
 }
 
 .control-hints {
