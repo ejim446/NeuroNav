@@ -135,6 +135,18 @@
         </div>
       </div>
     </nav>
+    <div id="camera-icon-container" aria-hidden="true">
+      <img
+        class="camera-icon camera-icon--light"
+        src="/camera-black.svg"
+        alt=""
+      />
+      <img
+        class="camera-icon camera-icon--dark"
+        src="/camera-white.svg"
+        alt=""
+      />
+    </div>
     <div id="info-icon-container" tabindex="0" aria-describedby="info-tooltip">
       <svg
         id="info-icon"
@@ -216,6 +228,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const cameraIconContainer = document.getElementById("camera-icon-container");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -303,6 +316,13 @@
       let darkMode = false;
       let navOpen = false;
 
+      function updateCameraIconTheme(isDarkMode) {
+        const dataValue = isDarkMode ? "true" : "false";
+        if (cameraIconContainer) {
+          cameraIconContainer.dataset.darkMode = dataValue;
+        }
+      }
+
       document.documentElement.style.setProperty(
         "--navbar-width",
         `${NAVBAR_COLLAPSED_WIDTH_REM}rem`,
@@ -320,6 +340,7 @@
 
       window.__neuronavDarkMode__ = darkMode;
       updateControlHintsColor(darkMode);
+      updateCameraIconTheme(darkMode);
       if (controlHints) {
         controlHints.style.opacity = 1;
       }
@@ -894,9 +915,11 @@
           const updatedDarkMode = updateBackground();
           setDarkModeState(updatedDarkMode);
           updateControlHintsColor(updatedDarkMode);
+          updateCameraIconTheme(updatedDarkMode);
         } else {
           setDarkModeState(shouldUseDarkBackground);
           updateControlHintsColor(shouldUseDarkBackground);
+          updateCameraIconTheme(shouldUseDarkBackground);
         }
 
         updateArrowFill();

@@ -771,25 +771,6 @@ input:checked + .checkbox-button:before {
 	display: flex;
 }
 
-#info-icon-container {
-        position: absolute;
-        bottom: 2%;
-        left: 1%;
-
-        width: 30px;
-        height: 30px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        outline: none;
-}
-
-#info-icon-container:focus {
-        outline: 2px solid var(--grey-tertiary);
-        outline-offset: 4px;
-}
-
 .info-tooltip {
         position: absolute;
         top: -0.25rem;
@@ -890,3 +871,59 @@ input:checked + .checkbox-button:before {
                 gap: 0.35rem;
         }
 }
+#camera-icon-container {
+        position: fixed;
+        right: var(--navbar-width, var(--navbar-collapsed-width));
+        bottom: 1.5rem;
+
+        width: 2.75rem;
+        height: 2.75rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        pointer-events: none;
+        z-index: 4;
+        transition: right 1000ms ease;
+}
+
+#camera-icon-container .camera-icon {
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+        object-fit: contain;
+        transition: opacity 180ms ease;
+}
+
+#camera-icon-container .camera-icon--dark {
+        opacity: 0;
+}
+
+#camera-icon-container[data-dark-mode="true"] .camera-icon--light {
+        opacity: 0;
+}
+
+#camera-icon-container[data-dark-mode="true"] .camera-icon--dark {
+        opacity: 1;
+}
+
+#info-icon-container {
+        position: absolute;
+        bottom: 2%;
+        left: 1%;
+
+        width: 30px;
+        height: 30px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+}
+
+#info-icon-container:focus {
+        outline: 2px solid var(--grey-tertiary);
+        outline-offset: 4px;
+}
+
