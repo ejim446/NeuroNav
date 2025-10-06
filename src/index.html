@@ -135,6 +135,25 @@
         </div>
       </div>
     </nav>
+    <div
+      id="camera-icon"
+      tabindex="0"
+      role="button"
+      aria-label="Capture screenshot"
+    >
+      <img
+        src="/camera-black.svg"
+        alt=""
+        class="camera-icon-image camera-icon-image--light"
+        aria-hidden="true"
+      />
+      <img
+        src="/camera-white.svg"
+        alt=""
+        class="camera-icon-image camera-icon-image--dark"
+        aria-hidden="true"
+      />
+    </div>
     <div id="info-icon-container" tabindex="0" aria-describedby="info-tooltip">
       <svg
         id="info-icon"
@@ -216,6 +235,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const cameraIcon = document.getElementById("camera-icon");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -303,6 +323,17 @@
       let darkMode = false;
       let navOpen = false;
 
+      function updateCameraIconTheme(isDarkMode) {
+        const dataValue = isDarkMode ? "true" : "false";
+        if (cameraIcon) {
+          cameraIcon.dataset.darkMode = dataValue;
+        }
+      }
+
+      if (cameraIcon) {
+        cameraIcon.dataset.sidebarOpen = navOpen ? "true" : "false";
+      }
+
       document.documentElement.style.setProperty(
         "--navbar-width",
         `${NAVBAR_COLLAPSED_WIDTH_REM}rem`,
@@ -320,6 +351,7 @@
 
       window.__neuronavDarkMode__ = darkMode;
       updateControlHintsColor(darkMode);
+      updateCameraIconTheme(darkMode);
       if (controlHints) {
         controlHints.style.opacity = 1;
       }
@@ -348,6 +380,9 @@
         navbar.style.backgroundColor = backgroundColor;
         navArrow.style.transform = arrowRotation;
         updateArrowFill();
+        if (cameraIcon) {
+          cameraIcon.dataset.sidebarOpen = isOpen ? "true" : "false";
+        }
         header.style.opacity = sidebarOpacity;
         search.style.opacity = sidebarOpacity;
         clearBtn.style.opacity = sidebarOpacity;
@@ -894,9 +929,11 @@
           const updatedDarkMode = updateBackground();
           setDarkModeState(updatedDarkMode);
           updateControlHintsColor(updatedDarkMode);
+          updateCameraIconTheme(updatedDarkMode);
         } else {
           setDarkModeState(shouldUseDarkBackground);
           updateControlHintsColor(shouldUseDarkBackground);
+          updateCameraIconTheme(shouldUseDarkBackground);
         }
 
         updateArrowFill();

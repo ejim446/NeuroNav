@@ -771,6 +771,67 @@ input:checked + .checkbox-button:before {
 	display: flex;
 }
 
+#camera-icon {
+        position: fixed;
+        bottom: 2%;
+        left: var(--navbar-width, var(--navbar-collapsed-width));
+
+        display: grid;
+        place-items: center;
+
+        width: 2.75rem;
+        height: 2.75rem;
+
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+
+        cursor: pointer;
+        transition: left 1000ms ease, box-shadow 200ms ease, transform 200ms ease;
+        outline: none;
+        z-index: 4;
+}
+
+#camera-icon:hover {
+        box-shadow: 0 14px 26px rgba(0, 0, 0, 0.24);
+        transform: translateY(-2px);
+}
+
+#camera-icon:focus-visible {
+        outline: 2px solid var(--grey-tertiary);
+        outline-offset: 4px;
+}
+
+#camera-icon[data-dark-mode="true"] {
+        background: rgba(34, 37, 46, 0.92);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+#camera-icon[data-dark-mode="true"]:focus-visible {
+        outline-color: rgba(255, 255, 255, 0.9);
+}
+
+#camera-icon img {
+        grid-area: 1 / 1 / 2 / 2;
+        width: 1.5rem;
+        height: 1.5rem;
+
+        display: block;
+        transition: opacity 180ms ease;
+}
+
+#camera-icon .camera-icon-image--dark {
+        opacity: 0;
+}
+
+#camera-icon[data-dark-mode="true"] .camera-icon-image--light {
+        opacity: 0;
+}
+
+#camera-icon[data-dark-mode="true"] .camera-icon-image--dark {
+        opacity: 1;
+}
+
 #info-icon-container {
         position: absolute;
         bottom: 2%;
