@@ -803,36 +803,34 @@ input:checked + .checkbox-button:before {
 #camera-icon-container {
         padding: 0rem;
         border-radius: var(--border-radius);
-        transition: background-color 200ms ease, box-shadow 200ms ease,
-                transform 200ms ease;
+        transition: background-color 200ms ease, transform 200ms ease;
         cursor: pointer;
 }
 
 #camera-icon-container:focus-visible {
-        outline: 2px solid var(--grey-primary);
-        outline-offset: 3px;
+        outline: none;
 }
 
 .camera-icon-container--light {
         background-color: var(--white);
-        box-shadow: 0 0 0 1px var(--grey-secondary);
+        box-shadow: none;
 }
 
 .camera-icon-container--light:hover,
 .camera-icon-container--light:focus-visible {
         background-color: var(--grey-primary);
-        box-shadow: 0 0 0 1px var(--grey-tertiary);
+        box-shadow: none;
 }
 
 .camera-icon-container--dark {
         background-color: var(--grey-tertiary);
-        box-shadow: 0 0 0 1px var(--grey-secondary);
+        box-shadow: none;
 }
 
 .camera-icon-container--dark:hover,
 .camera-icon-container--dark:focus-visible {
         background-color: var(--grey-secondary);
-        box-shadow: 0 0 0 1px var(--grey-primary);
+        box-shadow: none;
 }
 
 #info-icon-container {
