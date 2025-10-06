@@ -884,8 +884,12 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
         // Create a material with the selected color
         const material = new THREE.MeshBasicMaterial({
           color: colors[colorSelection],
-          transparent: false,
+          transparent: true,
           opacity: 1,
+          // Prevent regions from overwriting the depth buffer so the
+          // translucent root mesh can render on top without visual
+          // intersections along its silhouette.
+          depthWrite: false,
         });
 
         // Traverse the loaded model
