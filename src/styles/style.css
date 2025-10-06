@@ -861,9 +861,11 @@ input:checked + .checkbox-button:before {
         max-width: calc(
                 100vw - var(--navbar-width, var(--navbar-collapsed-width)) - 2rem
         );
+        opacity: 1;
         transition:
                 left 1000ms ease,
-                max-width 1000ms ease;
+                max-width 1000ms ease,
+                opacity 1000ms ease;
 }
 
 .control-hints strong {
