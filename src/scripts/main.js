@@ -75,6 +75,14 @@ const focusCandidateOffset = new THREE.Vector3();
 const focusCandidatePosition = new THREE.Vector3();
 const baseSphericalScratch = new THREE.Spherical();
 const candidateSphericalScratch = new THREE.Spherical();
+const navigationPanOffset = new THREE.Vector3();
+const navigationPanDesiredOffset = new THREE.Vector3();
+const navigationPanDelta = new THREE.Vector3();
+const navigationPanForward = new THREE.Vector3();
+const navigationPanRight = new THREE.Vector3();
+const NAVIGATION_PAN_DISTANCE = 0.75;
+const WORLD_UP = new THREE.Vector3(0, 1, 0);
+let navigationSidebarOpen = false;
 const FOCUS_POLAR_EPSILON = THREE.MathUtils.degToRad(5);
 const FOCUS_YAW_OFFSETS = [
   0,
@@ -109,14 +117,71 @@ function cancelCameraAnimation() {
 }
 
 function animateCameraTo(position, target, duration = 800) {
+  const offsetPosition = position.clone().add(navigationPanOffset);
+  const offsetTarget = target.clone().add(navigationPanOffset);
+
   cameraAnimationState = {
     startTime: performance.now(),
     duration,
     fromPosition: camera.position.clone(),
-    toPosition: position.clone(),
+    toPosition: offsetPosition,
     fromTarget: controls.target.clone(),
-    toTarget: target.clone(),
+    toTarget: offsetTarget,
   };
+}
+
+function adjustCameraAnimationForPan(delta) {
+  if (!cameraAnimationState) {
+    return;
+  }
+
+  cameraAnimationState.fromPosition.add(delta);
+  cameraAnimationState.toPosition.add(delta);
+  cameraAnimationState.fromTarget.add(delta);
+  cameraAnimationState.toTarget.add(delta);
+}
+
+function getCameraRightVector() {
+  camera.getWorldDirection(navigationPanForward);
+  navigationPanRight.crossVectors(navigationPanForward, WORLD_UP);
+
+  if (navigationPanRight.lengthSq() < 1e-6) {
+    navigationPanRight.set(1, 0, 0);
+  } else {
+    navigationPanRight.normalize();
+  }
+
+  return navigationPanRight;
+}
+
+function applyNavigationPanOffset(desiredOffset) {
+  navigationPanDelta.copy(desiredOffset).sub(navigationPanOffset);
+  if (navigationPanDelta.lengthSq() < 1e-10) {
+    navigationPanOffset.copy(desiredOffset);
+    return;
+  }
+
+  camera.position.add(navigationPanDelta);
+  controls.target.add(navigationPanDelta);
+  adjustCameraAnimationForPan(navigationPanDelta);
+  navigationPanOffset.copy(desiredOffset);
+}
+
+export function setNavigationSidebarOpen(open) {
+  if (open === navigationSidebarOpen) {
+    return;
+  }
+
+  navigationSidebarOpen = open;
+
+  if (open) {
+    const right = getCameraRightVector();
+    navigationPanDesiredOffset.copy(right).multiplyScalar(NAVIGATION_PAN_DISTANCE);
+    applyNavigationPanOffset(navigationPanDesiredOffset);
+  } else {
+    navigationPanDesiredOffset.set(0, 0, 0);
+    applyNavigationPanOffset(navigationPanDesiredOffset);
+  }
 }
 
 function updateCameraAnimation() {

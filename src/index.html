@@ -346,6 +346,7 @@
         showAllButton.style.opacity = sidebarOpacity;
         outliner.style.opacity = sidebarOpacity;
         settings.style.opacity = sidebarOpacity;
+        setNavigationSidebarOpen(isOpen);
       }
 
       function updateArrowFill() {
@@ -357,9 +358,14 @@
       }
 
       setInitialState();
+      setNavigationSidebarOpen(navOpen);
     </script>
     <script type="module">
-      import { updateHemisphere, updateColor } from "/scripts/main.js";
+      import {
+        updateHemisphere,
+        updateColor,
+        setNavigationSidebarOpen,
+      } from "/scripts/main.js";
 
       // POPULATE OUTLINER ELEMENTS //
 
