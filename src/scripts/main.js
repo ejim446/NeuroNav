@@ -59,6 +59,7 @@ controls.maxTargetRadius = 1;
 let cameraAnimationState = null;
 let lastFocusedRegion = null;
 let sidebarAdditionalWidthRem = 0;
+const SIDEBAR_PAN_DURATION = 1000;
 const sidebarPanOffset = new THREE.Vector3();
 let sidebarBaseCameraPosition = null;
 let sidebarBaseTarget = null;
@@ -111,14 +112,35 @@ function easeInOutCubic(t) {
     : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+function easeInOutSine(t) {
+  return -(Math.cos(Math.PI * t) - 1) / 2;
+}
+
 function cancelCameraAnimation() {
   cameraAnimationState = null;
 }
 
-function animateCameraTo(position, target, duration = 800) {
+function animateCameraTo(position, target, options = {}) {
+  const resolvedOptions =
+    typeof options === "number" ? { duration: options } : options;
+
+  const {
+    duration = 800,
+    easing = easeInOutCubic,
+  } = resolvedOptions || {};
+
+  if (!duration || duration <= 0) {
+    camera.position.copy(position);
+    controls.target.copy(target);
+    controls.update();
+    cameraAnimationState = null;
+    return;
+  }
+
   cameraAnimationState = {
     startTime: performance.now(),
     duration,
+    easing,
     fromPosition: camera.position.clone(),
     toPosition: position.clone(),
     fromTarget: controls.target.clone(),
@@ -157,7 +179,13 @@ function getSidebarPanDistance(additionalWidthRem = 0) {
     2 * distanceToTarget * Math.tan(verticalFov / 2);
   const visibleWidthAtDistance = visibleHeightAtDistance * camera.aspect;
 
-  return visibleWidthAtDistance * screenFraction;
+  const panDistance = visibleWidthAtDistance * screenFraction;
+
+  if (typeof controls?.maxTargetRadius === "number") {
+    return Math.min(controls.maxTargetRadius, panDistance);
+  }
+
+  return panDistance;
 }
 
 function panCameraForSidebar(
@@ -179,7 +207,10 @@ function panCameraForSidebar(
       sidebarPanOffset.set(0, 0, 0);
 
       if (sidebarBaseCameraPosition && sidebarBaseTarget) {
-        animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, 600);
+        animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, {
+          duration: SIDEBAR_PAN_DURATION,
+          easing: easeInOutSine,
+        });
       }
 
       sidebarBaseCameraPosition = null;
@@ -204,7 +235,10 @@ function panCameraForSidebar(
   if (desiredPanDistance <= 0) {
     if (sidebarPanOffset.lengthSq() > 1e-8) {
       sidebarPanOffset.set(0, 0, 0);
-      animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, 600);
+      animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, {
+        duration: SIDEBAR_PAN_DURATION,
+        easing: easeInOutSine,
+      });
     }
     return;
   }
@@ -230,7 +264,10 @@ function panCameraForSidebar(
   const newCameraPosition = sidebarBaseCameraPosition.clone().add(targetOffset);
   const newTarget = sidebarBaseTarget.clone().add(targetOffset);
 
-  animateCameraTo(newCameraPosition, newTarget, 600);
+  animateCameraTo(newCameraPosition, newTarget, {
+    duration: SIDEBAR_PAN_DURATION,
+    easing: easeInOutSine,
+  });
 }
 
 function updateCameraAnimation() {
@@ -238,11 +275,18 @@ function updateCameraAnimation() {
     return;
   }
 
-  const { startTime, duration, fromPosition, toPosition, fromTarget, toTarget } =
-    cameraAnimationState;
+  const {
+    startTime,
+    duration,
+    easing,
+    fromPosition,
+    toPosition,
+    fromTarget,
+    toTarget,
+  } = cameraAnimationState;
   const elapsed = performance.now() - startTime;
   const progress = Math.min(1, elapsed / duration);
-  const easedProgress = easeInOutCubic(progress);
+  const easedProgress = typeof easing === "function" ? easing(progress) : progress;
 
   camera.position.lerpVectors(fromPosition, toPosition, easedProgress);
   controls.target.lerpVectors(fromTarget, toTarget, easedProgress);
