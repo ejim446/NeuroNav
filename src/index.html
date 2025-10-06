@@ -296,6 +296,7 @@
       const outliner = document.querySelector(".nav-outliner");
       const settings = document.querySelector(".nav-settings");
       const showAllButton = document.querySelector(".nav-showall-btn");
+      const controlHints = document.querySelector(".control-hints");
       const NAVBAR_EXPANDED_WIDTH_REM = 35.5;
       const NAVBAR_COLLAPSED_WIDTH_REM = 6;
 
@@ -318,6 +319,7 @@
       });
 
       window.__neuronavDarkMode__ = darkMode;
+      updateControlHintsColor(darkMode);
 
       function toggleSidebar() {
         const isOpen = !navOpen;
@@ -367,6 +369,23 @@
         } else {
           arrowSvg.style.fill = darkMode ? "#FFF" : "#000";
         }
+      }
+
+      function updateControlHintsColor(useDarkBackground = getDarkModeState()) {
+        if (!controlHints) {
+          return;
+        }
+
+        if (typeof window === "undefined" || !window.getComputedStyle) {
+          controlHints.style.color = useDarkBackground ? "#FFF" : "#000";
+          return;
+        }
+
+        const rootStyles = getComputedStyle(document.documentElement);
+        const dark = rootStyles.getPropertyValue("--black").trim() || "#000";
+        const light = rootStyles.getPropertyValue("--white").trim() || "#FFF";
+
+        controlHints.style.color = useDarkBackground ? light : dark;
       }
 
     </script>
@@ -868,8 +887,10 @@
         if (shouldUseDarkBackground !== currentDarkMode) {
           const updatedDarkMode = updateBackground();
           setDarkModeState(updatedDarkMode);
+          updateControlHintsColor(updatedDarkMode);
         } else {
           setDarkModeState(shouldUseDarkBackground);
+          updateControlHintsColor(shouldUseDarkBackground);
         }
 
         updateArrowFill();
