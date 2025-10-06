@@ -172,7 +172,7 @@ function panCameraForSidebar(additionalWidthRem = sidebarAdditionalWidthRem) {
   if (desiredPanDistance > 0) {
     camera.getWorldDirection(cameraForwardScratch);
     cameraRightScratch
-      .crossVectors(camera.up, cameraForwardScratch)
+      .crossVectors(cameraForwardScratch, camera.up)
       .normalize()
       .multiplyScalar(desiredPanDistance);
     targetOffset = cameraRightScratch;
