@@ -404,6 +404,8 @@
 
       let darkMode = false;
       let navOpen = false;
+      let controlHintsNavAnimationTimeout = null;
+      let removeNavAnimatingClassHandler = null;
 
       document.documentElement.style.setProperty(
         "--navbar-width",
@@ -443,6 +445,42 @@
           "--navbar-width",
           sidebarWidth,
         );
+        if (controlHints) {
+          if (removeNavAnimatingClassHandler) {
+            controlHints.removeEventListener(
+              "transitionend",
+              removeNavAnimatingClassHandler,
+            );
+            removeNavAnimatingClassHandler = null;
+          }
+          if (controlHintsNavAnimationTimeout !== null) {
+            clearTimeout(controlHintsNavAnimationTimeout);
+            controlHintsNavAnimationTimeout = null;
+          }
+          controlHints.classList.add("control-hints--nav-animating");
+          removeNavAnimatingClassHandler = (event) => {
+            if (
+              event.target === controlHints &&
+              (event.propertyName === "left" ||
+                event.propertyName === "max-width")
+            ) {
+              controlHints.classList.remove("control-hints--nav-animating");
+              controlHints.removeEventListener(
+                "transitionend",
+                removeNavAnimatingClassHandler,
+              );
+              removeNavAnimatingClassHandler = null;
+              if (controlHintsNavAnimationTimeout !== null) {
+                clearTimeout(controlHintsNavAnimationTimeout);
+                controlHintsNavAnimationTimeout = null;
+              }
+            }
+          };
+          controlHints.addEventListener(
+            "transitionend",
+            removeNavAnimatingClassHandler,
+          );
+        }
         document.documentElement.style.setProperty(
           "--control-hints-offset",
           isOpen ? `${NAVBAR_EXPANDED_WIDTH_REM}rem` : "0rem",
@@ -457,6 +495,17 @@
         outliner.style.opacity = sidebarOpacity;
         settings.style.opacity = sidebarOpacity;
         if (controlHints) {
+          controlHintsNavAnimationTimeout = window.setTimeout(() => {
+            controlHints.classList.remove("control-hints--nav-animating");
+            if (removeNavAnimatingClassHandler) {
+              controlHints.removeEventListener(
+                "transitionend",
+                removeNavAnimatingClassHandler,
+              );
+              removeNavAnimatingClassHandler = null;
+            }
+            controlHintsNavAnimationTimeout = null;
+          }, 1000);
           controlHints.style.opacity = isOpen ? 0 : 1;
         }
 

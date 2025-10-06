@@ -935,6 +935,10 @@ input:checked + .checkbox-button:before {
                 100vw - var(--navbar-width, var(--navbar-collapsed-width)) - 2rem
         );
         opacity: 1;
+        transition: opacity 1000ms ease;
+}
+
+.control-hints.control-hints--nav-animating {
         transition:
                 left 1000ms ease,
                 max-width 1000ms ease,
