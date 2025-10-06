@@ -834,6 +834,11 @@ const _addRoot = async () => {
     depthWrite: false,
     transparent: true,
     opacity: 0.15,
+    polygonOffset: true,
+    // Push the root mesh slightly back so that regions rendered along the border
+    // do not visually overlap with it due to floating point precision differences.
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1,
   });
 
   // Load the GLB file
@@ -845,6 +850,9 @@ const _addRoot = async () => {
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
           child.material = material;
+          // Ensure the root renders before the regions so it remains in the
+          // background and relies on the polygon offset.
+          child.renderOrder = -1;
           if (child.geometry?.isBufferGeometry) {
             child.geometry.computeBoundsTree();
           }
