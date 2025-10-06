@@ -66,6 +66,9 @@ let sidebarBaseTarget = null;
 let sidebarIsOpen = false;
 const cameraForwardScratch = new THREE.Vector3();
 const cameraRightScratch = new THREE.Vector3();
+const SIDEBAR_CAMERA_CENTER_RADIUS = 1.25;
+const SIDEBAR_CAMERA_CENTER_RADIUS_SQ =
+  SIDEBAR_CAMERA_CENTER_RADIUS * SIDEBAR_CAMERA_CENTER_RADIUS;
 
 const raycaster = new THREE.Raycaster();
 raycaster.firstHitOnly = true;
@@ -118,6 +121,18 @@ function easeInOutSine(t) {
 
 function cancelCameraAnimation() {
   cameraAnimationState = null;
+}
+
+function isCameraNearSceneCenter() {
+  if (SIDEBAR_CAMERA_CENTER_RADIUS <= 0) {
+    return false;
+  }
+
+  return camera.position.lengthSq() <= SIDEBAR_CAMERA_CENTER_RADIUS_SQ;
+}
+
+function isBrainRegionFocused() {
+  return Boolean(lastFocusedRegion);
 }
 
 function animateCameraTo(position, target, options = {}) {
@@ -193,9 +208,19 @@ function panCameraForSidebar(
   options = {},
 ) {
   const { open: explicitlyOpen } = options;
+  const preventPan = isCameraNearSceneCenter() || isBrainRegionFocused();
 
   if (typeof explicitlyOpen === "boolean") {
     if (explicitlyOpen && !sidebarIsOpen) {
+      if (preventPan) {
+        sidebarIsOpen = true;
+        sidebarAdditionalWidthRem = 0;
+        sidebarPanOffset.set(0, 0, 0);
+        sidebarBaseCameraPosition = null;
+        sidebarBaseTarget = null;
+        return;
+      }
+
       sidebarBaseCameraPosition = camera.position.clone();
       sidebarBaseTarget = controls.target.clone();
     }
@@ -222,6 +247,10 @@ function panCameraForSidebar(
   sidebarAdditionalWidthRem = Math.max(0, additionalWidthRem || 0);
 
   if (!sidebarIsOpen) {
+    return;
+  }
+
+  if (preventPan) {
     return;
   }
 
@@ -1477,6 +1506,7 @@ function hideRegionInfoPanel() {
   infoPanel.setAttribute("aria-hidden", "true");
   infoPanel.innerHTML = "";
   resetRegionInfoPanelWidth(infoPanel);
+  lastFocusedRegion = null;
 }
 
 export function setDescriptionBoxesDisabled(disabled) {
