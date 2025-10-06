@@ -160,6 +160,7 @@ canvas {
         width: clamp(5rem, 12vw, 7.5rem);
         height: auto;
         display: block;
+        user-select: none;
 }
 
 .splash-title {
@@ -168,6 +169,7 @@ canvas {
         font-size: var(--font-size-title);
         font-weight: bold;
         letter-spacing: var(--letter-spacing-secondary);
+        user-select: none;
 }
 
 .splash-hidden {
