@@ -135,19 +135,29 @@
         </div>
       </div>
     </nav>
-    <div id="info-icon-container" tabindex="0" aria-describedby="info-tooltip">
-      <svg
-        id="info-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 30 30"
-        width="480px"
-        height="480px"
-      >
-        <path
-          d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,21h-2v-7h2V21z M15,11.5 c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S15.828,11.5,15,11.5z"
+    <div id="utility-icon-bar">
+      <div id="info-icon-container" class="utility-icon-container" tabindex="0" aria-describedby="info-tooltip">
+        <svg
+          id="info-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 30 30"
+          width="480px"
+          height="480px"
+        >
+          <path
+            d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,21h-2v-7h2V21z M15,11.5 c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S15.828,11.5,15,11.5z"
+          />
+        </svg>
+        <div id="info-tooltip" class="info-tooltip" role="tooltip"></div>
+      </div>
+      <div id="camera-icon-container" class="utility-icon-container" aria-hidden="true">
+        <img
+          id="camera-icon"
+          src="/camera-black.svg"
+          alt=""
+          loading="lazy"
         />
-      </svg>
-      <div id="info-tooltip" class="info-tooltip" role="tooltip"></div>
+      </div>
     </div>
     <div class="control-hints" role="status" aria-live="polite">
       <span><strong>Scroll</strong> to zoom</span>
@@ -216,6 +226,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const cameraIconElement = document.getElementById("camera-icon");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -264,9 +275,60 @@
 
       let tooltipHideTimeout;
 
+      const TOOLTIP_VIEWPORT_PADDING = 16;
+
+      function adjustInfoTooltipPosition() {
+        if (!infoTooltip || !infoIconContainer) {
+          return;
+        }
+
+        infoTooltip.style.removeProperty("--tooltip-shift-x");
+
+        if (!infoTooltip.classList.contains("visible")) {
+          return;
+        }
+
+        const tooltipWidth = infoTooltip.offsetWidth;
+        const iconRect = infoIconContainer.getBoundingClientRect();
+        const tooltipStyle = window.getComputedStyle(infoTooltip);
+
+        let gap = parseFloat(tooltipStyle.left) - infoIconContainer.offsetWidth;
+
+        if (!Number.isFinite(gap)) {
+          const rootFontSize = parseFloat(
+            window.getComputedStyle(document.documentElement).fontSize || "16",
+          );
+          gap = 0.75 * (Number.isFinite(rootFontSize) ? rootFontSize : 16);
+        }
+
+        const defaultLeft = iconRect.right + gap;
+        const defaultRight = defaultLeft + tooltipWidth;
+
+        let shiftX = 0;
+
+        const overflowRight =
+          window.innerWidth - TOOLTIP_VIEWPORT_PADDING - defaultRight;
+
+        if (overflowRight < 0) {
+          shiftX = overflowRight;
+        }
+
+        const adjustedLeft = defaultLeft + shiftX;
+        const overflowLeft = TOOLTIP_VIEWPORT_PADDING - adjustedLeft;
+
+        if (overflowLeft > 0) {
+          shiftX += overflowLeft;
+        }
+
+        if (Math.abs(shiftX) > 0.5) {
+          infoTooltip.style.setProperty("--tooltip-shift-x", `${shiftX}px`);
+        }
+      }
+
       function showInfoTooltip() {
         clearTimeout(tooltipHideTimeout);
         infoTooltip.classList.add("visible");
+        window.requestAnimationFrame(adjustInfoTooltipPosition);
       }
 
       function hideInfoTooltip() {
@@ -274,6 +336,7 @@
         tooltipHideTimeout = setTimeout(() => {
           if (!infoIconContainer.matches(":focus-within")) {
             infoTooltip.classList.remove("visible");
+            infoTooltip.style.removeProperty("--tooltip-shift-x");
           }
         }, 50);
       }
@@ -284,6 +347,12 @@
       infoIconContainer.addEventListener("focusout", hideInfoTooltip);
       infoTooltip.addEventListener("mouseenter", showInfoTooltip);
       infoTooltip.addEventListener("mouseleave", hideInfoTooltip);
+
+      window.addEventListener("resize", () => {
+        if (infoTooltip.classList.contains("visible")) {
+          adjustInfoTooltipPosition();
+        }
+      });
 
       /// NAVIGATION BAR ///
 
@@ -860,6 +929,22 @@
         return window.__neuronavDarkMode__;
       }
 
+      function updateCameraIconAppearance(useDarkBackground) {
+        if (!cameraIconElement) {
+          return;
+        }
+
+        const nextSrc = useDarkBackground
+          ? "/camera-white.svg"
+          : "/camera-black.svg";
+
+        if (cameraIconElement.getAttribute("src") !== nextSrc) {
+          cameraIconElement.setAttribute("src", nextSrc);
+        }
+      }
+
+      updateCameraIconAppearance(getDarkModeState());
+
       function updateViewportSettings(partialSettings, options = {}) {
         viewportSettings = { ...viewportSettings, ...partialSettings };
         if (!options.skipSave) {
@@ -889,15 +974,17 @@
       function applyDarkModeSetting(enableDark, options = {}) {
         const shouldUseDarkBackground = Boolean(enableDark);
         const currentDarkMode = getDarkModeState();
+        let normalizedDarkMode;
 
         if (shouldUseDarkBackground !== currentDarkMode) {
           const updatedDarkMode = updateBackground();
-          setDarkModeState(updatedDarkMode);
-          updateControlHintsColor(updatedDarkMode);
+          normalizedDarkMode = setDarkModeState(updatedDarkMode);
         } else {
-          setDarkModeState(shouldUseDarkBackground);
-          updateControlHintsColor(shouldUseDarkBackground);
+          normalizedDarkMode = setDarkModeState(shouldUseDarkBackground);
         }
+
+        updateControlHintsColor(normalizedDarkMode);
+        updateCameraIconAppearance(normalizedDarkMode);
 
         updateArrowFill();
         updateViewportSettings(
