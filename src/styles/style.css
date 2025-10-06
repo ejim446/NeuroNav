@@ -905,6 +905,10 @@ input:checked + .checkbox-button:before {
         fill: var(--grey-tertiary);
 }
 
+#info-icon.info-icon--dark {
+        fill: var(--white);
+}
+
 #camera-icon {
         width: 70%;
         height: 70%;

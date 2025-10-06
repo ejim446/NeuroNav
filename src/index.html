@@ -230,6 +230,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const infoIconElement = document.getElementById("info-icon");
       const cameraIconContainer = document.getElementById("camera-icon-container");
       const cameraIconElement = document.getElementById("camera-icon");
       infoTooltip.innerHTML = `
@@ -937,6 +938,17 @@
         return window.__neuronavDarkMode__;
       }
 
+      function updateInfoIconAppearance(useDarkBackground) {
+        if (!infoIconElement) {
+          return;
+        }
+
+        infoIconElement.classList.toggle(
+          "info-icon--dark",
+          Boolean(useDarkBackground),
+        );
+      }
+
       function updateCameraIconAppearance(useDarkBackground) {
         if (!cameraIconElement || !cameraIconContainer) {
           return;
@@ -960,6 +972,7 @@
         }
       }
 
+      updateInfoIconAppearance(getDarkModeState());
       updateCameraIconAppearance(getDarkModeState());
 
       function updateViewportSettings(partialSettings, options = {}) {
@@ -1001,6 +1014,7 @@
         }
 
         updateControlHintsColor(normalizedDarkMode);
+        updateInfoIconAppearance(normalizedDarkMode);
         updateCameraIconAppearance(normalizedDarkMode);
 
         updateArrowFill();
