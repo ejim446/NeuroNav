@@ -136,7 +136,21 @@
       </div>
     </nav>
     <div id="utility-icon-bar">
-      <div id="info-icon-container" tabindex="0" aria-describedby="info-tooltip">
+      <div id="camera-icon-container" class="utility-icon-container">
+        <img
+          id="camera-icon"
+          src="/camera-black.svg"
+          alt="Camera icon"
+          width="30"
+          height="30"
+        />
+      </div>
+      <div
+        id="info-icon-container"
+        class="utility-icon-container"
+        tabindex="0"
+        aria-describedby="info-tooltip"
+      >
         <svg
           id="info-icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -218,6 +232,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const cameraIcon = document.getElementById("camera-icon");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -322,6 +337,7 @@
 
       window.__neuronavDarkMode__ = darkMode;
       updateControlHintsColor(darkMode);
+      updateCameraIconTheme(darkMode);
       if (controlHints) {
         controlHints.style.opacity = 1;
       }
@@ -394,6 +410,20 @@
         const light = rootStyles.getPropertyValue("--white").trim() || "#FFF";
 
         controlHints.style.color = useDarkBackground ? light : dark;
+      }
+
+      function updateCameraIconTheme(useDarkBackground = getDarkModeState()) {
+        if (!cameraIcon) {
+          return;
+        }
+
+        const iconPath = useDarkBackground
+          ? "/camera-white.svg"
+          : "/camera-black.svg";
+
+        if (cameraIcon.getAttribute("src") !== iconPath) {
+          cameraIcon.setAttribute("src", iconPath);
+        }
       }
 
     </script>
@@ -891,16 +921,18 @@
       function applyDarkModeSetting(enableDark, options = {}) {
         const shouldUseDarkBackground = Boolean(enableDark);
         const currentDarkMode = getDarkModeState();
+        let activeDarkMode;
 
         if (shouldUseDarkBackground !== currentDarkMode) {
           const updatedDarkMode = updateBackground();
-          setDarkModeState(updatedDarkMode);
+          activeDarkMode = setDarkModeState(updatedDarkMode);
           updateControlHintsColor(updatedDarkMode);
         } else {
-          setDarkModeState(shouldUseDarkBackground);
+          activeDarkMode = setDarkModeState(shouldUseDarkBackground);
           updateControlHintsColor(shouldUseDarkBackground);
         }
 
+        updateCameraIconTheme(activeDarkMode);
         updateArrowFill();
         updateViewportSettings(
           { darkBackground: shouldUseDarkBackground },
