@@ -233,6 +233,30 @@
       const infoIconElement = document.getElementById("info-icon");
       const cameraIconContainer = document.getElementById("camera-icon-container");
       const cameraIconElement = document.getElementById("camera-icon");
+
+      const cameraIconSources = {
+        light: "/camera-black.svg",
+        dark: "/camera-white.svg",
+      };
+
+      const preloadedCameraIcons = new Map();
+
+      function preloadCameraIcon(src) {
+        if (preloadedCameraIcons.has(src)) {
+          return preloadedCameraIcons.get(src);
+        }
+
+        const image = new Image();
+        image.decoding = "async";
+        image.src = src;
+        preloadedCameraIcons.set(src, image);
+        return image;
+      }
+
+      if (cameraIconElement) {
+        preloadCameraIcon(cameraIconSources.light);
+        preloadCameraIcon(cameraIconSources.dark);
+      }
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -955,8 +979,8 @@
         }
 
         const nextSrc = useDarkBackground
-          ? "/camera-white.svg"
-          : "/camera-black.svg";
+          ? cameraIconSources.dark
+          : cameraIconSources.light;
 
         cameraIconContainer.classList.toggle(
           "camera-icon-container--dark",
