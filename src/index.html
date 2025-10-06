@@ -320,6 +320,9 @@
 
       window.__neuronavDarkMode__ = darkMode;
       updateControlHintsColor(darkMode);
+      if (controlHints) {
+        controlHints.style.opacity = 1;
+      }
 
       function toggleSidebar() {
         const isOpen = !navOpen;
@@ -351,6 +354,9 @@
         showAllButton.style.opacity = sidebarOpacity;
         outliner.style.opacity = sidebarOpacity;
         settings.style.opacity = sidebarOpacity;
+        if (controlHints) {
+          controlHints.style.opacity = isOpen ? 0 : 1;
+        }
 
         window.dispatchEvent(
           new CustomEvent("neuronav:sidebar-toggle", {
