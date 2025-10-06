@@ -832,6 +832,10 @@ const _addRoot = async () => {
     color: 0xd3d3d3,
     // Setting depthWrite to false disables occlusion of brain regions by the root mesh
     depthWrite: false,
+    // Disable depth testing so the root surface always renders on top of
+    // the region meshes. This prevents visual intersections along the
+    // boundary without altering the actual geometry alignment.
+    depthTest: false,
     transparent: true,
     opacity: 0.15,
   });
@@ -845,6 +849,9 @@ const _addRoot = async () => {
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
           child.material = material;
+          // Ensure the root renders after region meshes so the disabled depth
+          // testing consistently keeps the shell on top.
+          child.renderOrder = 1;
           if (child.geometry?.isBufferGeometry) {
             child.geometry.computeBoundsTree();
           }
