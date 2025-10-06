@@ -135,19 +135,29 @@
         </div>
       </div>
     </nav>
-    <div id="info-icon-container" tabindex="0" aria-describedby="info-tooltip">
-      <svg
-        id="info-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 30 30"
-        width="480px"
-        height="480px"
-      >
-        <path
-          d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,21h-2v-7h2V21z M15,11.5 c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S15.828,11.5,15,11.5z"
+    <div id="utility-icon-bar">
+      <div id="info-icon-container" class="utility-icon-container" tabindex="0" aria-describedby="info-tooltip">
+        <svg
+          id="info-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 30 30"
+          width="480px"
+          height="480px"
+        >
+          <path
+            d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,21h-2v-7h2V21z M15,11.5 c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S15.828,11.5,15,11.5z"
+          />
+        </svg>
+        <div id="info-tooltip" class="info-tooltip" role="tooltip"></div>
+      </div>
+      <div id="camera-icon-container" class="utility-icon-container" aria-hidden="true">
+        <img
+          id="camera-icon"
+          src="/camera-black.svg"
+          alt=""
+          loading="lazy"
         />
-      </svg>
-      <div id="info-tooltip" class="info-tooltip" role="tooltip"></div>
+      </div>
     </div>
     <div class="control-hints" role="status" aria-live="polite">
       <span><strong>Scroll</strong> to zoom</span>
@@ -216,6 +226,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const cameraIconElement = document.getElementById("camera-icon");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -263,10 +274,56 @@
       `;
 
       let tooltipHideTimeout;
+      const INFO_TOOLTIP_VIEWPORT_PADDING = 16;
+
+      function positionInfoTooltip() {
+        if (!infoTooltip) {
+          return;
+        }
+
+        infoTooltip.style.setProperty("--tooltip-shift-x", "0px");
+        infoTooltip.style.setProperty("--tooltip-shift-y", "0px");
+
+        if (!infoTooltip.classList.contains("visible")) {
+          return;
+        }
+
+        window.requestAnimationFrame(() => {
+          if (!infoTooltip.classList.contains("visible")) {
+            return;
+          }
+
+          const rect = infoTooltip.getBoundingClientRect();
+          const viewportWidth =
+            window.innerWidth || document.documentElement.clientWidth || 0;
+          const viewportHeight =
+            window.innerHeight || document.documentElement.clientHeight || 0;
+
+          const maxRight = viewportWidth - INFO_TOOLTIP_VIEWPORT_PADDING;
+          const minTop = INFO_TOOLTIP_VIEWPORT_PADDING;
+          const maxBottom = viewportHeight - INFO_TOOLTIP_VIEWPORT_PADDING;
+
+          let shiftX = 0;
+          if (rect.right > maxRight) {
+            shiftX = maxRight - rect.right;
+          }
+
+          let shiftY = 0;
+          if (rect.top < minTop) {
+            shiftY = minTop - rect.top;
+          } else if (rect.bottom > maxBottom) {
+            shiftY = maxBottom - rect.bottom;
+          }
+
+          infoTooltip.style.setProperty("--tooltip-shift-x", `${shiftX}px`);
+          infoTooltip.style.setProperty("--tooltip-shift-y", `${shiftY}px`);
+        });
+      }
 
       function showInfoTooltip() {
         clearTimeout(tooltipHideTimeout);
         infoTooltip.classList.add("visible");
+        positionInfoTooltip();
       }
 
       function hideInfoTooltip() {
@@ -274,6 +331,8 @@
         tooltipHideTimeout = setTimeout(() => {
           if (!infoIconContainer.matches(":focus-within")) {
             infoTooltip.classList.remove("visible");
+            infoTooltip.style.setProperty("--tooltip-shift-x", "0px");
+            infoTooltip.style.setProperty("--tooltip-shift-y", "0px");
           }
         }, 50);
       }
@@ -284,6 +343,19 @@
       infoIconContainer.addEventListener("focusout", hideInfoTooltip);
       infoTooltip.addEventListener("mouseenter", showInfoTooltip);
       infoTooltip.addEventListener("mouseleave", hideInfoTooltip);
+
+      function handleTooltipViewportChange() {
+        if (infoTooltip.classList.contains("visible")) {
+          positionInfoTooltip();
+        }
+      }
+
+      window.addEventListener("resize", handleTooltipViewportChange);
+      window.addEventListener(
+        "scroll",
+        handleTooltipViewportChange,
+        { passive: true },
+      );
 
       /// NAVIGATION BAR ///
 
@@ -860,6 +932,22 @@
         return window.__neuronavDarkMode__;
       }
 
+      function updateCameraIconAppearance(useDarkBackground) {
+        if (!cameraIconElement) {
+          return;
+        }
+
+        const nextSrc = useDarkBackground
+          ? "/camera-white.svg"
+          : "/camera-black.svg";
+
+        if (cameraIconElement.getAttribute("src") !== nextSrc) {
+          cameraIconElement.setAttribute("src", nextSrc);
+        }
+      }
+
+      updateCameraIconAppearance(getDarkModeState());
+
       function updateViewportSettings(partialSettings, options = {}) {
         viewportSettings = { ...viewportSettings, ...partialSettings };
         if (!options.skipSave) {
@@ -889,15 +977,17 @@
       function applyDarkModeSetting(enableDark, options = {}) {
         const shouldUseDarkBackground = Boolean(enableDark);
         const currentDarkMode = getDarkModeState();
+        let normalizedDarkMode;
 
         if (shouldUseDarkBackground !== currentDarkMode) {
           const updatedDarkMode = updateBackground();
-          setDarkModeState(updatedDarkMode);
-          updateControlHintsColor(updatedDarkMode);
+          normalizedDarkMode = setDarkModeState(updatedDarkMode);
         } else {
-          setDarkModeState(shouldUseDarkBackground);
-          updateControlHintsColor(shouldUseDarkBackground);
+          normalizedDarkMode = setDarkModeState(shouldUseDarkBackground);
         }
+
+        updateControlHintsColor(normalizedDarkMode);
+        updateCameraIconAppearance(normalizedDarkMode);
 
         updateArrowFill();
         updateViewportSettings(
