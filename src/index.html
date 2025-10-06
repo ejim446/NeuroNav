@@ -135,19 +135,39 @@
         </div>
       </div>
     </nav>
-    <div id="info-icon-container" tabindex="0" aria-describedby="info-tooltip">
-      <svg
-        id="info-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 30 30"
-        width="480px"
-        height="480px"
+    <div id="utility-icon-bar">
+      <div
+        id="info-icon-container"
+        class="utility-icon-container"
+        tabindex="0"
+        aria-describedby="info-tooltip"
       >
-        <path
-          d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,21h-2v-7h2V21z M15,11.5 c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S15.828,11.5,15,11.5z"
+        <svg
+          id="info-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 30 30"
+          width="480px"
+          height="480px"
+        >
+          <path
+            d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,21h-2v-7h2V21z M15,11.5 c-0.828,0-1.5-0.672-1.5-1.5s0.672-1.5,1.5-1.5s1.5,0.672,1.5,1.5S15.828,11.5,15,11.5z"
+          />
+        </svg>
+        <div id="info-tooltip" class="info-tooltip" role="tooltip"></div>
+      </div>
+      <div
+        id="camera-icon-container"
+        class="utility-icon-container"
+        aria-hidden="true"
+      >
+        <img
+          id="camera-icon"
+          src="/camera-black.svg"
+          alt=""
+          role="presentation"
+          draggable="false"
         />
-      </svg>
-      <div id="info-tooltip" class="info-tooltip" role="tooltip"></div>
+      </div>
     </div>
     <div class="control-hints" role="status" aria-live="polite">
       <span><strong>Scroll</strong> to zoom</span>
@@ -216,6 +236,7 @@
 
       const infoTooltip = document.getElementById("info-tooltip");
       const infoIconContainer = document.getElementById("info-icon-container");
+      const cameraIcon = document.getElementById("camera-icon");
       infoTooltip.innerHTML = `
         <p>Models adapted from the Allen Human Reference Atlas – 3D (2020), Version 1.0.0.</p>
         <p><strong>Dataset citation:</strong></p>
@@ -320,6 +341,7 @@
 
       window.__neuronavDarkMode__ = darkMode;
       updateControlHintsColor(darkMode);
+      updateCameraIcon(darkMode);
       if (controlHints) {
         controlHints.style.opacity = 1;
       }
@@ -375,6 +397,16 @@
         } else {
           arrowSvg.style.fill = darkMode ? "#FFF" : "#000";
         }
+      }
+
+      function updateCameraIcon(useDarkBackground = getDarkModeState()) {
+        if (!cameraIcon) {
+          return;
+        }
+
+        cameraIcon.src = useDarkBackground
+          ? "/camera-white.svg"
+          : "/camera-black.svg";
       }
 
       function updateControlHintsColor(useDarkBackground = getDarkModeState()) {
@@ -899,6 +931,7 @@
           updateControlHintsColor(shouldUseDarkBackground);
         }
 
+        updateCameraIcon(getDarkModeState());
         updateArrowFill();
         updateViewportSettings(
           { darkBackground: shouldUseDarkBackground },
