@@ -461,6 +461,7 @@ function createOutline(mesh, regionName) {
   // Create a new mesh for the outline with the modified geometry and shader material
   const outline = new THREE.Mesh(geometry, material);
   outline.name = `${regionName}Outline`; // Set the name for the outline mesh
+  outline.renderOrder = 1;
 
   // Add the outline mesh to the scene
   scene.add(outline);
@@ -485,8 +486,10 @@ function fadeObject(object, fadeType) {
 
   function restoreOpaqueState(finalOpacity) {
     material.opacity = finalOpacity;
-    material.transparent = false;
-    material.depthWrite = true;
+    material.transparent = true;
+    const shouldWriteDepth = finalOpacity > 0 && object.visible;
+    material.depthWrite = shouldWriteDepth;
+    material.needsUpdate = true;
   }
 
 
@@ -884,7 +887,7 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
         // Create a material with the selected color
         const material = new THREE.MeshBasicMaterial({
           color: colors[colorSelection],
-          transparent: false,
+          transparent: true,
           opacity: 1,
         });
 
@@ -896,6 +899,7 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
             child.name = regionName;
             // Apply the material to the mesh
             child.material = material;
+            child.renderOrder = 1;
             if (child.geometry?.isBufferGeometry) {
               child.geometry.computeBoundsTree();
             }
