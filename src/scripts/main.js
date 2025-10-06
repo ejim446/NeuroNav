@@ -833,10 +833,9 @@ const _addRoot = async () => {
   // Define transparent root material
   const material = new THREE.MeshBasicMaterial({
     color: 0xd3d3d3,
-    // Setting depthWrite to false disables occlusion of brain regions by the root mesh
-    depthWrite: false,
     transparent: true,
     opacity: 0.15,
+    depthWrite: false,
   });
 
   // Load the GLB file
@@ -848,9 +847,35 @@ const _addRoot = async () => {
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
           child.material = material;
+
           if (child.geometry?.isBufferGeometry) {
             child.geometry.computeBoundsTree();
           }
+
+          // Add a hidden depth pre-pass mesh to gently push the root surface in
+          // front of bordering regions without changing the visual material.
+          const depthMaterial = new THREE.MeshBasicMaterial({
+            colorWrite: false,
+            depthWrite: true,
+            depthTest: true,
+            polygonOffset: true,
+            polygonOffsetFactor: 0.75,
+            polygonOffsetUnits: 0.75,
+          });
+
+          const depthMesh = new THREE.Mesh(child.geometry, depthMaterial);
+          depthMesh.renderOrder = -1;
+          depthMesh.matrixAutoUpdate = false;
+          depthMesh.matrix.identity();
+          depthMesh.updateMatrix();
+          child.add(depthMesh);
+
+          const removeDepthMesh = () => {
+            depthMaterial.dispose();
+            child.removeEventListener("removed", removeDepthMesh);
+          };
+
+          child.addEventListener("removed", removeDepthMesh);
         }
       });
 
