@@ -829,14 +829,56 @@ function clearFocusedRegion(regionName) {
   }
 }
 
+// The developer build uses the high resolution root mesh which shares
+// boundaries with the brain region meshes. When the region opacity changes we
+// can see the two surfaces intersect. To hide the overlap without disturbing
+// the region alignment, gently inset the root mesh along its normals so the
+// shell sits just beneath the regions.
+const ROOT_SHELL_INSET_RATIO = 0.0025;
+
+const insetGeometry = (sourceGeometry) => {
+  const geometry = sourceGeometry.clone();
+
+  if (!geometry.attributes.normal) {
+    geometry.computeVertexNormals();
+  }
+
+  if (!geometry.boundingSphere) {
+    geometry.computeBoundingSphere();
+  }
+
+  const insetDistance = geometry.boundingSphere.radius * ROOT_SHELL_INSET_RATIO;
+  const position = geometry.attributes.position;
+  const normal = geometry.attributes.normal;
+
+  for (let i = 0; i < position.count; i += 1) {
+    const nx = normal.getX(i);
+    const ny = normal.getY(i);
+    const nz = normal.getZ(i);
+
+    position.setXYZ(
+      i,
+      position.getX(i) - nx * insetDistance,
+      position.getY(i) - ny * insetDistance,
+      position.getZ(i) - nz * insetDistance,
+    );
+  }
+
+  position.needsUpdate = true;
+  geometry.computeBoundingSphere();
+  geometry.computeBoundingBox();
+  geometry.computeVertexNormals();
+
+  return geometry;
+};
+
 const _addRoot = async () => {
   // Define transparent root material
   const material = new THREE.MeshBasicMaterial({
     color: 0xd3d3d3,
-    // Setting depthWrite to false disables occlusion of brain regions by the root mesh
-    depthWrite: false,
     transparent: true,
     opacity: 0.15,
+    depthWrite: false,
   });
 
   // Load the GLB file
@@ -849,6 +891,7 @@ const _addRoot = async () => {
         if (child.isMesh) {
           child.material = material;
           if (child.geometry?.isBufferGeometry) {
+            child.geometry = insetGeometry(child.geometry);
             child.geometry.computeBoundsTree();
           }
         }
