@@ -78,6 +78,8 @@ const pointerClientPosition = { x: 0, y: 0 };
 let pointerInsideRenderer = false;
 let pointerNeedsTooltipUpdate = false;
 const raycastTargets = [];
+let rootVisible = true; // DEFAULT
+const rootMeshes = new Set();
 let raycastTargetsDirty = true;
 const focusDirection = new THREE.Vector3();
 const cameraOffsetScratch = new THREE.Vector3();
@@ -848,6 +850,21 @@ const _addRoot = async () => {
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
           child.material = material;
+          rootMeshes.add(child);
+          child.visible = rootVisible;
+
+          const materials = Array.isArray(child.material)
+            ? child.material
+            : [child.material];
+
+          materials.forEach((mat) => {
+            if (!mat) {
+              return;
+            }
+            mat.visible = rootVisible;
+            mat.needsUpdate = true;
+          });
+
           if (child.geometry?.isBufferGeometry) {
             child.geometry.computeBoundsTree();
           }
@@ -1076,26 +1093,43 @@ export function updateHemisphere(regionID, hemisphereSelection, selectedColor) {
 
 // HIDE ROOT //
 
-let rootVisible = true; // DEFAULT
-
-export function hideRoot() {
-  // Helper function to set visibility of the root object
-  const setVisible = (visible) => {
-    // Traverse all objects in the scene
-    scene.traverse(function (object) {
-      // Check if the object is a mesh and named "root"
+function updateRootMeshesVisibility() {
+  if (!rootMeshes.size) {
+    scene.traverse((object) => {
       if (object instanceof THREE.Mesh && object.name === "root") {
-        // Set the visibility of the root object's material
-        object.material.visible = visible;
+        rootMeshes.add(object);
       }
     });
-  };
+  }
 
-  // Toggle the global rootVisible state
-  rootVisible = !rootVisible;
+  rootMeshes.forEach((mesh) => {
+    mesh.visible = rootVisible;
+    const material = Array.isArray(mesh.material)
+      ? mesh.material
+      : mesh.material
+        ? [mesh.material]
+        : [];
 
-  // Apply the new visibility state to the root object
-  setVisible(rootVisible);
+    material.forEach((mat) => {
+      if (!mat) {
+        return;
+      }
+      mat.visible = rootVisible;
+      mat.needsUpdate = true;
+    });
+  });
+}
+
+export function hideRoot(shouldHide) {
+  const targetVisible =
+    typeof shouldHide === "boolean" ? !shouldHide : !rootVisible;
+
+  if (targetVisible === rootVisible) {
+    return;
+  }
+
+  rootVisible = targetVisible;
+  updateRootMeshesVisibility();
 }
 
 // TOGGLE REGION OUTLINES //
@@ -1155,16 +1189,26 @@ let hoveredRegionName = null;
 // DISABLE TOOLTIPS //
 
 export function disableTooltips(check) {
-  if (!check) {
-    tooltipsEnabled = false;
+  const shouldEnable =
+    typeof check === "boolean" ? check : !tooltipsEnabled;
+
+  if (tooltipsEnabled === shouldEnable) {
+    return tooltipsEnabled;
+  }
+
+  tooltipsEnabled = shouldEnable;
+
+  if (!tooltipsEnabled) {
     hoveredRegionName = null;
     tooltip.style.display = "none";
-  } else {
-    tooltipsEnabled = true;
-    if (pointerInsideRenderer) {
-      pointerNeedsTooltipUpdate = true;
-    }
+    return tooltipsEnabled;
   }
+
+  if (pointerInsideRenderer) {
+    pointerNeedsTooltipUpdate = true;
+  }
+
+  return tooltipsEnabled;
 }
 
 // Fetch regions data
@@ -1529,11 +1573,22 @@ function hideRegionInfoPanel() {
 }
 
 export function setDescriptionBoxesDisabled(disabled) {
-  descriptionBoxesEnabled = !disabled;
+  const shouldEnable = !disabled;
+
+  if (descriptionBoxesEnabled === shouldEnable) {
+    if (disabled) {
+      hideRegionInfoPanel();
+    }
+    return descriptionBoxesEnabled;
+  }
+
+  descriptionBoxesEnabled = shouldEnable;
 
   if (disabled) {
     hideRegionInfoPanel();
   }
+
+  return descriptionBoxesEnabled;
 }
 
 if (infoPanel) {
