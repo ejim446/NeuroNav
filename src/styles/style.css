@@ -130,6 +130,7 @@ canvas {
 
         --navbar-collapsed-width: 6rem;
         --navbar-expanded-width: 35.5rem;
+        --control-hints-offset: 0rem;
 }
 
 #splash-screen {
@@ -845,9 +846,7 @@ input:checked + .checkbox-button:before {
 .control-hints {
         position: fixed;
         bottom: 1rem;
-        left: calc(
-                (100vw - var(--navbar-width, var(--navbar-collapsed-width))) / 2
-        );
+        left: calc(50vw - (var(--control-hints-offset, 0rem) / 2));
         transform: translateX(-50%);
         display: inline-flex;
         align-items: center;

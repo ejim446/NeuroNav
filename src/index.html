@@ -336,6 +336,10 @@
           "--navbar-width",
           sidebarWidth,
         );
+        document.documentElement.style.setProperty(
+          "--control-hints-offset",
+          isOpen ? `${NAVBAR_EXPANDED_WIDTH_REM}rem` : "0rem",
+        );
         navbar.style.backgroundColor = backgroundColor;
         navArrow.style.transform = arrowRotation;
         updateArrowFill();
