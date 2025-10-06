@@ -60,6 +60,9 @@ let cameraAnimationState = null;
 let lastFocusedRegion = null;
 let sidebarAdditionalWidthRem = 0;
 const sidebarPanOffset = new THREE.Vector3();
+let sidebarBaseCameraPosition = null;
+let sidebarBaseTarget = null;
+let sidebarIsOpen = false;
 const cameraForwardScratch = new THREE.Vector3();
 const cameraRightScratch = new THREE.Vector3();
 
@@ -157,40 +160,76 @@ function getSidebarPanDistance(additionalWidthRem = 0) {
   return visibleWidthAtDistance * screenFraction;
 }
 
-function panCameraForSidebar(additionalWidthRem = sidebarAdditionalWidthRem) {
-  const effectiveWidthRem = Math.max(0, additionalWidthRem || 0);
-  sidebarAdditionalWidthRem = effectiveWidthRem;
+function panCameraForSidebar(
+  additionalWidthRem = sidebarAdditionalWidthRem,
+  options = {},
+) {
+  const { open: explicitlyOpen } = options;
 
-  const desiredPanDistance = getSidebarPanDistance(effectiveWidthRem);
+  if (typeof explicitlyOpen === "boolean") {
+    if (explicitlyOpen && !sidebarIsOpen) {
+      sidebarBaseCameraPosition = camera.position.clone();
+      sidebarBaseTarget = controls.target.clone();
+    }
 
-  if (desiredPanDistance <= 0 && sidebarPanOffset.lengthSq() <= 1e-8) {
+    sidebarIsOpen = explicitlyOpen;
+
+    if (!sidebarIsOpen) {
+      sidebarAdditionalWidthRem = 0;
+      sidebarPanOffset.set(0, 0, 0);
+
+      if (sidebarBaseCameraPosition && sidebarBaseTarget) {
+        animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, 600);
+      }
+
+      sidebarBaseCameraPosition = null;
+      sidebarBaseTarget = null;
+      return;
+    }
+  }
+
+  sidebarAdditionalWidthRem = Math.max(0, additionalWidthRem || 0);
+
+  if (!sidebarIsOpen) {
     return;
   }
 
-  let targetOffset;
+  if (!sidebarBaseCameraPosition || !sidebarBaseTarget) {
+    sidebarBaseCameraPosition = camera.position.clone();
+    sidebarBaseTarget = controls.target.clone();
+  }
 
-  if (desiredPanDistance > 0) {
+  const desiredPanDistance = getSidebarPanDistance(sidebarAdditionalWidthRem);
+
+  if (desiredPanDistance <= 0) {
+    if (sidebarPanOffset.lengthSq() > 1e-8) {
+      sidebarPanOffset.set(0, 0, 0);
+      animateCameraTo(sidebarBaseCameraPosition, sidebarBaseTarget, 600);
+    }
+    return;
+  }
+
+  cameraForwardScratch
+    .subVectors(sidebarBaseTarget, sidebarBaseCameraPosition)
+    .normalize();
+  if (!cameraForwardScratch.lengthSq()) {
     camera.getWorldDirection(cameraForwardScratch);
-    cameraRightScratch
-      .crossVectors(cameraForwardScratch, camera.up)
-      .normalize()
-      .multiplyScalar(desiredPanDistance);
-    targetOffset = cameraRightScratch;
-  } else {
-    targetOffset = cameraRightScratch.set(0, 0, 0);
   }
 
-  const offsetDelta = targetOffset.clone().sub(sidebarPanOffset);
+  const targetOffset = cameraRightScratch
+    .crossVectors(cameraForwardScratch, camera.up)
+    .normalize()
+    .multiplyScalar(desiredPanDistance);
 
-  if (offsetDelta.lengthSq() <= 1e-10) {
-    sidebarPanOffset.copy(targetOffset);
+  if (targetOffset.distanceToSquared(sidebarPanOffset) <= 1e-10) {
     return;
   }
-
-  const newCameraPosition = camera.position.clone().add(offsetDelta);
-  const newTarget = controls.target.clone().add(offsetDelta);
 
   sidebarPanOffset.copy(targetOffset);
+
+  const newCameraPosition = sidebarBaseCameraPosition.clone().add(targetOffset);
+  const newTarget = sidebarBaseTarget.clone().add(targetOffset);
+
   animateCameraTo(newCameraPosition, newTarget, 600);
 }
 
@@ -240,7 +279,7 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  if (sidebarPanOffset.lengthSq() > 1e-8 || sidebarAdditionalWidthRem > 0) {
+  if (sidebarIsOpen) {
     panCameraForSidebar();
   }
 });
@@ -257,7 +296,7 @@ window.addEventListener("neuronav:sidebar-toggle", (event) => {
     ? Math.max(0, expandedWidthRem - collapsedWidthRem)
     : 0;
 
-  panCameraForSidebar(additionalWidthRem);
+  panCameraForSidebar(additionalWidthRem, { open: detail.open });
 });
 
 // ANIMATION LOOP //
