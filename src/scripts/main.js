@@ -836,6 +836,17 @@ const _addRoot = async () => {
     opacity: 0.15,
   });
 
+  // When the developer build uses the unoptimized root mesh, some of the brain
+  // regions end up sharing the exact same depth values as the root surface.
+  // This causes subtle z-fighting artefacts near the outer boundaries where the
+  // meshes appear to overlap. Enabling a small polygon offset nudges the root
+  // surface slightly away in clip-space without altering the actual geometry so
+  // that the regions remain perfectly aligned while no longer intersecting
+  // visually.
+  material.polygonOffset = true;
+  material.polygonOffsetFactor = 1;
+  material.polygonOffsetUnits = 1;
+
   // Load the GLB file
   gltfLoader.load(
     // "/models/root.glb",
