@@ -829,15 +829,27 @@ function clearFocusedRegion(regionName) {
   }
 }
 
+const rootDepthMeshes = [];
+// DEFAULT visibility state for the root shell
+let rootVisible = true;
+
 const _addRoot = async () => {
   // Define transparent root material
-  const material = new THREE.MeshBasicMaterial({
+  const surfaceMaterial = new THREE.MeshBasicMaterial({
     color: 0xd3d3d3,
-    // Setting depthWrite to false disables occlusion of brain regions by the root mesh
-    depthWrite: false,
     transparent: true,
     opacity: 0.15,
+    depthWrite: false,
+    depthTest: true,
   });
+
+  // Depth-only material that masks the regions without rendering any colour.
+  const depthMaskMaterial = new THREE.MeshBasicMaterial({
+    depthWrite: true,
+    depthTest: true,
+    transparent: false,
+  });
+  depthMaskMaterial.colorWrite = false;
 
   // Load the GLB file
   gltfLoader.load(
@@ -845,13 +857,36 @@ const _addRoot = async () => {
     "/models/root.glb",
 
     function (gltf) {
+      const meshes = [];
+
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
-          child.material = material;
-          if (child.geometry?.isBufferGeometry) {
-            child.geometry.computeBoundsTree();
-          }
+          meshes.push(child);
         }
+      });
+
+      meshes.forEach((mesh) => {
+        mesh.material = surfaceMaterial;
+        mesh.name = "root";
+        mesh.material.visible = rootVisible;
+
+        if (mesh.geometry?.isBufferGeometry) {
+          mesh.geometry.computeBoundsTree();
+        }
+
+        const depthMesh = new THREE.Mesh(mesh.geometry, depthMaskMaterial);
+        depthMesh.name = "rootDepthMask";
+        depthMesh.userData.isRootDepth = true;
+        depthMesh.renderOrder = -1;
+        depthMesh.layers.mask = mesh.layers.mask;
+        depthMesh.frustumCulled = mesh.frustumCulled;
+        depthMesh.matrixAutoUpdate = mesh.matrixAutoUpdate;
+        depthMesh.position.copy(mesh.position);
+        depthMesh.quaternion.copy(mesh.quaternion);
+        depthMesh.scale.copy(mesh.scale);
+        depthMesh.visible = rootVisible;
+        mesh.parent.add(depthMesh);
+        rootDepthMeshes.push(depthMesh);
       });
 
       scene.add(gltf.scene);
@@ -1076,8 +1111,6 @@ export function updateHemisphere(regionID, hemisphereSelection, selectedColor) {
 
 // HIDE ROOT //
 
-let rootVisible = true; // DEFAULT
-
 export function hideRoot() {
   // Helper function to set visibility of the root object
   const setVisible = (visible) => {
@@ -1088,6 +1121,10 @@ export function hideRoot() {
         // Set the visibility of the root object's material
         object.material.visible = visible;
       }
+    });
+
+    rootDepthMeshes.forEach((mesh) => {
+      mesh.visible = visible;
     });
   };
 
