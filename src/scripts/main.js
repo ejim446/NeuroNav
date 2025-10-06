@@ -857,6 +857,10 @@ export function loadRegion(regionID, colorSelection, hemisphereSelection) {
           color: colors[colorSelection],
           transparent: true,
           opacity: 1,
+          // Prevent regions from overwriting the depth buffer so the
+          // translucent root mesh can render on top without visual
+          // intersections along its silhouette.
+          depthWrite: false,
         });
 
         // Traverse the loaded model
