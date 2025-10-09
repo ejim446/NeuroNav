@@ -1524,7 +1524,6 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
     <h3>${name}</h3>
     <p class="region-info-subtitle">${hemisphere} Hemisphere • ID ${regionId}</p>
     ${descriptionSection}
-    ${embryonicOriginSection}
     <div class="region-info-section">
       <h4>Alternative Names</h4>
       ${renderInfoList(
@@ -1549,6 +1548,7 @@ function showRegionInfoPanel(regionId, hemisphere, regionInfo) {
         regionInfo?.citations,
       )}
     </div>
+    ${embryonicOriginSection}
     ${groupsSection}
   `;
 
