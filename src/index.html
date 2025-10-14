@@ -708,6 +708,7 @@
         updateBackground,
         updateOutlines,
         loadRegion,
+        focusRegion,
         hideRegion,
         hideAll,
         hideRoot,
@@ -725,6 +726,68 @@
           const searchField = item.dataset.search ?? "";
           item.style.display = searchField.includes(query) ? "grid" : "none";
         });
+      }
+
+
+      function findBestMatchingSelection(query) {
+        if (!query) {
+          return null;
+        }
+
+        const items = Array.from(
+          document.querySelectorAll(".selection-element"),
+        );
+
+        const scoredItems = items
+          .map((item) => {
+            const searchField = (item.dataset.search ?? "").toLowerCase();
+            if (!searchField.includes(query)) {
+              return null;
+            }
+
+            const nameText = item
+              .querySelector(".selection-text")
+              ?.textContent?.trim()
+              .toLowerCase();
+
+            if (!nameText) {
+              return { item, priority: 3, score: searchField.indexOf(query) };
+            }
+
+            if (nameText === query) {
+              return { item, priority: 0, score: nameText.length };
+            }
+
+            if (nameText.startsWith(query)) {
+              return { item, priority: 1, score: nameText.length };
+            }
+
+            return { item, priority: 2, score: searchField.indexOf(query) };
+          })
+          .filter(Boolean);
+
+        if (!scoredItems.length) {
+          return null;
+        }
+
+        scoredItems.sort((a, b) => {
+          if (a.priority !== b.priority) {
+            return a.priority - b.priority;
+          }
+
+          if (a.score !== b.score) {
+            return a.score - b.score;
+          }
+
+          const nameA =
+            a.item.querySelector(".selection-text")?.textContent?.trim() ?? "";
+          const nameB =
+            b.item.querySelector(".selection-text")?.textContent?.trim() ?? "";
+
+          return nameA.localeCompare(nameB);
+        });
+
+        return scoredItems[0].item;
       }
 
 
@@ -812,6 +875,49 @@
 
       searchBar.addEventListener("input", handleSearchInput);
       searchBar.addEventListener("keyup", filterItemsBySearch);
+      searchBar.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") {
+          return;
+        }
+
+        const query = searchBar.value.trim().toLowerCase();
+        if (query === "") {
+          startSuggestionCycle();
+          return;
+        }
+
+        event.preventDefault();
+        stopSuggestionCycle();
+        filterItemsBySearch();
+
+        const bestMatch = findBestMatchingSelection(query);
+        if (!bestMatch) {
+          return;
+        }
+
+        const eyeIcon = bestMatch.querySelector(".eye-container .eye-icon");
+        if (eyeIcon && eyeIcon.id !== "eye-open-icon") {
+          eyeIcon.innerHTML = eyeOpenIconSVG;
+          eyeIcon.id = "eye-open-icon";
+        }
+
+        const colorPicker = bestMatch.querySelector(".color-picker");
+        const hemispherePicker = bestMatch.querySelector(".hemisphere-picker");
+        const regionID = bestMatch.value;
+        const hemisphereSelection = hemispherePicker?.value ?? "Both";
+        const selectedColor = colorPicker?.value ?? "Yellow";
+
+        bestMatch.style.display = "grid";
+        bestMatch.scrollIntoView({ block: "nearest" });
+
+        loadRegion(regionID, selectedColor, hemisphereSelection)
+          .then(() => {
+            focusRegion(regionID, hemisphereSelection);
+          })
+          .catch((error) => {
+            console.error("Failed to load region", regionID, error);
+          });
+      });
 
       function resetSearchBar() {
         if (!searchBar) {
@@ -885,7 +991,13 @@
             selectionElement.value,
             colorPicker.value,
             hemispherePicker.value,
-          );
+          ).catch((error) => {
+            console.error(
+              "Failed to load region",
+              selectionElement.value,
+              error,
+            );
+          });
         }
       }
 

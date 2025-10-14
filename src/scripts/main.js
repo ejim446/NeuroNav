@@ -876,90 +876,166 @@ const colors = {
   "Light Blue": 0xc4d0ff,
 };
 
+function showRegion(regionName) {
+  const meshes = regionMeshMap.get(regionName);
+  if (!meshes) return;
+
+  meshes.forEach((mesh) => {
+    fadeObject(mesh, "in");
+  });
+
+  if (!regionFocusData.has(regionName)) {
+    scene.updateMatrixWorld(true);
+    storeRegionFocusData(regionName, meshes);
+  }
+
+  addVisibleRegion(regionName);
+  if (tooltipsEnabled && pointerInsideRenderer) {
+    pointerNeedsTooltipUpdate = true;
+  }
+}
+
+function resolveRegionNamesForSelection(regionID, hemisphereSelection) {
+  if (hemisphereSelection === "Both") {
+    return [`${regionID}L`, `${regionID}R`];
+  }
+
+  const hemisphereSuffix = hemisphereSelection === "Left" ? "L" : "R";
+  return [`${regionID}${hemisphereSuffix}`];
+}
+
 // LOAD SELECTED //
 
 export function loadRegion(regionID, colorSelection, hemisphereSelection) {
-  const loadRegionObject = (regionName) => {
-    // Check if the region is already loaded
-    if (!loadedRegions.has(regionName)) {
-      // Load the GLB model for the region
-      gltfLoader.load(`/models/${regionName}.glb`, function (gltf) {
-        // Create a material with the selected color
-        const material = new THREE.MeshBasicMaterial({
-          color: colors[colorSelection],
-          transparent: true,
-          opacity: 1,
-        });
+  const targetRegionNames = resolveRegionNamesForSelection(
+    regionID,
+    hemisphereSelection,
+  );
 
-        // Traverse the loaded model
-        const meshes = [];
-        gltf.scene.traverse((child) => {
-          if (child.isMesh) {
-            // Ensure the mesh is identifiable by region name
-            child.name = regionName;
-            // Apply the material to the mesh
-            child.material = material;
-            child.renderOrder = 1;
-            if (child.geometry?.isBufferGeometry) {
-              child.geometry.computeBoundsTree();
+  const loadPromises = targetRegionNames.map(
+    (regionName) =>
+      new Promise((resolve, reject) => {
+        if (loadedRegions.has(regionName)) {
+          showRegion(regionName);
+          resolve(regionName);
+          return;
+        }
+
+        const selectedColor =
+          colors[colorSelection] ?? colors.Yellow ?? 0xffffff;
+
+        gltfLoader.load(
+          `/models/${regionName}.glb`,
+          (gltf) => {
+            const material = new THREE.MeshBasicMaterial({
+              color: selectedColor,
+              transparent: true,
+              opacity: 1,
+            });
+
+            const meshes = [];
+            gltf.scene.traverse((child) => {
+              if (!child.isMesh) {
+                return;
+              }
+
+              child.name = regionName;
+              child.material = material;
+              child.renderOrder = 1;
+              if (child.geometry?.isBufferGeometry) {
+                child.geometry.computeBoundsTree();
+              }
+
+              child.visible = false;
+              if (child.material) {
+                child.material.visible = false;
+                child.material.opacity = 0;
+              }
+
+              createOutline(child, regionName);
+              meshes.push(child);
+            });
+
+            if (meshes.length) {
+              regionMeshMap.set(regionName, meshes);
             }
-            // Create an outline for the mesh
-            createOutline(child, regionName);
-            // Fade in the object
-            fadeObject(child, "in");
-            meshes.push(child);
-          }
-        });
 
-        if (meshes.length) {
-          regionMeshMap.set(regionName, meshes);
-        }
+            scene.add(gltf.scene);
+            scene.updateMatrixWorld(true);
+            storeRegionFocusData(regionName, meshes);
+            loadedRegions.add(regionName);
+            showRegion(regionName);
+            resolve(regionName);
+          },
+          undefined,
+          (error) => {
+            reject(
+              error instanceof Error
+                ? error
+                : new Error(`Failed to load region ${regionName}`),
+            );
+          },
+        );
+      }),
+  );
 
-        // Add the loaded model to the scene
-        scene.add(gltf.scene);
-        scene.updateMatrixWorld(true);
-        storeRegionFocusData(regionName, meshes);
-        // Mark the region as loaded and visible
-        loadedRegions.add(regionName);
-        addVisibleRegion(regionName);
-        if (tooltipsEnabled && pointerInsideRenderer) {
-          pointerNeedsTooltipUpdate = true;
-        }
-      });
-    } else {
-      // If the region is already loaded, just show it
-      showRegion(regionName);
+  return Promise.all(loadPromises).then(() => undefined);
+}
+
+export function focusRegion(regionID, hemisphereSelection = "Both") {
+  const requestedRegionNames = resolveRegionNamesForSelection(
+    regionID,
+    hemisphereSelection,
+  );
+  const fallbackRegionNames = [`${regionID}L`, `${regionID}R`];
+  const candidates = [];
+  const seen = new Set();
+
+  function addCandidate(regionName, priority) {
+    if (seen.has(regionName) || !regionName) {
+      return;
     }
-  };
-
-  const showRegion = (regionName) => {
-    const meshes = regionMeshMap.get(regionName);
-    if (!meshes) return;
-
-    meshes.forEach((mesh) => {
-      fadeObject(mesh, "in");
-    });
-    if (!regionFocusData.has(regionName)) {
-      scene.updateMatrixWorld(true);
-      storeRegionFocusData(regionName, meshes);
-    }
-    addVisibleRegion(regionName);
-    if (tooltipsEnabled && pointerInsideRenderer) {
-      pointerNeedsTooltipUpdate = true;
-    }
-  };
-
-  // Determine which hemisphere(s) to load based on selection
-  if (hemisphereSelection === "Both") {
-    // Load both left and right hemispheres
-    const regionNames = [`${regionID}L`, `${regionID}R`];
-    regionNames.forEach(loadRegionObject);
-  } else {
-    // Load only the selected hemisphere
-    const hemisphereSuffix = hemisphereSelection === "Left" ? "L" : "R";
-    const regionName = `${regionID}${hemisphereSuffix}`;
-    loadRegionObject(regionName);
+    seen.add(regionName);
+    candidates.push({ regionName, priority });
   }
+
+  requestedRegionNames.forEach((regionName) => {
+    if (visibleRegions.has(regionName)) {
+      addCandidate(regionName, 0);
+    }
+  });
+
+  if (!candidates.length) {
+    requestedRegionNames.forEach((regionName) => {
+      if (regionFocusData.has(regionName)) {
+        addCandidate(regionName, 1);
+      }
+    });
+  }
+
+  if (!candidates.length) {
+    fallbackRegionNames.forEach((regionName) => {
+      if (visibleRegions.has(regionName)) {
+        addCandidate(regionName, 2);
+      }
+    });
+  }
+
+  if (!candidates.length) {
+    fallbackRegionNames.forEach((regionName) => {
+      if (regionFocusData.has(regionName)) {
+        addCandidate(regionName, 3);
+      }
+    });
+  }
+
+  if (!candidates.length) {
+    return false;
+  }
+
+  candidates.sort((a, b) => a.priority - b.priority);
+  focusCameraOnRegion(candidates[0].regionName);
+  return true;
 }
 
 /// HIDE REGIONS ///
@@ -1048,7 +1124,13 @@ export function updateColor(selectedColor, regionID, hemisphereSelection) {
 export function updateHemisphere(regionID, hemisphereSelection, selectedColor) {
   // Helper function to load a specific hemisphere
   const loadSelectedHemisphere = (selectedHemisphere) => {
-    loadRegion(regionID, selectedColor, selectedHemisphere);
+    loadRegion(regionID, selectedColor, selectedHemisphere).catch((error) => {
+      console.error(
+        "Failed to load region",
+        `${regionID}${selectedHemisphere === "Left" ? "L" : "R"}`,
+        error,
+      );
+    });
   };
 
   // Helper function to unload (hide) the opposite hemisphere
