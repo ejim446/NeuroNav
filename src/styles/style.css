@@ -5,6 +5,13 @@ canvas {
   z-index: 0;
 }
 
+body {
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+}
+
 #region-info-panel {
         position: fixed;
         top: 1.5rem;
@@ -104,8 +111,8 @@ canvas {
 
 	--font-size: 14px;
 	--font-size-title: 50px;
-	--font-family: "Inter";
-	--font-weight: none;
+        --font-family: "Inter", sans-serif;
+        --font-weight: 400;
 	--letter-spacing-primary: 0px;
 	--letter-spacing-secondary: 10px;
 	--font-color: white;
