@@ -49,6 +49,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enableZoom = true;
+controls.target.set(0, 0, 0);
 
 controls.addEventListener("start", cancelCameraAnimation);
 
@@ -72,6 +73,64 @@ let sidebarIsOpen = false;
 let sidebarPanSuppressed = false;
 const cameraForwardScratch = new THREE.Vector3();
 const cameraRightScratch = new THREE.Vector3();
+
+const cameraAnimationState = {
+  active: false,
+  startTime: 0,
+  duration: 0,
+  fromPosition: new THREE.Vector3(),
+  toPosition: new THREE.Vector3(),
+  fromTarget: new THREE.Vector3(),
+  toTarget: new THREE.Vector3(),
+};
+
+const cameraFocusBox = new THREE.Box3();
+const cameraFocusSphere = new THREE.Sphere();
+const cameraFocusCenter = new THREE.Vector3();
+const cameraFocusDirection = new THREE.Vector3();
+const cameraFocusOffset = new THREE.Vector3();
+const cameraFocusQuaternion = new THREE.Quaternion();
+const cameraYAxis = new THREE.Vector3(0, 1, 0);
+
+function startCameraAnimation(position, target, duration = 750) {
+  cameraAnimationState.fromPosition.copy(camera.position);
+  cameraAnimationState.toPosition.copy(position);
+  cameraAnimationState.fromTarget.copy(controls.target);
+  cameraAnimationState.toTarget.copy(target);
+  cameraAnimationState.startTime = performance.now();
+  cameraAnimationState.duration = duration;
+  cameraAnimationState.active = true;
+}
+
+function updateCameraAnimation() {
+  if (!cameraAnimationState.active) {
+    return;
+  }
+
+  const now = performance.now();
+  const elapsed = now - cameraAnimationState.startTime;
+  const t = Math.min(1, elapsed / cameraAnimationState.duration);
+
+  // Ease in/out for smoother camera motion
+  const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  camera.position.lerpVectors(
+    cameraAnimationState.fromPosition,
+    cameraAnimationState.toPosition,
+    eased,
+  );
+
+  controls.target.lerpVectors(
+    cameraAnimationState.fromTarget,
+    cameraAnimationState.toTarget,
+    eased,
+  );
+
+  if (t === 1) {
+    cameraAnimationState.active = false;
+    controls.target.copy(cameraAnimationState.toTarget);
+  }
+}
 
 const raycaster = new THREE.Raycaster();
 raycaster.firstHitOnly = true;
@@ -626,6 +685,64 @@ const loadedRegions = new Set();
 const visibleRegions = new Set();
 const regionMeshMap = new Map();
 const regionFocusData = new Map();
+
+function focusCameraOnRegion(regionName) {
+  const meshes = regionMeshMap.get(regionName);
+
+  if (!meshes || !meshes.length) {
+    return;
+  }
+
+  cameraFocusBox.makeEmpty();
+
+  for (const mesh of meshes) {
+    mesh.updateWorldMatrix(true, true);
+    cameraFocusBox.expandByObject(mesh);
+  }
+
+  if (cameraFocusBox.isEmpty()) {
+    return;
+  }
+
+  cameraFocusBox.getCenter(cameraFocusCenter);
+  cameraFocusBox.getBoundingSphere(cameraFocusSphere);
+
+  const radius = cameraFocusSphere.radius;
+  const halfFov = THREE.MathUtils.degToRad(camera.fov * 0.5);
+  let distance = radius / Math.sin(halfFov);
+
+  if (!Number.isFinite(distance)) {
+    distance = controls.minDistance;
+  }
+
+  const minDistance = controls.minDistance + 0.25;
+  distance = Math.max(distance * 1.2, minDistance);
+
+  if (distance > controls.maxDistance) {
+    controls.maxDistance = distance + 1;
+  }
+
+  cameraFocusDirection.set(0, 0, -1);
+
+  const hemisphereSign = Math.sign(cameraFocusCenter.x);
+  if (hemisphereSign !== 0) {
+    const sideAngle = THREE.MathUtils.degToRad(25);
+    cameraFocusQuaternion.setFromAxisAngle(
+      cameraYAxis,
+      -hemisphereSign * sideAngle,
+    );
+    cameraFocusDirection.applyQuaternion(cameraFocusQuaternion);
+  }
+
+  cameraFocusDirection.normalize();
+
+  cameraFocusOffset
+    .copy(cameraFocusDirection)
+    .multiplyScalar(distance)
+    .add(cameraFocusCenter);
+
+  startCameraAnimation(cameraFocusOffset, cameraFocusCenter, 850);
+}
 
 function addVisibleRegion(regionName) {
   if (!visibleRegions.has(regionName)) {
