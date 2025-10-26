@@ -498,15 +498,21 @@ body {
 }
 
 #hemisphere-text {
-	grid-row: 1 / 2;
-	grid-column: 4 / 5;
-	justify-self: center;
+        grid-row: 1 / 2;
+        grid-column: 4 / 5;
+        justify-self: stretch;
+        text-align: center;
+        margin-left: 0;
+        margin-right: 0;
 }
 
 #color-text {
-	grid-row: 1 / 2;
-	grid-column: 5 / 6;
-	justify-self: center;
+        grid-row: 1 / 2;
+        grid-column: 5 / 6;
+        justify-self: stretch;
+        text-align: center;
+        margin-left: 0;
+        margin-right: 0;
 }
 
 #toggle-text {
@@ -579,16 +585,17 @@ body {
 }
 
 .eye-container {
-	grid-column: 6 / 7;
-	justify-self: center;
-	align-self: center;
-	width: 20px;
-	height: 30px;
-	fill: white;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+        grid-column: 6 / 7;
+        justify-self: center;
+        align-self: start;
+        margin-top: 2px;
+        width: 20px;
+        height: 30px;
+        fill: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 }
 
 #eye-open-icon {
